@@ -192,11 +192,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\acarretero\\Documents\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\ProyectoEDI.csproj",
+      "projectUniqueName": "C:\\Users\\acarretero\\source\\repos\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\ProyectoEDI.csproj",
       "projectName": "ProyectoEDI",
-      "projectPath": "C:\\Users\\acarretero\\Documents\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\ProyectoEDI.csproj",
+      "projectPath": "C:\\Users\\acarretero\\source\\repos\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\ProyectoEDI.csproj",
       "packagesPath": "C:\\Users\\acarretero\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\acarretero\\Documents\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\obj\\",
+      "outputPath": "C:\\Users\\acarretero\\source\\repos\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDIBueno\\ProyectoEDI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
