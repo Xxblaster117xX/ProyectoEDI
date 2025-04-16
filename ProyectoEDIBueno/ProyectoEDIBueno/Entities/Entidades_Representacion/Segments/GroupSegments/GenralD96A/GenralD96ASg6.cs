@@ -8,5 +8,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.GenralD96A
 {
     public class GenralD96ASg6
     {
+        public NadSegment Nad { get; set; }
+        public LocSegment Loc { get; set; }
+        public GenralD96ASg7 GenralD96ASg7 { get; set; }
+        public GenralD96ASg8 GenralD96ASg8 { get; set; }
     }
 }
