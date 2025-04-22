@@ -61,9 +61,20 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public Segment GetSegmentByCode(string code)
+        public void CheckSegment (Segment segment)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(segment.SegmentName))
+            {
+                throw new ArgumentNullException(nameof(segment.SegmentName), "El nombre del segmento no puede ser nulo o vacío.");
+            }
+            else if (segment.SegmentCode <= 0)
+            {
+                throw new ArgumentNullException(nameof(segment.SegmentCode), "El código del segmento no puede ser nulo o vacío.");
+            }
+            else if (segment.SegmentPositions == null || segment.SegmentPositions.Count == 0)
+            {
+                throw new ArgumentNullException(nameof(segment.SegmentPositions), "La lista de posiciones del segmento no puede ser nula o vacía.");
+            }
         }
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
 {
-    internal class Desadvd96ASg12
+    public class Desadvd96ASg12
     {
+        public HanSegment hanSegment { get; set; }
+        public FtxSegment ftxSegment { get; set; }
+        public Desadvd96ASg13 desadvd96ASg13 { get; set; }
     }
 }

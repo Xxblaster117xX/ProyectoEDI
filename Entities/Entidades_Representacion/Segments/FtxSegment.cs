@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class Ftx:Segment
+    public class FtxSegment:Segment
     {
 
         public string textSubjectQualifier { get; set; } // Calificador del tema del texto

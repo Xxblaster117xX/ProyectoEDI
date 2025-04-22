@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
 {
-    internal class Desadvd96ASg14
+    public class Desadvd96ASg14
     {
+        public GinSegment ginSegment { get; set; }
+        public DlmSegment dlmSegment { get; set; }
     }
 }

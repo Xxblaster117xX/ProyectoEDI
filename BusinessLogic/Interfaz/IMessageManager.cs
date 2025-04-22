@@ -17,7 +17,7 @@ namespace BusinessLogic.Definition
         bool HasMandatorySegments(Message message, RequirementIndicatorEnum type);
         bool HasConditionalSegments(Message message, RequirementIndicatorEnum type);
         List<Segment> GetSegments(Message message);
-
+        void CheckMessage(Message message);
 
 
     }
