@@ -1,7 +1,7 @@
 ﻿using Entities.Entidades_Definicion;
 using BusinessLogic.Definition;
 using Entities.Entidades_Representacion.Abstract;
-
+using Segment = Entities.Entidades_Definicion.Segment;
 namespace BusinessLogic
 {
 

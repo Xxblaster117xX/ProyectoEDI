@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
 {
     public class Desadvd96ASg1
     {
-        public RffSegment rffSegment;
-        public DtmSegment dtmSegment;
+        public RffSegment rffSegment { get; set; }
+        public DtmSegment dtmSegment { get; set; }
     }
 }

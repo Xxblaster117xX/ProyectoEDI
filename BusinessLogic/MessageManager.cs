@@ -7,7 +7,7 @@ using Entities.Entidades_Definicion;
 using Entities.Entidades_Representacion.Abstract;
 using Entities.Enum;
 using Entities.Model.Enum;
-
+using Segment = Entities.Entidades_Definicion.Segment;
 namespace BusinessLogic.Definition
 {
 
@@ -17,7 +17,7 @@ namespace BusinessLogic.Definition
     /// </summary>
     public class MessageManager : IMessageManager
     {
-       
+
         private readonly List<Message> _messages;
         /// <summary>
         /// Constructor de la lista de mensajes
@@ -68,7 +68,7 @@ namespace BusinessLogic.Definition
         /// <param name="message"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        
+
         /// <summary>
         /// Obtener los segmentos según el mensaje valorando la posición. Dependiendo de la posición obtiene el segmento en específico 
         /// </summary>
@@ -119,5 +119,6 @@ namespace BusinessLogic.Definition
             }
         }
     }
-}
+    }
+
 

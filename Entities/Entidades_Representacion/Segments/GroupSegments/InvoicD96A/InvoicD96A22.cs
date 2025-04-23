@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
+{
+    public class InvoicD96A22
+    {
+        public RcsSegment rcsSegment { get; set; }
+        public RffSegment rffSegment { get; set; }
+        public DtmSegment dtmSegment { get; set; }
+        public FtxSegment ftxSegment { get; set; }
+    }
+}

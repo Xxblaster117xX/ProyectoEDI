@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Entidades_Representacion.Abstract;
-
+using Segment = Entities.Entidades_Definicion.Segment;
 namespace BusinessLogic.Definition
 {
     /// <summary>
