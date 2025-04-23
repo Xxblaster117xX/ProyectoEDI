@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Abstract;
-using Entities.Entidades_Representacion;
-using Segment = Entities.Entidades_Representacion.Segment;
+using Segment = Entities.Entidades_Definicion.Segment;
 namespace AppLayer.CreateSgment
 {
     public class CreateSegment
@@ -18,6 +17,5 @@ namespace AppLayer.CreateSgment
 
             return segment;
         }
-
     }
 }

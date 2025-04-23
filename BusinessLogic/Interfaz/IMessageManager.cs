@@ -1,6 +1,5 @@
-﻿
-using Entities.Abstract;
-using Entities.Entidades_Definicion;
+﻿using Entities.Entidades_Definicion;
+using Entities.Entidades_Representacion.Abstract;
 using Entities.Enum;
 using Entities.Model.Enum;
 

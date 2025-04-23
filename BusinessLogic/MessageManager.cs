@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entities.Abstract;
 using Entities.Entidades_Definicion;
+using Entities.Entidades_Representacion.Abstract;
 using Entities.Enum;
 using Entities.Model.Enum;
 

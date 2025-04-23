@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Entities.Entidades_Representacion.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

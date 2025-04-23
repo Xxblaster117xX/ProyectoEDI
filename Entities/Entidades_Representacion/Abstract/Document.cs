@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Abstract
+namespace Entities.Entidades_Representacion.Abstract
 {
     public abstract class Document : IDocument
     {

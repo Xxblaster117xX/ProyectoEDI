@@ -1,7 +1,6 @@
 ﻿using Entities.Entidades_Definicion;
-
-using Entities.Abstract;
 using BusinessLogic.Definition;
+using Entities.Entidades_Representacion.Abstract;
 
 namespace BusinessLogic
 {
