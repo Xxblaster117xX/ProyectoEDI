@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Entidades_Representacion.Documents
+namespace AppLayer
 {
-    public class GenralD96A
+    public class ManageApp
     {
-
+        public void crearSegmento() {
+            
+        }
     }
 }

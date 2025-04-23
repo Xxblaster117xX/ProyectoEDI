@@ -14,6 +14,6 @@ namespace Entities.Interfaces
         string SegmentName { get; set; }
         string SegmentDescription { get; set; }
         List<SegmentPosition> SegmentPositions { get; set; }
-
+        bool Obligatorio { get; set; }
     }
 }

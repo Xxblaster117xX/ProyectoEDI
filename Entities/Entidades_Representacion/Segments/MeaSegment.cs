@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Entidades_Representacion.Documents
+namespace Entities.Entidades_Representacion.Segments
 {
-    public class GenralD96A
+    public class MeaSegment
     {
 
     }

@@ -61,9 +61,6 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public Segment GetSegmentByCode(string code)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

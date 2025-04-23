@@ -17,8 +17,4 @@
     <ProjectReference Include="..\ProyectoEDI\ProyectoEDI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entidades_Representacion\Segments\GroupSegments\" />
-  </ItemGroup>
-
 </Project>
