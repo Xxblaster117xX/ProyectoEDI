@@ -13,9 +13,9 @@ namespace Entities.Entidades_Definicion
         public string Description{ get; set; }
         public string CodeFormat { get; set; }
 
-        /* 
-         * lista de objetos de tipo DataElementQualifier
-         */
+        
+         // lista de objetos de tipo DataElementQualifier
+         
         public List<DataElementQualifier> Qualifiers { get; set; }
     }
 

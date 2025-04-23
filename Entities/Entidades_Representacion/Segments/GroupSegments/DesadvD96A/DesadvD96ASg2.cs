@@ -12,5 +12,6 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
         public LocSegment LocSegment { get; set; }
         public Desadvd96ASg3 Desadvd96ASg3 { get; set; }
         public Desadvd96ASg4 Desadvd96ASg4 { get; set; }
+
     }
 }

@@ -16,8 +16,5 @@ namespace Entities.Entidades_Definicion
         public string MessageName { get; set; }
         public string MessageDescription { get; set; }
         public List<MessagePosition> MessagePositions { get; set; }
-
-
-
     }
 }

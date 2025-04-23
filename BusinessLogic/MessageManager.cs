@@ -17,7 +17,7 @@ namespace BusinessLogic.Definition
     /// </summary>
     public class MessageManager : IMessageManager
     {
-        public readonly Message message;
+       
         private readonly List<Message> _messages;
         /// <summary>
         /// Constructor de la lista de mensajes
@@ -58,7 +58,7 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool HasMandatorySegments(Message message, RequirementIndicatorEnum type)
+        public bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type)
         {
             return message.MessagePositions.Any(pos => pos.RequirementIndicator == type);
         }
@@ -68,10 +68,7 @@ namespace BusinessLogic.Definition
         /// <param name="message"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool HasConditionalSegments(Message message, RequirementIndicatorEnum type)
-        {
-            return message.MessagePositions.Any(pos => pos.RequirementIndicator == type);
-        }
+        
         /// <summary>
         /// Obtener los segmentos según el mensaje valorando la posición. Dependiendo de la posición obtiene el segmento en específico 
         /// </summary>
