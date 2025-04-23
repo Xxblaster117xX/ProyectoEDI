@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entities.Abstract;
+
+using Entities.Entidades_Representacion.Abstract;
+
 
 namespace BusinessLogic.Definition
 {
@@ -17,6 +19,10 @@ namespace BusinessLogic.Definition
         List<Segment> GetAllSegments();
         bool HasCompositeElements(Segment segment);
 
+
+
+
+        void CheckSegment(Segment segment); 
 
 
     }

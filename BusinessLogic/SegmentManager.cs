@@ -1,7 +1,6 @@
 ﻿using Entities.Entidades_Definicion;
-
-using Entities.Abstract;
 using BusinessLogic.Definition;
+using Entities.Entidades_Representacion.Abstract;
 
 namespace BusinessLogic
 {
@@ -61,6 +60,9 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        
+        public Segment GetSegmentByCode(string code)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
