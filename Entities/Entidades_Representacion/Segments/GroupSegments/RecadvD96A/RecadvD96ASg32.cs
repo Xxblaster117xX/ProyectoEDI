@@ -2,7 +2,7 @@
 {
     public class RecadvD96ASg32
     {
-        CdiSegment cdiSegment { get; set; }
-        InpSegment inpSegment { get; set; }
+        CdiSegment CdiSegment { get; set; }
+        InpSegment InpSegment { get; set; }
     }
 }

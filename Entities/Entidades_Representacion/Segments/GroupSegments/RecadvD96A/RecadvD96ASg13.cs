@@ -2,7 +2,7 @@
 {
     public class RecadvD96ASg13
     {
-        public SelSegment selSegment { get; set; }
-        public CdiSegment cdiSegment { get; set; }
+        public SelSegment SelSegment { get; set; }
+        public CdiSegment CdiSegment { get; set; }
     }
 }

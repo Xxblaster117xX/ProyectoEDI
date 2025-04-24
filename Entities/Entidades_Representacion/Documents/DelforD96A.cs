@@ -10,17 +10,17 @@ namespace Entities.Entidades_Representacion.Documents
 {
     public class DelforD96A
     {
-        public UnhSegment unhSegment { get; set; }
-        public BgmSegment bgmSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public DelforD96ASg1 delforD96ASg1 { get; set; }
-        public DelforD96ASg2 delforD96ASg2 { get; set; }
-        public UnsSegment unsSegment { get; set; }
-        public DelforD96ASg4 delforD96ASg4 { get; set; }
-        public DelforD96ASg18 delforD96ASg18 { get; set; }
-        public UnsSegment unsSegment2 { get; set; }
-        public CntSegment cntSegment { get; set; }
-        public FtxSegment ftxSegment { get; set; }
-        public UntSegment untSegment { get; set; }
+        public UnhSegment UnhSegment { get; set; }
+        public BgmSegment BgmSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public DelforD96ASg1 DelforD96ASg1 { get; set; }
+        public DelforD96ASg2 DelforD96ASg2 { get; set; }
+        public UnsSegment UnsSegment { get; set; }
+        public DelforD96ASg4 DelforD96ASg4 { get; set; }
+        public DelforD96ASg18 DelforD96ASg18 { get; set; }
+        public UnsSegment UnsSegment2 { get; set; }
+        public CntSegment CntSegment { get; set; }
+        public FtxSegment FtxSegment { get; set; }
+        public UntSegment UntSegment { get; set; }
     }
 }

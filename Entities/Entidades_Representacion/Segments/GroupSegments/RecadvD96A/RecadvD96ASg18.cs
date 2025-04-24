@@ -2,9 +2,9 @@
 {
     public class RecadvD96ASg18
     {
-        public PciSegment pciSegment { get; set; }
-        public RffSegment rffSegment { get; set; }
-        public RecadvD96ASg19 recadvD96ASg19 { get; set; }
-        public RecadvD96ASg20 recadvD96ASg20 { get; set; }
+        public PciSegment PciSegment { get; set; }
+        public RffSegment RffSegment { get; set; }
+        public RecadvD96ASg19 RecadvD96ASg19 { get; set; }
+        public RecadvD96ASg20 RecadvD96ASg20 { get; set; }
     }
 }

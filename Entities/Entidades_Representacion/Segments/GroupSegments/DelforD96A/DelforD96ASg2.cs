@@ -8,8 +8,8 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DelforD96A
 {
     public class DelforD96ASg2
     {
-        public NadSegment nadSegment { get; set; }
-        public LocSegment locSegment { get; set; }
-        public DelforD96ASg3 delforD96ASg3 { get; set; }
+        public NadSegment NadSegment { get; set; }
+        public LocSegment LocSegment { get; set; }
+        public DelforD96ASg3 DelforD96ASg3 { get; set; }
     }
 }

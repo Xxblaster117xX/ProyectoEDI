@@ -2,9 +2,9 @@
 {
     public class DelforD96ASg20
     {
-        public QtySegment qtySegment { get; set; }
-        public SccSegment sccSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public DelforD96ASg21 delforD96ASg21 { get; set; }
+        public QtySegment QtySegment { get; set; }
+        public SccSegment SccSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public DelforD96ASg21 DelforD96ASg21 { get; set; }
     }
 }

@@ -2,11 +2,11 @@
 {
     public class DelforD96ASg14
     {
-        public PacSegment pacSegment { get; set; }
-        public MeaSegment meaSegment { get; set; }
-        public QtySegment qtySegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public DelforD96ASg15 delforD96ASg15 { get; set; }
-        public DelforD96ASg16 delforD96ASg16 { get; set; }
+        public PacSegment PacSegment { get; set; }
+        public MeaSegment MeaSegment { get; set; }
+        public QtySegment QtySegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public DelforD96ASg15 DelforD96ASg15 { get; set; }
+        public DelforD96ASg16 DelforD96ASg16 { get; set; }
     }
 }

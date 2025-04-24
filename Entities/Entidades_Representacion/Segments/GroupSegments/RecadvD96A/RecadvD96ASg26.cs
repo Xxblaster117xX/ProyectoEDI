@@ -2,7 +2,7 @@
 {
     public class RecadvD96ASg26
     {
-        public GinSegment ginSegment { get; set; }
-        public RecadvD96ASg27 recadvD96ASg27 { get; set; }
+        public GinSegment GinSegment { get; set; }
+        public RecadvD96ASg27 RecadvD96ASg27 { get; set; }
     }
 }

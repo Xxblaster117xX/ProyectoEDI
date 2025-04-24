@@ -2,8 +2,8 @@
 {
     public class RecadvD96ASg19
     {
-        public CdiSegment cdiSegment { get; set; }
-        public InpSegment inpSegment { get; set; }
-        public RecadvD96ASg20 recadvD96ASg20 { get; set; }
+        public CdiSegment CdiSegment { get; set; }
+        public InpSegment InpSegment { get; set; }
+        public RecadvD96ASg20 RecadvD96ASg20 { get; set; }
     }
 }

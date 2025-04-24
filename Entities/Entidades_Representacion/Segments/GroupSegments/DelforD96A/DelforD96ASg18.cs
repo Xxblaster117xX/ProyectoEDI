@@ -8,19 +8,19 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DelforD96A
 {
     public class DelforD96ASg18
     {
-        public LinSegment linSegment { get; set; }
-        public PiaSegment piaSegment { get; set; }
-        public ImdSegment imdSegment { get; set; }
-        public MeaSegment meaSegment { get; set; }
-        public AliSegment aliSegment { get; set; }
-        public GinSegment ginSegment { get; set; }
-        public GirSegment girSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public FtxSegment ftxSegment { get; set; }
-        public DelforD96ASg19 delforD96ASg19 { get; set; }
-        public DelforD96ASg20 delforD96ASg20 { get; set; }
-        public DelforD96ASg22 delforD96ASg22 { get; set; }
-        public DelforD96ASg24 delforD96ASg24 { get; set; }
+        public LinSegment LinSegment { get; set; }
+        public PiaSegment PiaSegment { get; set; }
+        public ImdSegment ImdSegment { get; set; }
+        public MeaSegment MeaSegment { get; set; }
+        public AliSegment AliSegment { get; set; }
+        public GinSegment GinSegment { get; set; }
+        public GirSegment GirSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public FtxSegment FtxSegment { get; set; }
+        public DelforD96ASg19 DelforD96ASg19 { get; set; }
+        public DelforD96ASg20 DelforD96ASg20 { get; set; }
+        public DelforD96ASg22 DelforD96ASg22 { get; set; }
+        public DelforD96ASg24 DelforD96ASg24 { get; set; }
 
     }
 }

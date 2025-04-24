@@ -2,8 +2,8 @@
 {
     public class DelforD96ASg29
     {
-        public QvrSegment qvrSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public DelforD96ASg30 delforD96ASg30 { get; set; }
+        public QvrSegment QvrSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public DelforD96ASg30 DelforD96ASg30 { get; set; }
     }
 }

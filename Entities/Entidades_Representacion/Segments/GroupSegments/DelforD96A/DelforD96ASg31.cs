@@ -2,7 +2,7 @@
 {
     public class DelforD96ASg31
     {
-        public TdtSegment tdtSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
+        public TdtSegment TdtSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
     }
 }

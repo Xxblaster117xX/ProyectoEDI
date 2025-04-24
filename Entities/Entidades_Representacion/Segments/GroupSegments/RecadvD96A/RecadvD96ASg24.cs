@@ -2,7 +2,7 @@
 {
     public class RecadvD96ASg24
     {
-        public DocSegment docSegment { get; set; }
-        public RecadvD96ASg25 recadvD96ASg25 { get; set; }
+        public DocSegment DocSegment { get; set; }
+        public RecadvD96ASg25 RecadvD96ASg25 { get; set; }
     }
 }

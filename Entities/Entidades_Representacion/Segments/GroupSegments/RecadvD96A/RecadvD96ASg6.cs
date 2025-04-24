@@ -2,7 +2,7 @@
 {
     public class RecadvD96ASg6
     {
-        CtaSegment ctaSegment { get; set; }
-        ComSegment comSegment { get; set; }
+        CtaSegment CtaSegment { get; set; }
+        ComSegment ComSegment { get; set; }
     }
 }
