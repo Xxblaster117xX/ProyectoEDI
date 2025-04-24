@@ -13,7 +13,7 @@ namespace Entities.Entidades_Representacion.Documents
         public BgmSegment BgmSegment { get; set; } // Segmento de inicio del mensaje
         public DtmSegment DtmSegment { get; set; } // Segmento de fecha y hora
         public FtxSegment FtxSegment { get; set; } // Segmento de texto libre
-        public Cnt CntSegment { get; set; } // Segmento de conteo
+        public CntSegment CntSegment { get; set; } // Segmento de conteo
         public AperakD96ASg1 AperakD96ASg1 { get; set; } // Grupo de segmentos 1
         public AperakD96ASg2 AperakD96ASg2 { get; set; } // Grupo de segmentos 2
         public AperakD96ASg3 AperakD96ASg3 { get; set; } // Grupo de segmentos 3

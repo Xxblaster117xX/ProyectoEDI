@@ -10,6 +10,6 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.AperakD96A
     {
         public RffSegment RffSegment;
         public FtxSegment FtxSegment;
-        S
+        
     }
 }
