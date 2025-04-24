@@ -8,9 +8,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
 {
     public class Desadvd96ASg18
     {
-        public LocSegment locSegment { get; set; }
+        public LocSegment LocSegment { get; set; }
         public NadSegment NadSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public QtySegment qtySegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public QtySegment QtySegment { get; set; }
     }
 }

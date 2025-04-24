@@ -1,7 +1,7 @@
 ﻿using Entities.Entidades_Definicion;
 using BusinessLogic.Definition;
 using Entities.Entidades_Representacion.Abstract;
-
+using Segment = Entities.Entidades_Definicion.Segment;
 namespace BusinessLogic
 {
 
@@ -60,20 +60,9 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public void CheckSegment (Segment segment)
+        public Segment GetSegmentByCode(string code)
         {
-            if (string.IsNullOrEmpty(segment.SegmentName))
-            {
-                throw new ArgumentNullException(nameof(segment.SegmentName), "El nombre del segmento no puede ser nulo o vacío.");
-            }
-            else if (segment.SegmentCode <= 0)
-            {
-                throw new ArgumentNullException(nameof(segment.SegmentCode), "El código del segmento no puede ser nulo o vacío.");
-            }
-            else if (segment.SegmentPositions == null || segment.SegmentPositions.Count == 0)
-            {
-                throw new ArgumentNullException(nameof(segment.SegmentPositions), "La lista de posiciones del segmento no puede ser nula o vacía.");
-            }
+            throw new NotImplementedException();
         }
     }
 }

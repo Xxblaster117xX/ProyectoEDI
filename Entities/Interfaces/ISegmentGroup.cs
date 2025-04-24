@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Interfaces
 {
-    public interface ISegmentGroup
+    public interface ISegmentGroup<T> where T:class
     {
 
    
