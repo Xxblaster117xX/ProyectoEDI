@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Entidades_Representacion.Segments;
+using Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A;
 
 namespace Entities.Entidades_Representacion.Documents
 {

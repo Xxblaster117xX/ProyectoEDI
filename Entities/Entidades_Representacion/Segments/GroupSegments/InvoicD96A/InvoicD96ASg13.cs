@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
-    public class InvoicD96Asg13
+    public class InvoicD96ASg13
     {
         public PacSegment pacSegment { get; set; }  
         public MeaSegment meaSegment { get; set; }
-        public InvoicD96Asg14 invoicD96A14 { get; set; }
+        public InvoicD96ASg14 invoicD96A14 { get; set; }
     }
 }

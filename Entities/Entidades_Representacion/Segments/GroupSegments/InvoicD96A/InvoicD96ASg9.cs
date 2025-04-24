@@ -9,7 +9,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
     public class InvoicD96Asg9
     {
         public TdtSegment tdtSegment { get; set; }
-        public InvoicD96Asg10 invoicD96A10 { get; set; }
-        public InvoicD96Asg11 invoicD96A11 { get; set; }
+        public InvoicD96ASg10 invoicD96A10 { get; set; }
+        public InvoicD96ASg11 invoicD96A11 { get; set; }
     }
 }

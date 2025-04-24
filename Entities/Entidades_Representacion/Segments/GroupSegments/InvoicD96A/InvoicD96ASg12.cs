@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
-    public class InvoicD96Asg12
+    public class InvoicD96ASg12
     {
         public TodSegment todSegment { get; set; }
         public LocSegment locSegment { get; set; }
