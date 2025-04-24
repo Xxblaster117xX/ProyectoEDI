@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entiti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{317DD66B-DA76-4A8B-A1EA-F588A329D029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLayer", "UseCases\AppLayer.csproj", "{C04F2558-E6D3-4598-A77B-2D7591AC675A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLayer", "AppLayer\AppLayer.csproj", "{77E762CD-C3E5-4A04-A706-4515D6F45D45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{317DD66B-DA76-4A8B-A1EA-F588A329D029}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{317DD66B-DA76-4A8B-A1EA-F588A329D029}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{317DD66B-DA76-4A8B-A1EA-F588A329D029}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C04F2558-E6D3-4598-A77B-2D7591AC675A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C04F2558-E6D3-4598-A77B-2D7591AC675A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C04F2558-E6D3-4598-A77B-2D7591AC675A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C04F2558-E6D3-4598-A77B-2D7591AC675A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E762CD-C3E5-4A04-A706-4515D6F45D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E762CD-C3E5-4A04-A706-4515D6F45D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E762CD-C3E5-4A04-A706-4515D6F45D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E762CD-C3E5-4A04-A706-4515D6F45D45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

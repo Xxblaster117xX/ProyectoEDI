@@ -11,5 +11,6 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.GenralD96A
         public RffSegment RffSegment { get; set; }
         public DtmSegment DtmSegment { get; set; }
 
+
     }
 }
