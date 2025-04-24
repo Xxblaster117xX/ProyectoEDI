@@ -21,7 +21,7 @@ namespace Entities.Entidades_Representacion.Documents
         public RecadvD96ASg10 recadvD96ASg10 { get; set; }
         public RecadvD96ASg11 recadvD96ASg11 { get; set; }
         public RecadvD96ASg16 recadvD96ASg16 { get; set; }
-
-
+        public CntSegment cntSegment { get; set; }
+        public UntSegment untSegment { get; set; }
     }
 }
