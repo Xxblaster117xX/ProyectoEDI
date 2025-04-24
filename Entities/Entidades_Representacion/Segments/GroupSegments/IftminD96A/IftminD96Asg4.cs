@@ -9,7 +9,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
     public class IftminD96Asg4
     {
         public GorSegment gorSegment { get; set; } // Gor Segment
-        `public DtmSegment dtmSegment { get; set; } // Dtm Segment
+        public DtmSegment dtmSegment { get; set; } // Dtm Segment
         public LocSegment locSegment { get; set; } // Loc Segment
         public SelSegment selSegment { get; set; } // Sel Segment
         public FtxSegment ftxSegment { get; set; } // Ftx Segment
