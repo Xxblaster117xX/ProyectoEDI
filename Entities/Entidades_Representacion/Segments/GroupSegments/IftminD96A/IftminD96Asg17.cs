@@ -8,10 +8,10 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg17
     {
-        public TsrSegment tsrSegment { get; set; } // Segmento de tipo Tsr
-        public RffSegment rffSegment { get; set; } // Segmento de tipo Rff
-        public LocSegment locSegment { get; set; } // Segmento de tipo Loc
-        public TplSegment tplSegment { get; set; } // Segmento de tipo Tpl
-        public FtxSegment ftxSegment { get; set; } // Segmento de tipo Ftx
+        public TsrSegment TsrSegment { get; set; } // Segmento de tipo Tsr
+        public RffSegment RffSegment { get; set; } // Segmento de tipo Rff
+        public LocSegment LocSegment { get; set; } // Segmento de tipo Loc
+        public TplSegment TplSegment { get; set; } // Segmento de tipo Tpl
+        public FtxSegment FtxSegment { get; set; } // Segmento de tipo Ftx
     }
 }

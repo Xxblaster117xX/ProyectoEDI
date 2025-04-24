@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg37
     {
-        public CtaSegment ctaSegment { get; set; }
-        public ComSegment comSegment { get; set; }
+        public CtaSegment CtaSegment { get; set; }
+        public ComSegment ComSegment { get; set; }
     }
 }

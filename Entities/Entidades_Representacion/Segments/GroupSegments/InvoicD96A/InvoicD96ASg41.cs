@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg41
     {
-        public MoaSegment moaSegment { get; set; }
-        public RngSegment rngSegment { get; set; }
+        public MoaSegment MoaSegment { get; set; }
+        public RngSegment RngSegment { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg10
     {
-        public RffSegment rffSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
+        public RffSegment RffSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
     }
 }

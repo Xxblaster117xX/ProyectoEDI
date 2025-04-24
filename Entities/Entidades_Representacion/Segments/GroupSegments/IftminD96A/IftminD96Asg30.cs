@@ -8,6 +8,6 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg30
     {
-        public MeaSegment meaSegment { get; set; } // Medida
+        public MeaSegment MeaSegment { get; set; } // Medida
     }
 }

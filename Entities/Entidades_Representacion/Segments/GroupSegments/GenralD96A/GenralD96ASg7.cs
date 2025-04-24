@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.GenralD96A
 {
     public class GenralD96ASg7
     {
-        public RffSegment Rff { get; set; }
-        public DtmSegment Dtm { get; set; }
+        public RffSegment RffSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
     }
 }

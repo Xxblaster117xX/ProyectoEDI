@@ -8,10 +8,10 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
 {
     public class Desadvd96ASg8
     {
-        public EqdSegment eqdSegment { get; set; }
-        public MeaSegment meaSegement { get; set; }
-        public SelSegment selSegment { get; set; }
-        public EqaSegment eqaSegment { get; set; }
-        public Desadvd96ASg9 desadvD96ASg9 { get; set; }
+        public EqdSegment EqdSegment { get; set; }
+        public MeaSegment MeaSegement { get; set; }
+        public SelSegment SelSegment { get; set; }
+        public EqaSegment EqaSegment { get; set; }
+        public Desadvd96ASg9 DesadvD96ASg9 { get; set; }
     }
 }

@@ -10,13 +10,13 @@ namespace Entities.Entidades_Representacion.Documents
 {
     public class GenralD96A
     {
-        public UnhSegment unhSegment { get; set; }
-        public BgmSegment bgmSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public GenralD96ASg1 genralD96ASg1 { get; set; }
-        public GenralD96ASg2 genralD96ASg2 { get; set; }
-        public GenralD96ASg5 genralD96ASg5 { get; set; }
-        public UntSegment untSegment { get; set; }
+        public UnhSegment UnhSegment { get; set; }
+        public BgmSegment BgmSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public GenralD96ASg1 GenralD96ASg1 { get; set; }
+        public GenralD96ASg2 GenralD96ASg2 { get; set; }
+        public GenralD96ASg5 GenralD96ASg5 { get; set; }
+        public UntSegment UntSegment { get; set; }
 
     }
 }

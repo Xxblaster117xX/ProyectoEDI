@@ -8,12 +8,12 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg2
     {
-        public NadSegment nadSegment { get; set; }
-        public LocSegment locSegment { get; set; }
-        public FiiSegment fiiSegment { get; set; }
-        public InvoicD96Asg3 invoicD96A3 { get; set; }
-        public InvoicD96Asg4 invoicD96A4 { get; set; }
-        public InvoicD96Asg5 invoicD96A5 { get; set; }
+        public NadSegment NadSegment { get; set; }
+        public LocSegment LocSegment { get; set; }
+        public FiiSegment FiiSegment { get; set; }
+        public InvoicD96ASg3 InvoicD96A3 { get; set; }
+        public InvoicD96ASg4 InvoicD96A4 { get; set; }
+        public InvoicD96ASg5 InvoicD96A5 { get; set; }
 
     }
 }

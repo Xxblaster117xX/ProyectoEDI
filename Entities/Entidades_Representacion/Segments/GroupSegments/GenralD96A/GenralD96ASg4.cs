@@ -8,8 +8,8 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.GenralD96A
 {
     public class GenralD96ASg4
     {
-        public CtaSegment Cta { get; set; }
-        public ComSegment Com { get; set; }
+        public CtaSegment CtaSegment { get; set; }
+        public ComSegment ComSegment { get; set; }
 
 
     }

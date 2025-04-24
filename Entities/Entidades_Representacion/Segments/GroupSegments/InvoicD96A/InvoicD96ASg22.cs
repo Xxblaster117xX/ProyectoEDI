@@ -8,9 +8,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg22
     {
-        public RcsSegment rcsSegment { get; set; }
-        public RffSegment rffSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public FtxSegment ftxSegment { get; set; }
+        public RcsSegment RcsSegment { get; set; }
+        public RffSegment RffSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public FtxSegment FtxSegment { get; set; }
     }
 }

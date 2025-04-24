@@ -10,10 +10,10 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg27
     {
-        public PatSegment patSegmemt { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public PcdSegment pcdSegment { get; set; }
-        public MoaSegment moaSegment { get; set; }
+        public PatSegment PatSegmemt { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public PcdSegment PcdSegment { get; set; }
+        public MoaSegment MoaSegment { get; set; }
         
     }
 }

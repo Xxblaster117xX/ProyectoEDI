@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg24
     {
-        public InpSegment inpSegment { get; set; }
-        public FtxSegment ftxSegment { get; set; }
+        public InpSegment InpSegment { get; set; }
+        public FtxSegment FtxSegment { get; set; }
     }
 }

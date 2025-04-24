@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg41
     {
-        public EqaSegment eqaSegment { get; set; } // EQA Segment
-        public EqnSegment eqnSegment { get; set; } // EQN Segment
+        public EqaSegment EqaSegment { get; set; } // EQA Segment
+        public EqnSegment EqnSegment { get; set; } // EQN Segment
     }
 }

@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public  class IftminD96Asg27
     {
-        public TlpSegment tlpSegment { get; set; } // TLP
-        public IftminD96Asg28 iftminD96Asg28 { get; set; } // IFTMIN D.96A SG28
+        public TlpSegment TlpSegment { get; set; } // TLP
+        public IftminD96Asg28 IftminD96Asg28 { get; set; } // IFTMIN D.96A SG28
     }
 }

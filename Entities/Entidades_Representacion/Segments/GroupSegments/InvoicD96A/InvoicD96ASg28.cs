@@ -8,10 +8,10 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg28
     {
-        public PriSegment priSegment { get; set; }
-        public AprSegment aprSegment { get; set; }
-        public RngSegment rngSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
+        public PriSegment PriSegment { get; set; }
+        public AprSegment AprSegment { get; set; }
+        public RngSegment RngSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
 
 
     }

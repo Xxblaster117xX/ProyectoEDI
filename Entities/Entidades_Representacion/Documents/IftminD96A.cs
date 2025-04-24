@@ -9,16 +9,16 @@ namespace Entities.Entidades_Representacion.Documents
 {
     public class IftminD96A
     {
-        public UnhSegment unhSegment { get; set; }
-        public BgmSegment bgmSegment { get; set; }
-        public CtaSegment ctaSegment { get; set; }
-        public ComSegment comSegment { get; set; }
-        public DtmSegment dtmSegment { get; set; }
-        public CuxSegment cuxSegment { get; set; }
-        public MoaSegment moaSegment { get; set; }
-        public FtxSegment ftxSegment { get; set; }
-        public CntSegment cntSegment { get; set; }
-        public DocSegment docSegment { get; set; }
+        public UnhSegment UnhSegment { get; set; }
+        public BgmSegment BgmSegment { get; set; }
+        public CtaSegment CtaSegment { get; set; }
+        public ComSegment ComSegment { get; set; }
+        public DtmSegment DtmSegment { get; set; }
+        public CuxSegment CuxSegment { get; set; }
+        public MoaSegment MoaSegment { get; set; }
+        public FtxSegment FtxSegment { get; set; }
+        public CntSegment CntSegment { get; set; }
+        public DocSegment DocSegment { get; set; }
         
 
 

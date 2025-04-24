@@ -8,9 +8,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {
     public class InvoicD96ASg30
     {
-        public PacSegment pacSegment { get; set; }
-        public MeaSegment meaSegment { get; set; }
-        public InvoicD96ASg31 invoicD96A31 { get; set; }
+        public PacSegment PacSegment { get; set; }
+        public MeaSegment MeaSegment { get; set; }
+        public InvoicD96ASg31 InvoicD96A31 { get; set; }
 
     }
 }

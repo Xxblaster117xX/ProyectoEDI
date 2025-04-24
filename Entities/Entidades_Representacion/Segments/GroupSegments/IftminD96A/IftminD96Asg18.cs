@@ -8,17 +8,17 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg18
     {
-        public GidSegment gidSegment { get; set; } // GID
-        public HanSegment hanSegment { get; set; } // HAN
-        public TmpSegment tmpSegment { get; set; } // TMP
-        public RngSegment rngSegment { get; set; } // RNG
-        public TmdSegment tmdSegment { get; set; } // TMD
-        public LocSegment locSegment { get; set; } // LOC
-        public MoaSegment moaSegment { get; set; } // MOA
-        public PiaSegment piaSegment { get; set; } // PIA
-        public FtxSegment ftxSegment { get; set; } // FTX
+        public GidSegment GidSegment { get; set; } // GID
+        public HanSegment HanSegment { get; set; } // HAN
+        public TmpSegment TmpSegment { get; set; } // TMP
+        public RngSegment RngSegment { get; set; } // RNG
+        public TmdSegment TmdSegment { get; set; } // TMD
+        public LocSegment LocSegment { get; set; } // LOC
+        public MoaSegment MoaSegment { get; set; } // MOA
+        public PiaSegment PiaSegment { get; set; } // PIA
+        public FtxSegment PtxSegment { get; set; } // FTX
         public IftminD96Asg19 IftminD96Asg19 { get; set; } // IFTMIN D.96A SG19
-        public GdsSegment gdsSegment { get; set; } // GDS
+        public GdsSegment GdsSegment { get; set; } // GDS
         public IftminD96Asg20 IftminD96Asg20 { get; set; } // IFTMIN D.96A SG20
         public IftminD96Asg21 IftminD96Asg21 { get; set; } // IFTMIN D.96A SG21
         public IftminD96Asg22 IftminD96Asg22 { get; set; } // IFTMIN D.96A SG22

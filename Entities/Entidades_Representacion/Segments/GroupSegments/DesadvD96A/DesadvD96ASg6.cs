@@ -9,9 +9,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
     public class Desadvd96ASg6
     {
 
-        public TdtSegment tdtSegment { get; set; }
-        public PcdSegment pcdSegment { get; set; }
-        public Desadvd96ASg7 desadvD96ASg7 { get; set; }
+        public TdtSegment TdtSegment { get; set; }
+        public PcdSegment PcdSegment { get; set; }
+        public Desadvd96ASg7 DesadvD96ASg7 { get; set; }
 
     }
 }

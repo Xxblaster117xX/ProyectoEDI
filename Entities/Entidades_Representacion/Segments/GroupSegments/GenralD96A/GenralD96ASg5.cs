@@ -8,7 +8,7 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.GenralD96A
 {
     public class GenralD96ASg5
     {
-        public FtxSegment Ftx { get; set; }
+        public FtxSegment FtxSegment { get; set; }
         public GenralD96ASg6 GenralD96ASg6 { get; set; }
     }
 }

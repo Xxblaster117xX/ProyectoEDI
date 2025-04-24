@@ -11,9 +11,9 @@ namespace Entities.Entidades_Representacion.Segments
     public class FtxSegment:Segment
     {
 
-        public string textSubjectQualifier { get; set; } // Calificador del tema del texto
-        public string freeText { get; set; } // Texto libre
-        public string freeTextCode { get; set; } // Código de texto libre
+        public string TextSubjectQualifier { get; set; } // Calificador del tema del texto
+        public string FreeText { get; set; } // Texto libre
+        public string FreeTextCode { get; set; } // Código de texto libre
 
     }
 }

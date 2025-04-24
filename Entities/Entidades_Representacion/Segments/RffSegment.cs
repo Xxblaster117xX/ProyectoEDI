@@ -10,8 +10,8 @@ namespace Entities.Entidades_Representacion.Segments
 {
     public class RffSegment:Segment
     {
-        public string referenceQualifier { get; set; } // indica el tipo de referencia
-        public int referenceNumber { get; set; } // Número de referencia
-        public int referenceVersion { get; set; } // Número de versión
+        public string ReferenceQualifier { get; set; } // indica el tipo de referencia
+        public int ReferenceNumber { get; set; } // Número de referencia
+        public int ReferenceVersion { get; set; } // Número de versión
     }
 }

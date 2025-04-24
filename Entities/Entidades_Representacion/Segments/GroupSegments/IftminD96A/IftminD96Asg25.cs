@@ -8,11 +8,11 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg25
     {
-        public GorSegment gorSegment { get; set; } // Gor Segment
-        public DtmSegment dtmSegment { get; set; } // Dtm Segment
-        public LocSegment locSegment { get; set; } // Loc Segment
-        public SelSegment selSegment { get; set; } // Sel Segment
-        public FtxSegment ftxSegment { get; set; } // Ftx Segment
-        public IftminD96Asg26 iftminD96Asg26 { get; set; } // IftminD96A Sg26
+        public GorSegment GorSegment { get; set; } // Gor Segment
+        public DtmSegment DtmSegment { get; set; } // Dtm Segment
+        public LocSegment LocSegment { get; set; } // Loc Segment
+        public SelSegment SelSegment { get; set; } // Sel Segment
+        public FtxSegment FtxSegment { get; set; } // Ftx Segment
+        public IftminD96Asg26 IftminD96Asg26 { get; set; } // IftminD96A Sg26
     }
 }

@@ -8,9 +8,9 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
 {
     public class IftminD96Asg23
     {
-        public PciSegment pciSegment { get; set; } // Segmento PCI
-        public RffSegment rffSegment { get; set; } // Segmento RFF  
-        public DtmSegment dtmSegment { get; set; } // Segmento DTM
-        public GinSegment ginSegment { get; set; } // Segmento GIN
+        public PciSegment PciSegment { get; set; } // Segmento PCI
+        public RffSegment RffSegment { get; set; } // Segmento RFF  
+        public DtmSegment DtmSegment { get; set; } // Segmento DTM
+        public GinSegment GinSegment { get; set; } // Segmento GIN
     }
 }

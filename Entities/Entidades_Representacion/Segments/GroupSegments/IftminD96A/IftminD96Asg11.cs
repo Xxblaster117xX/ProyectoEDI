@@ -10,12 +10,12 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.IftminD96A
     {
         public NadSegment NadSegment { get; set; }
         public LocSegment LocSegment { get; set; }
-        public MoaSegment moaSegment { get; set; }
-        public IftminD96Asg12 iftminD96Asg12 { get; set; }
-        public IftminD96Asg13 iftminD96Asg13 { get; set; }
-        public IftminD96Asg14 iftminD96Asg14 { get; set; }
-        public IftminD96Asg15 iftminD96Asg15 { get; set; }
-        public IftminD96Asg16 iftminD96Asg16 { get; set; }
-        public IftminD96Asg17 iftminD96Asg17 { get; set; }
+        public MoaSegment MoaSegment { get; set; }
+        public IftminD96Asg12 IftminD96Asg12 { get; set; }
+        public IftminD96Asg13 IftminD96Asg13 { get; set; }
+        public IftminD96Asg14 IftminD96Asg14 { get; set; }
+        public IftminD96Asg15 IftminD96Asg15 { get; set; }
+        public IftminD96Asg16 IftminD96Asg16 { get; set; }
+        public IftminD96Asg17 IftminD96Asg17 { get; set; }
     }
 }

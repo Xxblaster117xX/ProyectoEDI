@@ -9,8 +9,8 @@ namespace Entities.Entidades_Representacion.Segments
 {
     public class ComSegment:Segment
     {
-        public string communicationContact { get; set; } // tipo de comounicación
-        public string communicationNumber { get; set; } // número o direccion del tipo de comunicación
-        public string communicationQualifier { get; set; } // Calificador de comunicación
+        public string CommunicationContact { get; set; } // tipo de comounicación
+        public string CommunicationNumber { get; set; } // número o direccion del tipo de comunicación
+        public string CommunicationQualifier { get; set; } // Calificador de comunicación
     }
 }
