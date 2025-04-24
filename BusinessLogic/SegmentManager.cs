@@ -6,7 +6,6 @@ namespace BusinessLogic
 
     public class SegmentManager : ISegmentManager
     {
-
         /// <summary>
         /// La clase se encarga de manejejar el segmento y su propiedades.
         /// </summary>
@@ -59,42 +58,9 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public void CheckSegment(SegmentRepresentation segment)
-
+        public Segment GetSegmentByCode(string code)
         {
-
-            if (segment == null)
-
-            {
-
-                throw new ArgumentNullException(nameof(segment), "El segmento no puede ser nulo.");
-
-            }
-
-            if (string.IsNullOrWhiteSpace(segment.SegmentName))
-
-            {
-
-                throw new ArgumentException("El nombre del segmento no puede estar vacío.", nameof(segment.SegmentName));
-
-            }
-
-            if (string.IsNullOrWhiteSpace(segment.SegmentDescription))
-
-            {
-
-                throw new ArgumentException("La descripción del segmento no puede estar vacía.", nameof(segment.SegmentDescription));
-
-            }
-
-            if (segment.SegmentPositions == null || segment.SegmentPositions.Count == 0)
-
-            {
-
-                throw new ArgumentException("El segmento debe tener al menos una posición.", nameof(segment.SegmentPositions));
-
-            }
-
+            throw new NotImplementedException();
         }
 
     }
