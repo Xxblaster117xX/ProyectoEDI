@@ -22,8 +22,8 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
         public EqdSegment eqdSegment { get; set; }
         public FtxSegment ftxSegment { get; set; }
         public MoaSegment moaSegment { get; set; }
-        public InvoicD96Asg26 invoicD96A26 { get; set; }
-        public InvoicD96Asg27 invoicD96A27 { get; set; }
+        public InvoicD96ASg26 invoicD96A26 { get; set; }
+        public InvoicD96ASg27 invoicD96A27 { get; set; }
         public InvoicD96Asg28 invoicD96A28 { get; set; }
         public InvoicD96Asg29 invoicD96A29 { get; set; }
         public InvoicD96Asg30 invoicD96A30 { get; set; }
