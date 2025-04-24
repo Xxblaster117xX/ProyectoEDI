@@ -14,6 +14,6 @@ namespace Entities.Entidades_Representacion.Segments.GroupSegments.DesadvD96A
         public DtmSegment dtmSegment { get; set; }
         public GirSegment girSegment { get; set; }
         public Desadvd96ASg14 desadvd96ASg14 { get; set; }
-        public 
+     
     }
 }
