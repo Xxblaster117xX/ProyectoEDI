@@ -13,7 +13,7 @@ namespace Entities.Entidades_Definicion
     {
         public int Position { get; set; }
         public Segment Segment { get; set; }
-        public ISegmentGroup SegmentGroup { get; set; }
+        public ISegmentGroup<Segment> SegmentGroup { get; set; }
         public RequirementIndicatorEnum RequirementIndicator { get; set; }
         public string Repetition { get; set; }
     }

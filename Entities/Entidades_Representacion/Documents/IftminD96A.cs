@@ -19,8 +19,5 @@ namespace Entities.Entidades_Representacion.Documents
         public FtxSegment FtxSegment { get; set; }
         public CntSegment CntSegment { get; set; }
         public DocSegment DocSegment { get; set; }
-        
-
-
     }
 }
