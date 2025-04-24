@@ -1,5 +1,4 @@
-﻿using Entities.Abstract;
-using Entities.Entidades_Definicion;
+﻿using Entities.Entidades_Definicion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +9,9 @@ namespace Entities.Entidades_Representacion.Segments
 {
     public class BgmSegment:Segment
     {
-        public int messageNumber { get; set; } // Número de mensaje
-        public string messageName { get; set; } // Nombre del mensaje
-        public int messageFunctionCode { get; set; } // Código de función del mensaje
+        public int MessageNumber { get; set; } // Número de mensaje
+        public string MessageName { get; set; } // Nombre del mensaje
+        public int MessageFunctionCode { get; set; } // Código de función del mensaje
         
     }
 }

@@ -1,5 +1,4 @@
-﻿using Entities.Abstract;
-using Entities.Entidades_Definicion;
+﻿using Entities.Entidades_Definicion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +10,11 @@ namespace Entities.Entidades_Representacion.Segments
     public class NadSegment:Segment
     {
         // Indica el tipo de rol de la entidad puede ser BY, SU, DP, etc.
-        public string partyQualifier { get; set; } 
-        public string partyId { get; set; } // Identificación de la entidad
-        public string partyIdCode { get; set; } // Código de identificación de la parte
-        public string partyName { get; set; } // Nombre de la parte
-        public string streetNumber { get; set; } // Calle y numero
+        public string PartyQualifier { get; set; } 
+        public string PartyId { get; set; } // Identificación de la entidad
+        public string PartyIdCode { get; set; } // Código de identificación de la parte
+        public string PartyName { get; set; } // Nombre de la parte
+        public string StreetNumber { get; set; } // Calle y numero
 
     }
 }

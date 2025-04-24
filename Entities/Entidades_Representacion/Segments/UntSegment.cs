@@ -1,5 +1,4 @@
-﻿using Entities.Abstract;
-using Entities.Entidades_Definicion;
+﻿using Entities.Entidades_Definicion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace Entities.Entidades_Representacion.Segments
 {
     public class UntSegment:Segment
     {
-        public int numberOfSegments { get; set; } // Número de segmentos
-        public string messageReferenceNumber { get; set; } // Número de referencia del mensaje
+        public int NumberOfSegments { get; set; } // Número de segmentos
+        public string MessageReferenceNumber { get; set; } // Número de referencia del mensaje
 
 
 
