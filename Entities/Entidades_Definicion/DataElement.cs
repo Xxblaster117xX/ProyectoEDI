@@ -9,6 +9,7 @@ namespace Entities.Entidades_Definicion
     public class DataElement
     {
         public int Code {  get; set; }
+        public CodeList codeList { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ValueFormat { get; set; }

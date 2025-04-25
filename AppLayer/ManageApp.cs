@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Entidades_Definicion;
 
 namespace AppLayer
 {
-    public class ManageApp
+    public class MessageService
     {
-        public void crearSegmento() {
-            
-        }
+     
     }
 }

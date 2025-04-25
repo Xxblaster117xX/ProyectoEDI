@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
+
 
 namespace Entities.Entidades_Representacion.Segments.GroupSegments.InvoicD96A
 {

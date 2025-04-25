@@ -3,6 +3,6 @@
     public class DelforD96ASg15
     {
         public PciSegment PciSegment { get; set; }
-        public GinSegments GinSegments { get; set; }
+        public GinSegment GinSegments { get; set; }
     }
 }

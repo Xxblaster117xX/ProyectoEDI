@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Entidades_Representacion.Abstract;
 
+
 namespace Entities.Entidades_Representacion.Segments
 {
     /*C524       HANDLING INSTRUCTIONS                              C
@@ -19,7 +20,7 @@ C218       HAZARDOUS MATERIAL                                 C
     public class HanSegment : Segment
     {
         public string HandlingInstructionsCoded { get; set; }
-        public CodeList HanCodeListQualifier { get; set; }
+   
         public string CodeListResponsibleAgencyCoded { get; set; }
         public string HandlingInstructions { get; set; }
         public string HazardousMaterialClassCodeIdentification { get; set; }

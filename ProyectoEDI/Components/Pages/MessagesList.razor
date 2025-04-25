@@ -1,0 +1,103 @@
+﻿@page "/MessagesList"
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@using Entities.Model.Enum
+<h3>Lista de Mensajes</h3>
+
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Versión</th>
+            <th>Release</th>
+            <th>Directorio</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Message.MessagesList != null && Message.MessagesList.Any())
+        {
+            @foreach (var message in Message.MessagesList)
+            {
+                <tr>
+                    <td>@message.MessageType</td>
+                    <td>@message.MessageVersion</td>
+                    <td>@message.MessageRelease</td>
+                    <td>@message.MessageDirectoryVersion</td>
+                    <td>@message.MessageName</td>
+                    <td>@message.MessageDescription</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">No hay mensajes disponibles.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (messageAlert != null)
+{
+    @messageAlert;
+
+
+}
+
+
+@code {
+     
+    
+
+    public void AddMessage()
+        {
+    var message1 = new Message
+            {
+                MessageType = MessageTypeEnum.INVOIC,
+                MessageVersion = "1.0",
+                MessageRelease = "2025",
+                MessageDirectoryVersion = "D96A",
+                MessageName = "Factura Electrónica",
+                MessageDescription = "Mensaje de factura electrónica de ejemplo"
+            };
+
+    var message2 = new Message
+            {
+                MessageType = MessageTypeEnum.ORDERS,
+                MessageVersion = "2.1",
+                MessageRelease = "2025",
+                MessageDirectoryVersion = "D96A",
+                MessageName = "Orden de Compra",
+                MessageDescription = "Mensaje de orden de compra de ejemplo"
+            };
+
+  
+		Message.MessagesList.Add(message1);
+		Message.MessagesList.Add(message2);
+        }
+
+
+    string messageAlert;
+        private void DeleteMessage(Message message)
+        {
+		Message.MessagesList.Remove(message);
+        }
+
+  
+    private void ViewMessage(Message message)
+    {
+        Navigation.NavigateTo("/CreationMessage");
+
+    }
+}
