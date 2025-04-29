@@ -9,7 +9,7 @@
 
 
 @page "/"
-
+<!--Formulario del mensaje-->
 <form>
     <div class="mb-3">
         <label for="messageType" class="form-label">Message Type</label>
@@ -34,6 +34,7 @@
     </div>
     <button type="button" id="btn-submit" @onclick="CreateMessage" class="btn btn-primary">Crear Mensaje</button>
 </form>
+<!--Confirmación cuando se crea un mensaje-->
 @if (showPopUpMessage)
 {
     <div class="overlay">
@@ -54,11 +55,17 @@
     private string messageVersionValue;
     private string messageNameValue;
     private string messageDirectoryVersionValue;
-  
     public bool showPopUpMessage = false;
 
+    /// <summary>
+    /// Método para aumentar en 1 el id al crear un mensaje
+    /// </summary>
+    /// <returns></returns>
     private int AutoIncrementId() => ++_currentId;
-
+    /// <summary>
+    /// Crear un mensaje
+    /// </summary>
+    /// <returns></returns>
     private async Task CreateMessage()
     {
         if (string.IsNullOrWhiteSpace(messageNameValue))
@@ -70,7 +77,7 @@
             return;
         }
 
-        var message = new Message
+        else {var message = new Message
             {
                 MessageId = AutoIncrementId(),
                 MessageType = Enum.Parse<MessageTypeEnum>(messageTypeValue),
@@ -81,27 +88,41 @@
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
 
-        Message.MessagesList.Add(message);
-        showPopUpMessage = true;
+            Message.MessagesList.Add(message);
+            showPopUpMessage = true;
+        }
     }
-
+    /// <summary>
+    /// Método para el  caso de confirmar la visualización
+    /// </summary>
     private void HandleConfirm()
     {
         showPopUpMessage = false;
         Navigation.NavigateTo("/MessagesList");
     }
-
+    /// <summary>
+    /// Método para el caso de cancelación
+    /// </summary>
     private void HandleCancel()
     {
         showPopUpMessage = false;
     }
+    /// <summary>
+    /// Función para ver si el nombre del mensaje es similar a otro ya creado 
+    /// </summary>
+    /// <param name="newName"></param>
+    /// <returns></returns>
     private bool IsMessageNameSimilar(string newName)
     {
         return Message.MessagesList.Any(m =>
             m.MessageName.Contains(newName, StringComparison.OrdinalIgnoreCase) ||
             newName.Contains(m.MessageName, StringComparison.OrdinalIgnoreCase));
     }
-    
+    /// <summary>
+    /// Método para enseñar la alerta en caso de que el mensaje si que sea similar
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
     private async Task ShowErrorAlert(string message)
     {
         await JS.InvokeVoidAsync("alert", message);  
