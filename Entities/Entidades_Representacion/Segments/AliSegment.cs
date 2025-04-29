@@ -1,11 +1,10 @@
-﻿using Entities.Abstract;
-using Entities.Interfaces;
+﻿using Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entities.Entidades_Representacion.Abstract;
+using Entities.Entidades_Definicion;
 
 namespace Entities.Entidades_Representacion.Segments
 {

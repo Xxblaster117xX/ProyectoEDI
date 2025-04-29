@@ -1,0 +1,46 @@
+﻿@page "/visualizacionedi"
+@inject NavigationManager NavigationManager
+@using Entities.Entidades_Definicion
+@rendermode InteractiveServer
+
+<h3>Visualizar Mensaje EDI</h3>
+
+@if (mensaje != null)
+{
+    <div>
+        <p><strong>Nombre:</strong> @mensaje.MessageName</p>
+        <p><strong>Tipo:</strong> @mensaje.MessageType.ToString()</p>
+        <p><strong>Descripción:</strong> @mensaje.MessageDescription</p>
+    </div>
+    <button @onclick="ModificarMensaje" class="btn btn-primary">Modificar</button>
+}
+else
+{
+    <p>Cargando...</p>
+}
+
+@code {
+    public int id { get; set; }
+    public Message mensaje { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Cargar el mensaje por ID
+        mensaje = await ObtenerMensajePorId(id);
+    }
+
+    private void ModificarMensaje() => NavigationManager.NavigateTo($"/modificar-mensaje/{id}");
+
+    private async Task<Message> ObtenerMensajePorId(int id)
+    {
+        // Simulación de carga de datos (reemplazar con lógica real)
+        await Task.Delay(500); // Simula un retraso
+        return new Message
+        {
+            MessageType = Entities.Model.Enum.MessageTypeEnum.INVOIC,
+            MessageName = "Factura Electrónica",
+            MessageDescription = "Mensaje de prueba para una factura electrónica",
+            MessagePositions = new List<MessagePosition>()
+        };
+    }
+}

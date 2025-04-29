@@ -1,10 +1,20 @@
 using ProyectoEDI.Components;
+using ProyectoEDI.Components.Services;
+using Blazored.Modal;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddBlazoredModal();
+
+builder.Services.AddSingleton<MessageService>();
+builder.Services.AddAntiforgery();
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -18,10 +28,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Configurar middleware
 app.UseStaticFiles();
-app.UseAntiforgery();
+app.UseRouting();
+app.UseAuthentication(); // Si usas autenticación, debe ir antes de antiforgery
+app.UseAuthorization();  // Si usas autorización, debe ir antes de antiforgery
+app.UseAntiforgery();    // Agregar el middleware de antiforgery
 
-app.MapRazorComponents<App>()
+app.MapRazorComponents<App>().DisableAntiforgery()
     .AddInteractiveServerRenderMode();
 
 app.Run();

@@ -1,0 +1,68 @@
+﻿@page "/modificar-mensaje/{id:int}"
+@using Entities.Entidades_Definicion
+@rendermode InteractiveServer
+
+<h3>Modificar Mensaje</h3>
+
+@if (mensaje == null)
+{
+    <p>Cargando mensaje...</p>
+}
+else
+{
+    <EditForm Model="mensaje" OnValidSubmit="GuardarCambios">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="messageName">Nombre del Mensaje:</label>
+            <InputText id="messageName" class="form-control" @bind-Value="mensaje.MessageName" />
+        </div>
+        <div class="form-group">
+            <label for="messageType">Tipo de Mensaje:</label>
+            <InputSelect id="messageType" class="form-control" @bind-Value="mensaje.MessageType">
+                @foreach (var tipo in Enum.GetValues(typeof(Entities.Model.Enum.MessageTypeEnum)))
+                {
+                    <option value="@tipo">@tipo</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group">
+            <label for="messageDescription">Descripción:</label>
+            <InputTextArea id="messageDescription" class="form-control" @bind-Value="mensaje.MessageDescription" />
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Message mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulación de carga de datos (reemplazar con lógica real)
+        mensaje = await ObtenerMensajePorId(id);
+    }
+
+    private async Task<Message> ObtenerMensajePorId(int id)
+    {
+        // Simulación de carga de datos (reemplazar con lógica real)
+        await Task.Delay(500); // Simula un retraso
+        return new Message
+            {
+                MessageType = Entities.Model.Enum.MessageTypeEnum.INVOIC,
+                MessageName = "Factura Electrónica",
+                MessageDescription = "Mensaje de prueba para una factura electrónica",
+                MessagePositions = new List<MessagePosition>()
+            };
+    }
+
+    private async Task GuardarCambios()
+    {
+        // Simulación de guardado de datos (reemplazar con lógica real)
+        await Task.Delay(500); // Simula un retraso
+        Console.WriteLine($"Mensaje con ID {id} guardado exitosamente.");
+    }
+}
