@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class ImdSegment: Segment
+    public class ImdSegment: SegmentRepresentation
     {
     }
 }

@@ -9,7 +9,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class FtxSegment:Segment
+    public class FtxSegment:SegmentRepresentation
     {
 
         public string TextSubjectQualifier { get; set; } // Calificador del tema del texto

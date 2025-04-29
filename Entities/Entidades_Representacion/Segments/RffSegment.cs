@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class RffSegment:Segment
+    public class RffSegment:SegmentRepresentation
     {
         public string ReferenceQualifier { get; set; } // indica el tipo de referencia
         public int ReferenceNumber { get; set; } // Número de referencia

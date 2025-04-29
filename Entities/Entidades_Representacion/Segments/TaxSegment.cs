@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class TaxSegment: Segment
+    public class TaxSegment: SegmentRepresentation
     {
 
     }

@@ -13,11 +13,11 @@ namespace BusinessLogic.Definition
     /// </summary>
     public interface ISegmentManager
     {
-        void AddSegment(Segment segment);
-        Segment GetSegmentByCode(int code);
-        List<Segment> GetAllSegments();
-        bool HasCompositeElements(Segment segment);
-        void CheckSegment(Segment segment); 
+        void AddSegment(SegmentRepresentation segment);
+        SegmentRepresentation GetSegmentByCode(int code);
+        List<SegmentRepresentation> GetAllSegments();
+        bool HasCompositeElements(SegmentRepresentation segment);
+        void CheckSegment(SegmentRepresentation segment); 
 
 
     }

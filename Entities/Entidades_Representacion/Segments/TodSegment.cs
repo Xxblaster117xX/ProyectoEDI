@@ -9,7 +9,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class TodSegment : Segment
+    public class TodSegment : SegmentRepresentation
     {
         /*4055       TERMS OF DELIVERY OR TRANSPORT FUNCTION, CODED     C   an1..3
   4215       TRANSPORT CHARGES METHOD OF PAYMENT, CODED         C   an1..3

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Segment Segment { get; set; }
+        public SegmentRepresentation Segment { get; set; }
     
     }
 }

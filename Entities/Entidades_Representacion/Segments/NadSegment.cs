@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class NadSegment:Segment
+    public class NadSegment:SegmentRepresentation
     {
         // Indica el tipo de rol de la entidad puede ser BY, SU, DP, etc.
         public string PartyQualifier { get; set; } 

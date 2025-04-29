@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class MeaSegment: Segment
+    public class MeaSegment: SegmentRepresentation
     {
 
     }

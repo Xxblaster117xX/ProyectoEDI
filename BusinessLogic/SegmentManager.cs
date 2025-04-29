@@ -13,19 +13,19 @@ namespace BusinessLogic
         /// <param name="position"></param>
         /// <param name="segment"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private readonly List<Segment> _segments;
+        private readonly List<SegmentRepresentation> _segments;
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>
         public SegmentManager()
         {
-            _segments = new List<Segment>();
+            _segments = new List<SegmentRepresentation>();
         }
         /// <summary>
         /// Este método agrega un segmento a la lista de segmentos.
         /// </summary>
         /// <param name="segment"></param>
-        public void AddSegment(Segment segment)
+        public void AddSegment(SegmentRepresentation segment)
         {
             _segments.Add(segment);
         }
@@ -34,7 +34,7 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public Segment GetSegmentByCode(int code)
+        public SegmentRepresentation GetSegmentByCode(int code)
         {
             return _segments.FirstOrDefault(s => s.SegmentCode == code);
         }
@@ -44,7 +44,7 @@ namespace BusinessLogic
         /// Devulve la lista de segmentos
         /// </summary>
         /// <returns></returns>
-        public List<Segment> GetAllSegments()
+        public List<SegmentRepresentation> GetAllSegments()
         {
             return _segments;
         }
@@ -54,12 +54,12 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
-        public bool HasCompositeElements(Segment segment)
+        public bool HasCompositeElements(SegmentRepresentation segment)
         {
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public void CheckSegment(Segment segment)
+        public void CheckSegment(SegmentRepresentation segment)
 
         {
 

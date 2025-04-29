@@ -10,7 +10,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class DtmSegment : Segment
+    public class DtmSegment : SegmentRepresentation
     {
         // indica el tipo de fecha y es Mandatory
         public string DateQualifier { get; set; } 

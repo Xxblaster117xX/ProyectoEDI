@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class RcsSegment: Segment
+    public class RcsSegment: SegmentRepresentation
     {
     }
 }

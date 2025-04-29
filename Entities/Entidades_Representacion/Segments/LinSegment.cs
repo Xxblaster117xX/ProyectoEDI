@@ -21,7 +21,7 @@ C829       SUB-LINE INFORMATION                               C
    1082    Line item number                                   C   n1..6
 1222       CONFIGURATION LEVEL                                C   n1..2
 7083       CONFIGURATION, CODED                               C   an1..3*/
-    public class LinSegment:Segment
+    public class LinSegment:SegmentRepresentation
     {
        public string LineItemNumber { get; set; }
        public string ActionRequestNotificationCoded { get; set; }

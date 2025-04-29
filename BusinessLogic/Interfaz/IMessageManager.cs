@@ -3,7 +3,7 @@
 using Entities.Entidades_Definicion;
 using Entities.Enum;
 using Entities.Model.Enum;
-using Segment = Entities.Entidades_Definicion.Segment;
+using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
 namespace BusinessLogic.Definition
 {
     /// <summary>
@@ -15,7 +15,7 @@ namespace BusinessLogic.Definition
         Message GetMessageByType(MessageTypeEnum message);
         List<Message> GetAllMessages();
         bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type);
-        List<Segment> GetSegments(Message message);
+        List<SegmentDefinition> GetSegments(Message message);
         void CheckMessage(Message message);
        
 

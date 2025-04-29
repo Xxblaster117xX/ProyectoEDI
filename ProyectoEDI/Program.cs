@@ -8,6 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<MessageService>();
+builder.Services.AddSingleton<SegmentService>();
 
 var app = builder.Build();
 

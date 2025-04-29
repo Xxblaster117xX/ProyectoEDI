@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class PciSegment: Segment
+    public class PciSegment: SegmentRepresentation
     {
     }
 }

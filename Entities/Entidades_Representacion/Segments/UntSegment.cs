@@ -9,7 +9,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class UntSegment:Segment
+    public class UntSegment:SegmentRepresentation
     {
         public int numberOfSegments { get; set; } // Número de segmentos
         public string messageReferenceNumber { get; set; } // Número de referencia del mensaje

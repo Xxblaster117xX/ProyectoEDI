@@ -11,7 +11,7 @@ namespace Entities.Interfaces
     {
         string Name { get; set; }
         string Description { get; set; }
-        Segment Segment { get; set; }
+        SegmentRepresentation Segment { get; set; }
 
     }
 }

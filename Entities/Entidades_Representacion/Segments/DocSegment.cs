@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class DocSegment: Segment
+    public class DocSegment: SegmentRepresentation
     {
     }
 }

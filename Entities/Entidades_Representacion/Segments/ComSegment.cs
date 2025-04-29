@@ -7,7 +7,7 @@ using Entities.Entidades_Representacion;
 using Entities.Entidades_Representacion.Abstract;
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class ComSegment:Segment
+    public class ComSegment:SegmentRepresentation
     {
         public string CommunicationContact { get; set; } // tipo de comounicación
         public string CommunicationNumber { get; set; } // número o direccion del tipo de comunicación

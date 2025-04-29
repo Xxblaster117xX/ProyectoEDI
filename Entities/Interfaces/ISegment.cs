@@ -10,10 +10,10 @@ namespace Entities.Interfaces
     public interface ISegment
     {
         int SegmentId { get; set; }
-        int SegmentCode { get; set; }
+        string SegmentCode { get; set; }
         string SegmentName { get; set; }
         string SegmentDescription { get; set; }
         List<SegmentPosition> SegmentPositions { get; set; }
-        bool Obligatorio { get; set; }
+        bool Obligatory{ get; set; }
     }
 }
