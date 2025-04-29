@@ -71,6 +71,10 @@
             <h4>Modificar Mensaje</h4>
             <form>
                 <div class="mb-3">
+                    <label for="editMessageId" class="form-label">Message ID</label>
+                    <input type="text" class="form-control" id="editMessageId" @bind="editMessageIdValue" disabled>
+                </div>
+                <div class="mb-3">
                     <label for="editMessageType" class="form-label">Message Type</label>
                     <select class="form-select" id="editMessageType" @bind="editMessageTypeValue">
                         @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
@@ -84,12 +88,20 @@
                     <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Enter message version">
                 </div>
                 <div class="mb-3">
-                    <label for="editMessageName" class="form-label">Message Name</label>
-                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
+                    <label for="editMessageRelease" class="form-label">Message Release</label>
+                    <input type="text" class="form-control" id="editMessageRelease" @bind="editMessageReleaseValue" placeholder="Enter message release">
                 </div>
                 <div class="mb-3">
                     <label for="editMessageDirectoryVersion" class="form-label">Message Directory Version</label>
                     <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Enter directory version">
+                </div>
+                <div class="mb-3">
+                    <label for="editMessageName" class="form-label">Message Name</label>
+                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
+                </div>
+                <div class="mb-3">
+                    <label for="editMessageDescription" class="form-label">Message Description</label>
+                    <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Enter message description"></textarea>
                 </div>
                 <div class="popup-buttons">
                     <button type="button" class="btn btn-success" @onclick="SaveEditMessage">Guardar cambios</button>
@@ -106,11 +118,14 @@
     private Message messageToDelete;
     private Message messageBeingEdited;
 
-
+   
+    private string editMessageIdValue;
     private string editMessageTypeValue;
     private string editMessageVersionValue;
-    private string editMessageNameValue;
+    private string editMessageReleaseValue;
     private string editMessageDirectoryVersionValue;
+    private string editMessageNameValue;
+    private string editMessageDescriptionValue;
 
     public void ViewMessage(Message message)
     {
@@ -145,10 +160,14 @@
     {
         isEditing = true;
         messageBeingEdited = message;
+
+        editMessageIdValue = message.MessageId.ToString();
         editMessageTypeValue = message.MessageType.ToString();
         editMessageVersionValue = message.MessageVersion;
-        editMessageNameValue = message.MessageName;
+        editMessageReleaseValue = message.MessageRelease;
         editMessageDirectoryVersionValue = message.MessageDirectoryVersion;
+        editMessageNameValue = message.MessageName;
+        editMessageDescriptionValue = message.MessageDescription;
     }
 
     private void SaveEditMessage()
@@ -157,10 +176,10 @@
         {
             messageBeingEdited.MessageType = Enum.Parse<MessageTypeEnum>(editMessageTypeValue);
             messageBeingEdited.MessageVersion = editMessageVersionValue;
-            messageBeingEdited.MessageName = editMessageNameValue;
+            messageBeingEdited.MessageRelease = editMessageReleaseValue;
             messageBeingEdited.MessageDirectoryVersion = editMessageDirectoryVersionValue;
-
-        
+            messageBeingEdited.MessageName = editMessageNameValue;
+            messageBeingEdited.MessageDescription = editMessageDescriptionValue;
         }
 
         isEditing = false;
