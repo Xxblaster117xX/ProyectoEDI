@@ -9,6 +9,7 @@ namespace Entities.Entidades_Definicion
 {
     public class Message
     {
+        public int MessageId { get; set; }
         public MessageTypeEnum MessageType;
         public string MessageVersion { get; set; }
         public string MessageRelease { get; set; }

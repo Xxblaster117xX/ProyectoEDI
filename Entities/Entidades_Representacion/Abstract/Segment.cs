@@ -18,7 +18,6 @@ namespace Entities.Entidades_Representacion.Abstract
         public string SegmentName { get; set; }
         public string SegmentDescription { get; set; }
         public List<SegmentPosition> SegmentPositions { get; set; }
-
         public bool Obligatorio { get; set; }
        
     }

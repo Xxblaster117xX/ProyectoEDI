@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Entidades_Representacion.Abstract;
-
+using Entities.Entidades_Definicion;
+using Segment = Entities.Entidades_Representacion.Abstract.Segment;
 namespace Entities.Entidades_Representacion.Segments
 {
     /*C524       HANDLING INSTRUCTIONS                              C

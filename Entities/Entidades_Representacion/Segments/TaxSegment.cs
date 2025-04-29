@@ -9,5 +9,6 @@ namespace Entities.Entidades_Representacion.Segments
 {
     public class TaxSegment: Segment
     {
+
     }
 }

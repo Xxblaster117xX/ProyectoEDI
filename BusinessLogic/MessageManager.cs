@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Entities.Entidades_Definicion;
-using Entities.Entidades_Representacion.Abstract;
 using Entities.Enum;
 using Entities.Model.Enum;
 using Segment = Entities.Entidades_Definicion.Segment;
@@ -119,6 +114,6 @@ namespace BusinessLogic.Definition
             }
         }
     }
-    }
+}
 
 

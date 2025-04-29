@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Enum;
 using Entities.Entidades_Representacion.Abstract;
-
 namespace Entities.Entidades_Definicion
 {
     public class MessagePosition
     {
         public int Position { get; set; }
         public Segment Segment { get; set; }
-        public ISegmentGroup SegmentGroup { get; set; }
+        public ISegmentGroup<Segment> SegmentGroup { get; set; }
         public RequirementIndicatorEnum RequirementIndicator { get; set; }
         public string Repetition { get; set; }
+
     }
 }

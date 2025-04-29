@@ -1,10 +1,13 @@
 using ProyectoEDI.Components;
+using ProyectoEDI.Components.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<MessageService>();
 
 var app = builder.Build();
 
