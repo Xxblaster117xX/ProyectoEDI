@@ -58,43 +58,18 @@
 
 @code {
      
-    
-
-    public void AddMessage()
-        {
-    var message1 = new Message
-            {
-                MessageType = MessageTypeEnum.INVOIC,
-                MessageVersion = "1.0",
-                MessageRelease = "2025",
-                MessageDirectoryVersion = "D96A",
-                MessageName = "Factura Electrónica",
-                MessageDescription = "Mensaje de factura electrónica de ejemplo"
-            };
-
-    var message2 = new Message
-            {
-                MessageType = MessageTypeEnum.ORDERS,
-                MessageVersion = "2.1",
-                MessageRelease = "2025",
-                MessageDirectoryVersion = "D96A",
-                MessageName = "Orden de Compra",
-                MessageDescription = "Mensaje de orden de compra de ejemplo"
-            };
-
-  
-		Message.MessagesList.Add(message1);
-		Message.MessagesList.Add(message2);
-        }
+    private void NavigateToViewMessage(MessageTypeEnum messageType)
+    {
+        Navigation.NavigateTo($"/viewMessage/{messageType}");
+    }
 
 
     string messageAlert;
+
         private void DeleteMessage(Message message)
         {
 		Message.MessagesList.Remove(message);
         }
-
-  
     private void ViewMessage(Message message)
     {
         Navigation.NavigateTo("/CreationMessage");
