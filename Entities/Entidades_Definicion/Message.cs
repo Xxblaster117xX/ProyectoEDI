@@ -14,7 +14,7 @@ namespace Entities.Entidades_Definicion
         public int MessageId { get; set; }
 
         [Required]
-        public  MessageTypeEnum MessageType;
+        public MessageTypeEnum MessageType { get; set; }
         public string MessageVersion { get; set; }
         public string MessageRelease { get; set; }
         public string MessageDirectoryVersion { get; set; }
