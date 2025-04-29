@@ -10,7 +10,7 @@ namespace Entities.Entidades_Definicion
     public class MessagePermittedQualifier
     {
         public MessagePosition MessagePosition;
-        public Segment Segment { get; set; }
+        public SegmentDefinition Segment { get; set; }
         public DataElement DataElement { get; set; }
         public DataElementQualifier Qualifier { get; set; }
 

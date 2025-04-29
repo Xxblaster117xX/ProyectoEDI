@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Definicion
 {
-    public class Segment
+    public class SegmentDefinition
     { 
         public int SegmentCode { get; set; }
         public string SegmentName { get; set; }
