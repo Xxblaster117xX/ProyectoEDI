@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
+@using Entities.Entidades_Definicion;
 <h3>Lista de Mensajes</h3>
 
 
@@ -10,6 +11,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Tipo</th>
             <th>Versión</th>
             <th>Release</th>
@@ -25,6 +27,7 @@
             @foreach (var message in Message.MessagesList)
             {
                 <tr>
+                    <td>@message.MessageId</td>
                     <td>@message.MessageType</td>
                     <td>@message.MessageVersion</td>
                     <td>@message.MessageRelease</td>
@@ -46,33 +49,54 @@
         }
     </tbody>
 </table>
-
-
-@if (messageAlert != null)
+@if (showPopUp)
 {
-    @messageAlert;
-
-
+    <div class="overlay">
+        <div class="popup">
+            <h4>¿Confirmar Eliminación?</h4>
+            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete?.MessageName</strong>?</p>
+            <div class="popup-buttons">
+                <button class="btn btn-danger" @onclick="ConfirmDeleteMessage">Eliminar</button>
+                <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
 }
 
 
+
 @code {
-     
-    private void NavigateToViewMessage(MessageTypeEnum messageType)
+
+
+
+
+    private bool showPopUp = false;
+    private Message messageToDelete;
+    public void ViewMessage(Message message)
+	{
+		Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
+	}
+    private void DeleteMessage(Message message)
     {
-        Navigation.NavigateTo($"/viewMessage/{messageType}");
+        messageToDelete = message;
+        showPopUp = true;
     }
 
-
-    string messageAlert;
-
-        private void DeleteMessage(Message message)
+    private void ConfirmDeleteMessage()
+    {
+        if (messageToDelete != null)
         {
-		Message.MessagesList.Remove(message);
+            Message.MessagesList.Remove(messageToDelete);
+            messageToDelete = null;
         }
-    private void ViewMessage(Message message)
-    {
-        Navigation.NavigateTo("/CreationMessage");
 
+        showPopUp = false;
     }
+
+    private void HandleCancel()
+    {
+        showPopUp = false;
+        messageToDelete = null;
+    }
+
 }

@@ -11,7 +11,7 @@ namespace Entities.Entidades_Definicion
     public class Message
     {
 
-        public int id { get; set; }
+        public int MessageId { get; set; }
 
         [Required]
         public  MessageTypeEnum MessageType;
