@@ -2,11 +2,10 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
-@using Entities.Entidades_Definicion;
+@using Entities.Entidades_Definicion
+@using Component
+
 <h3>Lista de Mensajes</h3>
-
-
-
 
 <table class="table table-striped">
     <thead>
@@ -37,6 +36,7 @@
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
+                        <button class="btn btn-warning btn-sm" @onclick="() => EditMessage(message)">Modificar</button>
                     </td>
                 </tr>
             }
@@ -44,11 +44,12 @@
         else
         {
             <tr>
-                <td colspan="7" class="text-center">No hay mensajes disponibles.</td>
+                <td colspan="8" class="text-center">No hay mensajes disponibles.</td>
             </tr>
         }
     </tbody>
 </table>
+
 @if (showPopUp)
 {
     <div class="overlay">
@@ -63,19 +64,59 @@
     </div>
 }
 
-
+@if (isEditing)
+{
+    <div class="overlay">
+        <div class="popup">
+            <h4>Modificar Mensaje</h4>
+            <form>
+                <div class="mb-3">
+                    <label for="editMessageType" class="form-label">Message Type</label>
+                    <select class="form-select" id="editMessageType" @bind="editMessageTypeValue">
+                        @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="editMessageVersion" class="form-label">Message Version</label>
+                    <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Enter message version">
+                </div>
+                <div class="mb-3">
+                    <label for="editMessageName" class="form-label">Message Name</label>
+                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
+                </div>
+                <div class="mb-3">
+                    <label for="editMessageDirectoryVersion" class="form-label">Message Directory Version</label>
+                    <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Enter directory version">
+                </div>
+                <div class="popup-buttons">
+                    <button type="button" class="btn btn-success" @onclick="SaveEditMessage">Guardar cambios</button>
+                    <button type="button" class="btn btn-secondary" @onclick="CancelEditMessage">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
 
 @code {
-
-
-
-
     private bool showPopUp = false;
+    private bool isEditing = false;
     private Message messageToDelete;
+    private Message messageBeingEdited;
+
+
+    private string editMessageTypeValue;
+    private string editMessageVersionValue;
+    private string editMessageNameValue;
+    private string editMessageDirectoryVersionValue;
+
     public void ViewMessage(Message message)
-	{
-		Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
-	}
+    {
+        Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
+    }
+
     private void DeleteMessage(Message message)
     {
         messageToDelete = message;
@@ -99,4 +140,36 @@
         messageToDelete = null;
     }
 
+    
+    private void EditMessage(Message message)
+    {
+        isEditing = true;
+        messageBeingEdited = message;
+        editMessageTypeValue = message.MessageType.ToString();
+        editMessageVersionValue = message.MessageVersion;
+        editMessageNameValue = message.MessageName;
+        editMessageDirectoryVersionValue = message.MessageDirectoryVersion;
+    }
+
+    private void SaveEditMessage()
+    {
+        if (messageBeingEdited != null)
+        {
+            messageBeingEdited.MessageType = Enum.Parse<MessageTypeEnum>(editMessageTypeValue);
+            messageBeingEdited.MessageVersion = editMessageVersionValue;
+            messageBeingEdited.MessageName = editMessageNameValue;
+            messageBeingEdited.MessageDirectoryVersion = editMessageDirectoryVersionValue;
+
+        
+        }
+
+        isEditing = false;
+        messageBeingEdited = null;
+    }
+
+    private void CancelEditMessage()
+    {
+        isEditing = false;
+        messageBeingEdited = null;
+    }
 }
