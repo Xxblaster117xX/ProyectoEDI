@@ -79,7 +79,7 @@
 
 @code {
     private SegmentTypeEnum tipoSegmento;
-    private SegmentRepresentation segmento;
+    private Segment segmento;
 
     private void OnSegmentTypeChanged(ChangeEventArgs e)
     {
@@ -92,7 +92,7 @@
             var type = Type.GetType(segmentTypeName);
             if (type != null)
             {
-               segmento  = (SegmentRepresentation)Activator.CreateInstance(type);
+               segmento  = (Segment)Activator.CreateInstance(type);
             }
             else
             {

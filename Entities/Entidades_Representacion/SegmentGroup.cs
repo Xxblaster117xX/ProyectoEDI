@@ -9,8 +9,9 @@ namespace Entities.Entidades_Representacion
 {
     public class SegmentGroup
     {
-        public string SegmentGroupCode { get; set; }
+        public int SegmentGroupNumber { get; set; }
         public List<Segment> SegmentsList { get; set; }
         public List<SegmentGroup> SegmentGroupsList { get; set; }
+        public bool Obligatory { get; set; } 
     }
 }

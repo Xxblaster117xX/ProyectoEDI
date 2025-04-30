@@ -7,7 +7,7 @@ using Entities.Entidades_Definicion;
 using Entities.Entidades_Representacion.Abstract;
 using Entities.Enum;
 using Entities.Model.Enum;
-using Segment = Entities.Entidades_Definicion.Segment;
+using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
 namespace BusinessLogic.Definition
 {
 
@@ -74,7 +74,7 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public List<Segment> GetSegments(Message message)
+        public List<SegmentDefinition> GetSegments(Message message)
         {
             return message.MessagePositions
                           .Where(p => p.Segment != null)

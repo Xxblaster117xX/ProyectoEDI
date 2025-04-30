@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class BgmSegment:Segment
+    public class BgmSegment:SegmentDefinition
     {
         public int MessageNumber { get; set; } // Número de mensaje
         public string MessageName { get; set; } // Nombre del mensaje

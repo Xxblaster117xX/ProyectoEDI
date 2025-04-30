@@ -9,7 +9,7 @@ using Entities.Entidades_Representacion.Abstract;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class UnhSegment:Segment
+    public class UnhSegment : Segment
     {
         // identificador único para el mensaje dentro del intercambio.
         public int ReferenceNumber { get; set; } 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class LocSegment : Segment
+    public class LocSegment : SegmentDefinition
     {
         /*
          Indica el tipo de localización puede ser 11, 22,92 etc...  

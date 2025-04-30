@@ -1,0 +1,21 @@
+﻿﻿@if (Visible)
+{
+    <div class="popup-overlay">
+        <div class="popup-content">
+            <h5 class="mb-3">@Title</h5>
+            <p>@Message</p>
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-danger me-3" @onclick="OnConfirm">Aceptar</button>
+                <button class="btn btn-secondary" @onclick="OnCancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Message { get; set; }
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+}

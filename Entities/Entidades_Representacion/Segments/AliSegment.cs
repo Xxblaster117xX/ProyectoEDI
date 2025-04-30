@@ -8,7 +8,7 @@ using Entities.Entidades_Definicion;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class AliSegment:Segment
+    public class AliSegment:SegmentDefinition
     {
         // pais de origen elemento de dato 3239
         public string CountryOfOrigin { get; set; }

@@ -1,11 +1,10 @@
-﻿@page "/modificar-segmento/{id:int}"
+﻿@page "/modificar-segmento/{id:int}" 
 @inject NavigationManager NavigationManager
-@using Entities.Entidades_Representacion.Abstract
-@using Entities.Interfaces
+@using Entities.Entidades_Definicion
 @using Entities.Entidades_Representacion.Segments
 @rendermode InteractiveServer
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex justify-content-center align-items-center" style="margin-top: 5%">
     <div class="card p-4" style="width: 30rem;">
         <h3>Modificar Segmento</h3>
         @if (Segmento == null)
@@ -19,7 +18,7 @@
                 <ValidationSummary />
                 <div class="form-group mb-3">
                     <label for="segmentCode">Código del Segmento:</label>
-                    <InputNumber id="segmentCode" class="form-control" @bind-Value="@Segmento.SegmentCode" />
+                    <InputText id="segmentCode" class="form-control" @bind-Value="@Segmento.SegmentCode" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="segmentName">Nombre del Segmento:</label>
@@ -31,7 +30,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="obligatorio">Obligatorio:</label>
-                    <InputCheckbox id="obligatorio" @bind-Value="@Segmento.Obligatorio" />
+                    <InputCheckbox id="obligatorio" @bind-Value="@Segmento.Obligatory" />
                 </div>
 
                 <div class="d-flex justify-content-center">
@@ -46,31 +45,32 @@
     [Parameter]
     public int id { get; set; }
 
-    private NadSegment Segmento; // Cambiado a una clase concreta
+    private Segment Segmento; // Cambiado a una clase concreta
 
-    private int Codigo = 0;
-    private string Nombre = "";
-    private string Desc = "";
+    private string Codigo = "0";
+    private string Nombre = "un nombre";
+    private string Desc = "descripcion";
     private bool Obl = false;
 
+    //Metodo que se ejecuta al iniciar la pagina
     protected override async Task OnInitializedAsync()
     {
-        // Simulación de carga de datos (reemplazar con lógica real)
+
         Segmento = await ObtenerSegmentoPorId(id);
     }
 
-    private async Task<NadSegment> ObtenerSegmentoPorId(int id)
+    private async Task<Segment> ObtenerSegmentoPorId(int id)
     {
 
-        // Simulación de carga de datos (reemplazar con lógica real)
+
         await Task.Delay(500); // Simula un retraso
-        return new NadSegment
-            {
-                SegmentId = id,
+        return new Segment
+        {
+                SegmentId = id, //id recibido por parametro
                 SegmentCode = Codigo,
                 SegmentName = Nombre,
                 SegmentDescription = Desc,
-				Obligatorio = Obl
+                Obligatory = Obl
             };
     }
 
@@ -79,5 +79,9 @@
         // Simulación de guardado de datos (reemplazar con lógica real)
         await Task.Delay(500); // Simula un retraso
         Console.WriteLine($"Segmento con ID {id} guardado exitosamente.");
+        Console.WriteLine(Segmento.SegmentCode);
+        Console.WriteLine(Segmento.SegmentName);
+        Console.WriteLine(Segmento.SegmentDescription);
+        Console.WriteLine(Segmento.Obligatory);
     }
 }

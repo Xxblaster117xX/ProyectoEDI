@@ -3,21 +3,24 @@
 @using Entities.Entidades_Definicion
 @rendermode InteractiveServer
 
-<h3>Visualizar Mensaje EDI</h3>
-
-@if (mensaje != null)
-{
-    <div>
-        <p><strong>Nombre:</strong> @mensaje.MessageName</p>
-        <p><strong>Tipo:</strong> @mensaje.MessageType.ToString()</p>
-        <p><strong>Descripción:</strong> @mensaje.MessageDescription</p>
+<div class="container d-flex justify-content-center align-items-center" style="margin-top: 10%">
+    <div class="card p-4" style="width: 40rem;">
+        @if (mensaje != null)
+        {
+            <div>
+                <h3 class="h3 align-self-center">Visualizar mensaje</h3>
+                <p><strong>Nombre:</strong> @mensaje.MessageName</p>
+                <p><strong>Tipo:</strong> @mensaje.MessageType.ToString()</p>
+                <p><strong>Descripción:</strong> @mensaje.MessageDescription</p>
+            </div>
+            <button @onclick="ModificarMensaje" class="btn btn-danger">Modificar</button>
+        }
+        else
+        {
+            <p>Cargando...</p>
+        }
     </div>
-    <button @onclick="ModificarMensaje" class="btn btn-primary">Modificar</button>
-}
-else
-{
-    <p>Cargando...</p>
-}
+</div>
 
 @code {
     public int id { get; set; }
@@ -33,7 +36,6 @@ else
 
     private async Task<Message> ObtenerMensajePorId(int id)
     {
-        // Simulación de carga de datos (reemplazar con lógica real)
         await Task.Delay(500); // Simula un retraso
         return new Message
         {

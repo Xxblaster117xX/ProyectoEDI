@@ -9,7 +9,7 @@
     <div class="card p-4" style="width: 30rem;">
         <h2 class="text-center mb-4">Crear Mensaje</h2>
 
-        <form @onsubmit="PreventDefaultAndCrearMensaj">
+        <form @onsubmit="CrearMensaj">
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Mensaje</label>
                 <select class="form-select" id="tipo" @bind = "Mensaje.MessageType">
@@ -57,11 +57,6 @@
 </div>
 @code {
     private Message Mensaje = new Message();
-
-    private async Task PreventDefaultAndCrearMensaj(EventArgs e)
-    {
-        CrearMensaj(); // Llamar al método para agregar el mensaje
-    }
 
     private void CrearMensaj()
     {

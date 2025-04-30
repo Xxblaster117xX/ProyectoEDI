@@ -17,7 +17,7 @@ C218       HAZARDOUS MATERIAL                                 C
    7419    Hazardous material class code, identification      C   an1..4
    1131    Code list qualifier                                C   an1..3
    3055    Code list responsible agency, coded                C   an1..3*/
-    public class HanSegment : Segment
+    public class HanSegment : SegmentDefinition
     {
         public string HandlingInstructionsCoded { get; set; }
         public CodeList HanCodeListQualifier { get; set; }

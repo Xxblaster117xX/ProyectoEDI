@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoEDI", "ProyectoEDI\ProyectoEDI.csproj", "{CBD18322-F68D-4664-8006-FB9AC3E41FEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77E762CD-C3E5-4A04-A706-4515D6F45D45} = {77E762CD-C3E5-4A04-A706-4515D6F45D45}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{9137537A-5090-46D1-BF06-C27969BC3258}"
 EndProject
