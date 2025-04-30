@@ -7,7 +7,12 @@
 
 
 
-
+@if (showNotification)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @notificationMessage
+    </div>
+}
 <h3>Lista de Mensajes</h3>
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
 <table class="table table-striped">
@@ -121,8 +126,8 @@
     private bool isEditing = false;
     private Message messageToDelete;
     private Message messageBeingEdited;
-    private bool modificationConfirmed = false;
-
+    private string notificationMessage = string.Empty;
+    private bool showNotification = false;
     private string editMessageIdValue;
     private string editMessageTypeValue;
     private string editMessageVersionValue;
@@ -141,23 +146,27 @@
     /// Método para borrar un mensaje, seguidamente aparecerá para confirmar
     /// </summary>
     /// <param name="message"></param>
-    private void DeleteMessage(Message message)
+    private async Task DeleteMessage(Message message)
     {
         messageToDelete = message;
         showPopUp = true;
+
     }
     /// <summary>
     /// Confirmar el borrado del mensaje
     /// </summary>
-    private void ConfirmDeleteMessage()
+    private async Task ConfirmDeleteMessage()
     {
         if (messageToDelete != null)
         {
             Message.MessagesList.Remove(messageToDelete);
             messageToDelete = null;
+            showNotification = true;
+            notificationMessage = "El mensaje ha sido borrado con éxito";
+            showPopUp = false; 
+            await Task.Delay(3000);
+            showNotification = false;
         }
-
-        showPopUp = false;
     }
     /// <summary>
     /// Manejar la cancelación del mensaje
@@ -188,7 +197,7 @@
     /// <summary>
     /// Guardar los cambios del mensaje
     /// </summary>
-    private void SaveEditMessage()
+    private async Task SaveEditMessage()
     {
         if (messageBeingEdited != null)
         {
@@ -199,9 +208,16 @@
             messageBeingEdited.MessageName = editMessageNameValue;
             messageBeingEdited.MessageDescription = editMessageDescriptionValue;
         }
-        modificationConfirmed = true;
+
         isEditing = false;
         messageBeingEdited = null;
+
+
+        //Mostrar la notificación del mensaje
+        notificationMessage = "El mensaje ha sido modificado con éxito";
+        showNotification = true;
+        await Task.Delay(3000);
+        showNotification = false;
     }
     /// <summary>
     /// Cancelar los datos de un mensaje
