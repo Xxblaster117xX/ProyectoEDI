@@ -12,7 +12,7 @@ namespace Entities.Entidades_Representacion.Abstract
 
         public int SegmentGroupNumber { get; set; }
         public List<Segment> SegmentList { get; set; }
-
+        public bool obligatory { get; set; }
         public List<SegmentGroup> SegmentGroupList { get; set; }
     }
 }

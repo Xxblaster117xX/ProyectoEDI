@@ -3,7 +3,7 @@
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion
-
+@inject IJSRuntime JS
 
 
 
@@ -61,7 +61,7 @@
     <div class="overlay">
         <div class="popup">
             <h4>¿Confirmar Eliminación?</h4>
-            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete?.MessageName</strong>?</p>
+            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete.MessageName</strong>?</p>
             <div class="popup-buttons">
                 <button class="btn btn-danger" @onclick="ConfirmDeleteMessage">Eliminar</button>
                 <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -77,10 +77,6 @@
             <h4>Modificar Mensaje</h4>
             <form>
                 <div class="mb-3">
-                    <label for="editMessageId" class="form-label">Message ID</label>
-                    <input type="text" class="form-control" id="editMessageId" @bind="editMessageIdValue" disabled>
-                </div>
-                <div class="mb-3">
                     <label for="editMessageType" class="form-label">Message Type</label>
                     <select class="form-select" id="editMessageType" @bind="editMessageTypeValue">
                         @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
@@ -90,25 +86,25 @@
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label for="editMessageName" class="form-label">Message Name</label>
-                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
+                    <label for="editMessageName" class="form-label">Nombre del mensaje</label>
+                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Introduce el nombre del mensaje">
                 </div>
                 <div class="mb-1">
-                    <label for="editMessageVersion" class="form-label">Message Version</label>
-                    <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Enter message version">
+                    <label for="editMessageVersion" class="form-label">Versión del mensaje</label>
+                    <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Introduce la versión del mensaje">
                 </div>
                 <div class="mb-2">
-                    <label for="editMessageRelease" class="form-label">Message Release</label>
-                    <input type="text" class="form-control" id="editMessageRelease" @bind="editMessageReleaseValue" placeholder="Enter message release">
+                    <label for="editMessageRelease" class="form-label">Fecha del mensaje</label>
+                    <input type="text" class="form-control" id="editMessageRelease" @bind="editMessageReleaseValue" placeholder="Introduce la fecha de lanzamiento del mensaje">
                 </div>
                 <div class="mb-3">
-                    <label for="editMessageDirectoryVersion" class="form-label">Message Directory Version</label>
-                    <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Enter directory version">
+                    <label for="editMessageDirectoryVersion" class="form-label">Versión de directorio del mensaje</label>
+                    <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Introduce la versión de directorio">
                 </div>
 
                 <div class="mb-5">
-                    <label for="editMessageDescription" class="form-label">Message Description</label>
-                    <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Enter message description"></textarea>
+                    <label for="editMessageDescription" class="form-label"> Descripción del mensaje</label>
+                    <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Introduce la descripción del mensaje"></textarea>
                 </div>
                 <div class="popup-buttons">
                     <button type="button" class="btn btn-success" @onclick="SaveEditMessage">Guardar cambios</button>
@@ -150,7 +146,6 @@
     {
         messageToDelete = message;
         showPopUp = true;
-
     }
     /// <summary>
     /// Confirmar el borrado del mensaje
@@ -199,6 +194,33 @@
     /// </summary>
     private async Task SaveEditMessage()
     {
+        //Controles para que los campos no se queden vacíos una vez se hayan estado modificando
+        if (string.IsNullOrWhiteSpace(editMessageNameValue))
+        {
+            await ShowErrorAlert($"Todos los campos deben estar rellenos:   {editMessageNameValue}");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(editMessageVersionValue))
+        {
+            await ShowErrorAlert($"Todos los campos deben estar rellenos: {editMessageVersionValue}");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(editMessageReleaseValue))
+        {
+            await ShowErrorAlert($"Todos los campos deben estar rellenos:   {editMessageReleaseValue}");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(editMessageDirectoryVersionValue))
+        {
+            await ShowErrorAlert($"Todos los campos deben estar rellenos:  {editMessageDirectoryVersionValue}");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(editMessageDescriptionValue))
+        {
+            await ShowErrorAlert($"Todos los campos deben estar rellenos:  {editMessageDescriptionValue}");
+            return;
+        }
+
         if (messageBeingEdited != null)
         {
             messageBeingEdited.MessageType = Enum.Parse<MessageTypeEnum>(editMessageTypeValue);
@@ -228,5 +250,8 @@
         messageBeingEdited = null;
     }
 
-   
+    private async Task ShowErrorAlert(string message)
+    {
+        await JS.InvokeVoidAsync("alert", message);
+    }
 }

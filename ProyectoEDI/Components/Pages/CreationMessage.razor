@@ -3,8 +3,6 @@
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion;
-
-
 @inject IJSRuntime JS
 
 
@@ -39,7 +37,7 @@
 <!--Confirmación cuando se crea un mensaje-->
 @if (showPopUpMessage)
 {   <div class="overlay">
-        <div class="popup">
+        <div class="popUpConfirmation">
             <h4>Mensaje Creado</h4>
             <p>Mensaje creado con éxito.¿Desea visualizarlo?</p>
             <div class="popup-buttons">
@@ -49,13 +47,13 @@
         </div>
     </div>
 }
-
 @code {
     private static int _currentId = 0;
     private string messageTypeValue = string.Empty;
     private string messageVersionValue;
     private string messageNameValue;
     private string messageDirectoryVersionValue;
+    private string messageReleaseValue;
     public bool showPopUpMessage = false;
 
     /// <summary>
@@ -63,11 +61,12 @@
     /// </summary>
     /// <returns></returns>
     private int AutoIncrementId() => ++_currentId;
+    
     /// <summary>
-    /// Crear un mensaje
-    /// </summary>
-    /// <returns></returns>
-    private async Task CreateMessage()
+	/// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado
+	/// </summary>
+	/// <returns></returns>
+	private async Task CreateMessage()
     {
         if (string.IsNullOrWhiteSpace(messageNameValue))
             return;
@@ -78,7 +77,6 @@
             return;
         }
 
-
         else {var message = new Message
             {
                 MessageId = AutoIncrementId(),
@@ -86,7 +84,7 @@
                 MessageVersion = messageVersionValue,
                 MessageName = messageNameValue,
                 MessageDirectoryVersion = messageDirectoryVersionValue,
-                MessageRelease = messageVersionValue,
+                MessageRelease = "A",
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
 
