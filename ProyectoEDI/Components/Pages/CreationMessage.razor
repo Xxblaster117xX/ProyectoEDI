@@ -3,7 +3,7 @@
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion;
-@using Component;
+
 
 @inject IJSRuntime JS
 
@@ -28,7 +28,7 @@
         <label for="messageVersion" class="form-label">Message Version</label>
         <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Enter message version">
     </div>
-  
+
     <div class="mb-3">
         <label for="messageDirectoryVersion" class="form-label">Message Directory Version</label>
         <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Enter directory version">
@@ -52,7 +52,7 @@
 
 @code {
     private static int _currentId = 0;
-    private string messageTypeValue;
+    private string messageTypeValue = string.Empty;
     private string messageVersionValue;
     private string messageNameValue;
     private string messageDirectoryVersionValue;

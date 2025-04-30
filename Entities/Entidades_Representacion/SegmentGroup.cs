@@ -10,7 +10,7 @@ namespace Entities.Entidades_Representacion.Abstract
     public class SegmentGroup
     {
 
-        public string SegmentGroupCode { get; set; }
+        public int SegmentGroupNumber { get; set; }
         public List<Segment> SegmentList { get; set; }
 
         public List<SegmentGroup> SegmentGroupList { get; set; }

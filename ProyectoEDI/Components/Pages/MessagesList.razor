@@ -3,16 +3,16 @@
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion
-@using Component
+
+
+
+
 
 <h3>Lista de Mensajes</h3>
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
-
-
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Tipo</th>
             <th>Versión</th>
             <th>Nombre</th>
@@ -28,7 +28,6 @@
             @foreach (var message in Message.MessagesList)
             {
                 <tr>
-                    <td>@message.MessageId</td>
                     <td>@message.MessageType</td>
                     <td>@message.MessageVersion</td>
                     <td>@message.MessageName</td>
@@ -101,13 +100,13 @@
                     <label for="editMessageDirectoryVersion" class="form-label">Message Directory Version</label>
                     <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Enter directory version">
                 </div>
-                
+
                 <div class="mb-5">
                     <label for="editMessageDescription" class="form-label">Message Description</label>
                     <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Enter message description"></textarea>
                 </div>
                 <div class="popup-buttons">
-                    <button type="button" class="btn btn-danger"  @onclick="SaveEditMessage">Guardar cambios</button>
+                    <button type="button" class="btn btn-success" @onclick="SaveEditMessage">Guardar cambios</button>
                     <button type="button" class="btn btn-secondary" @onclick="CancelEditMessage">Cancelar</button>
                 </div>
             </form>
@@ -117,12 +116,12 @@
 
 @code {
 
-    //Varibles
+    //Variables
     private bool showPopUp = false;
     private bool isEditing = false;
     private Message messageToDelete;
     private Message messageBeingEdited;
-
+    private bool modificationConfirmed = false;
 
     private string editMessageIdValue;
     private string editMessageTypeValue;
@@ -200,7 +199,7 @@
             messageBeingEdited.MessageName = editMessageNameValue;
             messageBeingEdited.MessageDescription = editMessageDescriptionValue;
         }
-
+        modificationConfirmed = true;
         isEditing = false;
         messageBeingEdited = null;
     }
@@ -212,4 +211,6 @@
         isEditing = false;
         messageBeingEdited = null;
     }
+
+   
 }
