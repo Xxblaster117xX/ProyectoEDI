@@ -15,9 +15,9 @@
             <th>Id</th>
             <th>Tipo</th>
             <th>Versión</th>
+            <th>Nombre</th>
             <th>Release</th>
             <th>Directorio</th>
-            <th>Nombre</th>
             <th>Descripción</th>
             <th>Acciones</th>
         </tr>
@@ -31,9 +31,9 @@
                     <td>@message.MessageId</td>
                     <td>@message.MessageType</td>
                     <td>@message.MessageVersion</td>
+                    <td>@message.MessageName</td>
                     <td>@message.MessageRelease</td>
                     <td>@message.MessageDirectoryVersion</td>
-                    <td>@message.MessageName</td>
                     <td>@message.MessageDescription</td>
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
