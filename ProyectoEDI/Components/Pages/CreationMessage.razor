@@ -21,24 +21,24 @@
         </select>
     </div>
     <div class="mb-3">
-        <label for="messageVersion" class="form-label">Message Version</label>
-        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Enter message version">
-    </div>
-    <div class="mb-3">
         <label for="messageName" class="form-label">Message Name</label>
         <input type="text" class="form-control" id="messageName" @bind="messageNameValue" placeholder="Enter message name">
     </div>
     <div class="mb-3">
+        <label for="messageVersion" class="form-label">Message Version</label>
+        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Enter message version">
+    </div>
+  
+    <div class="mb-3">
         <label for="messageDirectoryVersion" class="form-label">Message Directory Version</label>
         <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Enter directory version">
     </div>
-    <button type="button" id="btn-submit" @onclick="CreateMessage" class="btn btn-primary">Crear Mensaje</button>
+    <button type="button" id="btn-submit" @onclick="CreateMessage" class="btn btn-success">Crear Mensaje</button>
 </form>
 
 <!--Confirmación cuando se crea un mensaje-->
 @if (showPopUpMessage)
-{
-    <div class="overlay">
+{   <div class="overlay">
         <div class="popup">
             <h4>Mensaje Creado</h4>
             <p>Mensaje creado con éxito.¿Desea visualizarlo?</p>

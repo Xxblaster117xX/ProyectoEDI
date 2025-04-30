@@ -7,6 +7,8 @@
 
 <h3>Lista de Mensajes</h3>
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
+
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -83,11 +85,15 @@
                         }
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="mb-4">
+                    <label for="editMessageName" class="form-label">Message Name</label>
+                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
+                </div>
+                <div class="mb-1">
                     <label for="editMessageVersion" class="form-label">Message Version</label>
                     <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Enter message version">
                 </div>
-                <div class="mb-3">
+                <div class="mb-2">
                     <label for="editMessageRelease" class="form-label">Message Release</label>
                     <input type="text" class="form-control" id="editMessageRelease" @bind="editMessageReleaseValue" placeholder="Enter message release">
                 </div>
@@ -95,16 +101,13 @@
                     <label for="editMessageDirectoryVersion" class="form-label">Message Directory Version</label>
                     <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Enter directory version">
                 </div>
-                <div class="mb-3">
-                    <label for="editMessageName" class="form-label">Message Name</label>
-                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Enter message name">
-                </div>
-                <div class="mb-3">
+                
+                <div class="mb-5">
                     <label for="editMessageDescription" class="form-label">Message Description</label>
                     <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Enter message description"></textarea>
                 </div>
                 <div class="popup-buttons">
-                    <button type="button" class="btn btn-success" style="background-color=red" @onclick="SaveEditMessage">Guardar cambios</button>
+                    <button type="button" class="btn btn-danger"  @onclick="SaveEditMessage">Guardar cambios</button>
                     <button type="button" class="btn btn-secondary" @onclick="CancelEditMessage">Cancelar</button>
                 </div>
             </form>
