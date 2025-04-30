@@ -1,0 +1,58 @@
+﻿@page "/listar-mensaje"
+@using Entities.Entidades_Definicion
+@using ProyectoEDI.Components.Services
+@inject MessageService MessageService
+@rendermode InteractiveServer
+<PageTitle>Listar Mensaje</PageTitle>
+<h3 class="text-center">Listado de Mensajes:</h3>
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Tipo de Mensaje</th>
+                <th>Versión</th>
+                <th>Release</th>
+                <th>Directorio</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Mensajes != null && Mensajes.Any())
+            {
+                @foreach (var message in Mensajes)
+                {
+                    <tr>
+                        <td>@message.MessageType</td>
+                        <td>@message.MessageVersion</td>
+                        <td>@message.MessageRelease</td>
+                        <td>@message.MessageDirectoryVersion</td>
+                        <td>@message.MessageName</td>
+                        <td>@message.MessageDescription</td>
+                        <td>
+                            <button class="btn btn-success">Ver Mensaje</button>
+                            <button class="btn btn-warning">Modificar</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No hay mensajes disponibles</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@code {
+    private List<Message> Mensajes;
+
+    protected override void OnInitialized()
+    {
+        Mensajes = MessageService.GetMessages(); // Obtener los mensajes del servicio
+        Console.WriteLine($"Mensajes cargados: {Mensajes.Count}");
+    }
+}

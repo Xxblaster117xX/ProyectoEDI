@@ -1,6 +1,5 @@
 using ProyectoEDI.Components;
 using ProyectoEDI.Components.Services;
-using Blazored.Modal;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-builder.Services.AddBlazoredModal();
 
 builder.Services.AddSingleton<MessageService>();
 builder.Services.AddAntiforgery();

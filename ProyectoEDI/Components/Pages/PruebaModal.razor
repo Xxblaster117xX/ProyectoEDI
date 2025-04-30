@@ -1,0 +1,44 @@
+﻿@page "/pruebamodal"
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Components.Web
+
+<button type="button" class="btn btn-primary" @onclick="ShowModal">
+	Launch demo modal
+</button>
+
+@if (isModalVisible)
+{
+	<div class="modal fade show" style="display:block;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">El modal es un coñazo</h1>
+					<button type="button" class="btn-close" @onclick="HideModal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					no quiero seguir intentandolo
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" @onclick="HideModal">Borrar la cuenta</button>
+					<button type="button" class="btn btn-primary">Borrar la cuenta pero en azul</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+	private bool isModalVisible = false;
+
+	private void ShowModal()
+	{
+		isModalVisible = true;
+	}
+
+	private void HideModal()
+	{
+		isModalVisible = false;
+	}
+}
+

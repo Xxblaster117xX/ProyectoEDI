@@ -1,0 +1,73 @@
+﻿@page "/crear-mensaje"
+@using Entities.Entidades_Definicion
+@using ProyectoEDI.Components.Services
+@using Entities.Model.Enum
+@inject MessageService MessageService
+<PageTitle>Crear Mensaje</PageTitle>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="width: 30rem;">
+        <h2 class="text-center mb-4">Crear Mensaje</h2>
+
+        <form @onsubmit="PreventDefaultAndCrearMensaj">
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Mensaje</label>
+                <select class="form-select" id="tipo" @bind = "Mensaje.MessageType">
+                    <option value="" disabled selected>Seleccione un tipo...</option>
+                    @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="version" class="form-label">Versión:</label>
+                <input type="text" class="form-control" id="version" name="version"  @bind="Mensaje.MessageVersion">
+
+            </div>
+
+            <div class="mb-3">
+                <label for="release" class="form-label">Release:</label>
+                <input type="text" class="form-control" id="release" name="release" @bind="Mensaje.MessageRelease">
+            </div>
+
+            <div class="mb-3">
+                <label for="directoryVersion" class="form-label">Directory Version:</label>
+                <input type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind="Mensaje.MessageDirectoryVersion">
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" @bind="Mensaje.MessageName">
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripcion:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" @bind="Mensaje.MessageDescription"></textarea>
+            </div>
+
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger w-50">Enviar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+@code {
+    private Message Mensaje = new Message();
+
+    private async Task PreventDefaultAndCrearMensaj(EventArgs e)
+    {
+        CrearMensaj(); // Llamar al método para agregar el mensaje
+    }
+
+    private void CrearMensaj()
+    {
+        Console.WriteLine($"Mensaje enviado: {Mensaje.MessageName}"); // Depuración
+        Console.WriteLine($"Tipo: {Mensaje.MessageType}, Versión: {Mensaje.MessageVersion}, Release: {Mensaje.MessageRelease}");
+        MessageService.AddMessage(Mensaje); // Añadir el mensaje al servicio
+        Mensaje = new Message(); // Reiniciar el formulario
+    }
+}
