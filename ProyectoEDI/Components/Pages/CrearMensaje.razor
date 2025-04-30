@@ -7,7 +7,7 @@
     <div class="card p-4" style="width: 30rem;">
         <h2 class="text-center mb-4">Crear Mensaje</h2>
 
-        <form @onsubmit="CrearMensaj">
+        <form @onsubmit="CreateMessage">
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Mensaje</label>
                 <select class="form-select" id="tipo" @bind = "mensaje.MessageType">
@@ -58,7 +58,7 @@
     Message mensaje = new Message();
     List<Message> mensajes = new List<Message>();
 
-    public void CrearMensaj()
+    public void CreateMessage()
     {
         MessageService.AddMessage(mensaje);
         mensaje = new Message(); // Reiniciar el formulario

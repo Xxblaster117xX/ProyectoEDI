@@ -3,15 +3,16 @@
 @using Entities.Entidades_Representacion.Abstract
 @using Entities.Entidades_Representacion.Segments
 @using Entities.Enum
+@using System.Reflection
 @inject SegmentService SegmentService
 
 <PageTitle>Crear Segmento</PageTitle>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex justify-content-center">
     <div class="card p-4" style="width: 30rem;">
         <h2 class="text-center mb-4">Crear Segmento</h2>
 
-        <form @onsubmit="CrearSegment">
+        <form @onsubmit="CreateSegment">
             <!-- Selección del tipo de segmento -->
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Segmento</label>
@@ -27,6 +28,7 @@
             <!-- Campos comunes a todos los segmentos -->
             @if (segmento != null)
             {
+
                 <div class="mb-3">
                     <label for="codigo" class="form-label">Código:</label>
                     <input type="number" class="form-control" id="codigo" @bind="segmento.SegmentCode">
@@ -47,25 +49,41 @@
                     <label class="form-check-label" for="obligatorio">Obligatorio</label>
                 </div>
 
-                <!-- Campos específicos según el tipo de segmento -->
-                @if (segmento is DtmSegment dtmSegment)
-                {
-                    <div class="mb-3">
-                        <label for="dateQualifier" class="form-label">Date Time Qualifier:</label>
-                        <input type="text" class="form-control" id="dateQualifier" @bind="dtmSegment.DateQualifier">
-                    </div>
-                    <div class="mb-3">
-                        <label for="dateTimePeriod" class="form-label">Date Time Period:</label>
-                        <input type="text" class="form-control" id="dateTimePeriod" @bind="dtmSegment.DateTimePeriod">
-                    </div>
-                }
 
-                else if (segmento is UnhSegment unhSegment)
+                <!-- Campos específicos según el tipo de segmento -->
+                @if (segmento != null)
                 {
-                    <div class="mb-3">
-                        <label for="ReferenceNumber" class="form-label">Message Reference Number:</label>
-                        <input type="text" class="form-control" id="ReferenceNumber" @bind="unhSegment.ReferenceNumber">
-                    </div>
+                    @foreach (var property in segmento.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                    {
+                        <div class="mb-3">
+                            <label for="@property.Name" class="form-label">@property.Name:</label>
+                            @if (property.PropertyType == typeof(bool))
+                            {
+                                <input type="checkbox" class="form-check-input" id="@property.Name"
+                                       checked="@(GetPropertyValue(segmento, property) is true)"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value is true)">
+                            }
+                            else if (property.PropertyType == typeof(int))
+                            {
+                                <input type="number" class="form-control" id="@property.Name"
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, int.Parse(e.Value.ToString()))">
+                            }
+                            else if (property.PropertyType == typeof(string))
+                            {
+                                <input type="text" class="form-control" id="@property.Name"
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value.ToString())">
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" id="@property.Name"
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value)">
+                            }
+                        </div>
+                    }
+                    
                 }
             }
 
@@ -80,6 +98,9 @@
 @code {
     private SegmentTypeEnum tipoSegmento;
     private SegmentRepresentation segmento;
+    private int numAtributos;
+
+
 
     private void OnSegmentTypeChanged(ChangeEventArgs e)
     {
@@ -87,12 +108,16 @@
         {
             tipoSegmento = segmentType;
 
-            // Crear una instancia del segmento dinámicamente
-            var segmentTypeName = $"Entities.Entidades_Representacion.Segments.{segmentType}Segment";
+            // Crear el nombre completo del tipo
+            var segmentTypeName = $"Entities.Entidades_Representacion.Segments.{segmentType}Segment, Entities";
+
+            // Obtener el tipo dinámicamente
             var type = Type.GetType(segmentTypeName);
             if (type != null)
             {
-               segmento  = (SegmentRepresentation)Activator.CreateInstance(type);
+                segmento = (SegmentRepresentation)Activator.CreateInstance(type);
+                
+                Console.WriteLine($"Instancia creada: {type.Name}");
             }
             else
             {
@@ -101,16 +126,29 @@
         }
     }
 
-    private void CrearSegment()
+
+    private void CreateSegment()
     {
         if (segmento != null)
         {
-            // Guardar el segmento en el servicio
+            // Añadimos el segmento en el servicio
             SegmentService.AddSegment(segmento);
 
-            // Reiniciar el formulario
+            // Reiniciamos el formularaio
             segmento = null;
             tipoSegmento = default;
         }
     }
+
+    private object GetPropertyValue(object obj, PropertyInfo property)
+    {
+        return property.GetValue(obj);
+    }
+
+    private void SetPropertyValue(object obj, PropertyInfo property, object value)
+    {
+        property.SetValue(obj, value);
+    }
+
+   
 }
