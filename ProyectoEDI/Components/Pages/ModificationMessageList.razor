@@ -3,7 +3,8 @@
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @using Entities.Model.Enum
-
+@using BusinessLogic.Definition
+@inject MessageManager messageManager
 
 <h3>Modificar Mensaje</h3>
 
@@ -48,7 +49,6 @@
                 <textarea class="form-control" id="messageDescription" @bind="message.MessageDescription" placeholder="Enter message description"></textarea>
             </div>
         </div>
-
         <div class="form-buttons">
             <button type="button" class="btn btn-success" style="background-color:red" @onclick="SaveChanges">Guardar</button>
             <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
@@ -68,7 +68,7 @@ else
 	//Al cargar la página, se busca el mensaje por su ID
     protected override void OnInitialized() 
     {
-        message = Message.MessagesList.FirstOrDefault(m => m.MessageId == MessageId);
+        message = messageManager.GetAllMessages().FirstOrDefault(m => m.MessageId == MessageId);
         if (message == null)
         {
             Console.WriteLine($"No se encontró el mensaje con ID {MessageId}");

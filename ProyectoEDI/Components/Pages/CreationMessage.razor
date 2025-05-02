@@ -4,8 +4,8 @@
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion;
 @inject IJSRuntime JS
-
-
+@using BusinessLogic.Definition
+@inject MessageManager messageManager
 @page "/"
 <!--Formulario del mensaje-->
 <form>
@@ -55,18 +55,19 @@
     private string messageDirectoryVersionValue;
     private string messageReleaseValue;
     public bool showPopUpMessage = false;
-
+   
     /// <summary>
     /// Método para aumentar en 1 el id al crear un mensaje
     /// </summary>
     /// <returns></returns>
     private int AutoIncrementId() => ++_currentId;
-    
+
+		
     /// <summary>
-	/// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado
-	/// </summary>
-	/// <returns></returns>
-	private async Task CreateMessage()
+    /// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado
+    /// </summary>
+    /// <returns></returns>
+    private async Task CreateMessage()
     {
         if (string.IsNullOrWhiteSpace(messageNameValue))
             return;
@@ -87,8 +88,10 @@
                 MessageRelease = "A",
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
-
-			Message.MessagesList.Add(message);
+			
+            messageManager.AddMessage(message);
+            var allMessages = messageManager.GetAllMessages();
+            Console.WriteLine($"Total mensajes guardados: {message.MessageName}");
             showPopUpMessage = true;
         }
     }
@@ -114,7 +117,7 @@
     /// <returns></returns>
     private bool IsMessageNameSimilar(string newName)
     {
-        return Message.MessagesList.Any(m =>
+        return messageManager.GetAllMessages().Any(m =>
             m.MessageName.Contains(newName, StringComparison.OrdinalIgnoreCase) ||
             newName.Contains(m.MessageName, StringComparison.OrdinalIgnoreCase));
     }

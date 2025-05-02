@@ -4,8 +4,8 @@
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion
 @inject IJSRuntime JS
-
-
+@using BusinessLogic.Definition
+@inject MessageManager messageManager
 
 @if (showNotification)
 {
@@ -28,9 +28,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (Message.MessagesList != null && Message.MessagesList.Any())
+        @if (messageManager.GetAllMessages != null && messageManager.GetAllMessages().Any())
         {
-            @foreach (var message in Message.MessagesList)
+            @foreach (var message in messageManager.GetAllMessages())
             {
                 <tr>
                     <td>@message.MessageType</td>
@@ -131,7 +131,7 @@
     private string editMessageDirectoryVersionValue;
     private string editMessageNameValue;
     private string editMessageDescriptionValue;
-
+	
 
     //Método para viajar a un mensaje, aún por hacer
     public void ViewMessage(Message message)
@@ -154,7 +154,7 @@
     {
         if (messageToDelete != null)
         {
-            Message.MessagesList.Remove(messageToDelete);
+            messageManager.GetAllMessages().Remove(messageToDelete);
             messageToDelete = null;
             showNotification = true;
             notificationMessage = "El mensaje ha sido borrado con éxito";
