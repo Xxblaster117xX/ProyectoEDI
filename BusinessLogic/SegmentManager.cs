@@ -1,8 +1,7 @@
 ﻿
 using BusinessLogic.Definition;
-using Entities.Entidades_Representacion.Abstract;
-namespace BusinessLogic
-{
+using Entities.Entidades_Definicion;
+
 
     public class SegmentManager : ISegmentManager
     {
@@ -12,19 +11,19 @@ namespace BusinessLogic
         /// <param name="position"></param>
         /// <param name="segment"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private readonly List<SegmentRepresentation> _segments;
+        private readonly List<SegmentDefinition> _segments;
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>
         public SegmentManager()
         {
-            _segments = new List<SegmentRepresentation>();
+            _segments = new List<SegmentDefinition>();
         }
         /// <summary>
         /// Este método agrega un segmento a la lista de segmentos.
         /// </summary>
         /// <param name="segment"></param>
-        public void AddSegment(SegmentRepresentation segment)
+        public void AddSegment(SegmentDefinition segment)
         {
             _segments.Add(segment);
         }
@@ -33,7 +32,7 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public SegmentRepresentation GetSegmentByCode(string code)
+        public SegmentDefinition GetSegmentByCode(string code)
         {
             return _segments.FirstOrDefault(s => s.SegmentCode.Equals(code));
         }
@@ -43,7 +42,7 @@ namespace BusinessLogic
         /// Devulve la lista de segmentos
         /// </summary>
         /// <returns></returns>
-        public List<SegmentRepresentation> GetAllSegments()
+        public List<SegmentDefinition> GetAllSegments()
         {
             return _segments;
         }
@@ -53,15 +52,16 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
-        public bool HasCompositeElements(SegmentRepresentation segment)
+        public bool HasCompositeElements(SegmentDefinition segment)
         {
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public Segment GetSegmentByCode(string code)
+        public void CheckSegment(SegmentDefinition segment)
+
         {
             throw new NotImplementedException();
         }
 
     }
-}
+

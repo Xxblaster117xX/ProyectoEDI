@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entities.Entidades_Representacion.Abstract;
+
+using Entities.Entidades_Definicion;
 
 namespace BusinessLogic.Definition
 {
@@ -12,11 +13,11 @@ namespace BusinessLogic.Definition
     /// </summary>
     public interface ISegmentManager
     {
-        void AddSegment(SegmentRepresentation segment);
-        SegmentRepresentation GetSegmentByCode(string code);
-        List<SegmentRepresentation> GetAllSegments();
-        bool HasCompositeElements(SegmentRepresentation segment);
-        void CheckSegment(SegmentRepresentation segment); 
+        void AddSegment(SegmentDefinition segment);
+        SegmentDefinition GetSegmentByCode(string code);
+        List<SegmentDefinition> GetAllSegments();
+        bool HasCompositeElements(SegmentDefinition segment);
+        void CheckSegment(SegmentDefinition segment); 
 
 
     }

@@ -1,10 +1,8 @@
 ﻿@page "/crearSegmento"
-@using ProyectoEDI.Components.Services
-@using Entities.Entidades_Representacion.Abstract
-@using Entities.Entidades_Representacion.Segments
+@using BusinessLogic
+@using Entities.Entidades_Definicion
 @using Entities.Enum
-@using System.Reflection
-@inject SegmentService SegmentService
+@inject SegmentManager SegmentManager
 
 <PageTitle>Crear Segmento</PageTitle>
 
@@ -14,45 +12,33 @@
 
         <form @onsubmit="CreateSegment">
             <!-- Selección del tipo de segmento -->
+            
+
             <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo de Segmento</label>
-                <select class="form-select" id="tipo" @onchange="OnSegmentTypeChanged">
-                    <option value="" disabled selected>Seleccione un tipo...</option>
-                    @foreach (var tipo in Enum.GetValues(typeof(SegmentTypeEnum)))
-                    {
-                        <option value="@tipo">@tipo</option>
-                    }
-                </select>
+                <label for="codigo" class="form-label">Código:</label>
+                <input type="string" class="form-control" id="codigo" @bind="segmento.SegmentCode">
             </div>
 
-            <!-- Campos comunes a todos los segmentos -->
-            @if (segmento != null)
-            {
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" @bind="segmento.SegmentName">
+            </div>
 
-                <div class="mb-3">
-                    <label for="codigo" class="form-label">Código:</label>
-                    <input type="number" class="form-control" id="codigo" @bind="segmento.SegmentCode">
-                </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="descripcion" rows="3" @bind="segmento.SegmentDescription"></textarea>
+            </div>
 
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" @bind="segmento.SegmentName">
-                </div>
-
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" rows="3" @bind="segmento.SegmentDescription"></textarea>
-                </div>
-
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="obligatorio" @bind="segmento.Obligatory">
-                    <label class="form-check-label" for="obligatorio">Obligatorio</label>
-                </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="obligatorio" @bind="segmento.Obligatory">
+                <label class="form-check-label" for="obligatorio">Obligatorio</label>
+            </div>
 
 
                 <!-- Campos específicos según el tipo de segmento -->
                 @if (segmento != null)
                 {
+                /*por cada atributo del segmento creamos un label y un input, usamos BindingFlags para excluir los atributos heredados*/
                     @foreach (var property in segmento.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
                     {
                         <div class="mb-3">
@@ -61,25 +47,22 @@
                             {
                                 <input type="checkbox" class="form-check-input" id="@property.Name"
                                        checked="@(GetPropertyValue(segmento, property) is true)"
-                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value is true)">
+                                       @onchange="(e) => property.SetValue(segmento,(bool)e.Value)">
                             }
                             else if (property.PropertyType == typeof(int))
                             {
                                 <input type="number" class="form-control" id="@property.Name"
-                                       value="@(GetPropertyValue(segmento, property))"
-                                       @onchange="(e) => SetPropertyValue(segmento, property, int.Parse(e.Value.ToString()))">
+                                       @onchange="(e) => property.SetValue(segmento,int.Parse(e.Value.ToString()))">
                             }
                             else if (property.PropertyType == typeof(string))
                             {
                                 <input type="text" class="form-control" id="@property.Name"
-                                       value="@(GetPropertyValue(segmento, property))"
-                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value.ToString())">
+                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
                             }
                             else
                             {
                                 <input type="text" class="form-control" id="@property.Name"
-                                       value="@(GetPropertyValue(segmento, property))"
-                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value)">
+                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
                             }
                         </div>
                     }
@@ -89,67 +72,34 @@
 
             <!-- Botón de envío -->
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-danger w-50" disabled="@(segmento == null)">Enviar</button>
+
+                <button type="submit" class="btn btn-danger w-50">Enviar</button>
             </div>
+
         </form>
     </div>
 </div>
 
 @code {
     // variables para almacenar el tipo de segmento y la instancia del segmento
-    private SegmentTypeEnum tipoSegmento;
-    private SegmentRepresentation segmento;
-    private int numAtributos;
 
+    private SegmentDefinition segmento = new SegmentDefinition();
+    private int contador = 0;
+    private int AutoIncrement() => ++contador;
 
-
-    private void OnSegmentTypeChanged(ChangeEventArgs e)
-    {
-        if (Enum.TryParse<SegmentTypeEnum>(e.Value.ToString(), out var segmentType))
-        {
-            tipoSegmento = segmentType;
-
-            // Crear el nombre completo del tipo
-            var segmentTypeName = $"Entities.Entidades_Representacion.Segments.{segmentType}Segment, Entities";
-
-            // Obtener el tipo dinámicamente
-            var type = Type.GetType(segmentTypeName);
-            if (type != null)
-            {
-                segmento = (SegmentRepresentation)Activator.CreateInstance(type);
-                
-                Console.WriteLine($"Instancia creada: {type.Name}");
-            }
-            else
-            {
-                Console.WriteLine($"No se pudo encontrar el tipo: {segmentTypeName}");
-            }
-        }
-    }
-
-
+   
     private void CreateSegment()
     {
         if (segmento != null)
         {
-            // Añadimos el segmento en el servicio
-            SegmentService.AddSegment(segmento);
+            segmento.SegmentId = AutoIncrement(); // Asignamos un ID
+            // Añadimos el segmento en la lista 
+            SegmentManager.AddSegment(segmento);
 
-            // Reiniciamos el formularaio
-            segmento = null;
-            tipoSegmento = default;
+            // Reiniciamos el formulario
+            segmento = new SegmentDefinition();
+
         }
     }
-
-    private object GetPropertyValue(object obj, PropertyInfo property)
-    {
-        return property.GetValue(obj);
-    }
-
-    private void SetPropertyValue(object obj, PropertyInfo property, object value)
-    {
-        property.SetValue(obj, value);
-    }
-
-   
 }
+    
