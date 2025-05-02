@@ -10,7 +10,7 @@
 <!--Formulario del mensaje-->
 <form>
     <div class="mb-3">
-        <label for="messageType" class="form-label">Message Type</label>
+        <label for="messageType" class="form-label">Tipo del mensaje </label>
         <select class="form-select" id="messageType" @bind="messageTypeValue">
             @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
             {
@@ -19,17 +19,17 @@
         </select>
     </div>
     <div class="mb-3">
-        <label for="messageName" class="form-label">Message Name</label>
-        <input type="text" class="form-control" id="messageName" @bind="messageNameValue" placeholder="Enter message name">
+        <label for="messageName" class="form-label">Nombre del mensaje</label>
+        <input type="text" class="form-control" id="messageName" @bind="messageNameValue" placeholder="Introduce el nombre del mensaje">
     </div>
     <div class="mb-3">
-        <label for="messageVersion" class="form-label">Message Version</label>
-        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Enter message version">
+        <label for="messageVersion" class="form-label">Version del mensaje </label>
+        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Introduce la version del mensaje">
     </div>
 
     <div class="mb-3">
-        <label for="messageDirectoryVersion" class="form-label">Message Directory Version</label>
-        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Enter directory version">
+        <label for="messageDirectoryVersion" class="form-label">Version de directorio del mensaje</label>
+        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Introduce la version de directorio del mensaje">
     </div>
     <button type="button" id="btn-submit" @onclick="CreateMessage" class="btn btn-success">Crear Mensaje</button>
 </form>
@@ -73,7 +73,7 @@
 
         if (IsMessageNameSimilar(messageNameValue))
         {
-            await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre:   {messageNameValue}");
+            await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre:{messageNameValue}");
             return;
         }
 
@@ -88,7 +88,7 @@
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
 
-            Message.MessagesList.Add(message);
+			Message.MessagesList.Add(message);
             showPopUpMessage = true;
         }
     }
