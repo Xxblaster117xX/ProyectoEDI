@@ -1,11 +1,69 @@
-﻿@page "/ModificationMessageList"
+﻿@page "/ModificationMessage/{MessageId:int}"
+@using Entities.Entidades_Definicion
+@inject NavigationManager Navigation
 
-<h3>ModificationMessageList</h3>
+@using Entities.Model.Enum
+<h3>Modificar Mensaje</h3>
 
-
-
-
-
-@code {
-
+@if (message != null)
+{
+    <form>
+        <div class="mb-3">
+            <label for="messageType" class="form-label">Message Type</label>
+            <select class="form-select" id="messageType" @bind="message.MessageType">
+                @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
+                {
+                    <option value="@type">@type</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="messageName" class="form-label">Message Name</label>
+            <input type="text" class="form-control" id="messageName" @bind="message.MessageName" placeholder="Enter message name">
+        </div>
+        <div class="mb-3">
+            <label for="messageVersion" class="form-label">Message Version</label>
+            <input type="text" class="form-control" id="messageVersion" @bind="message.MessageVersion" placeholder="Enter message version">
+        </div>
+        <div class="mb-3">
+            <label for="messageRelease" class="form-label">Message Release</label>
+            <input type="text" class="form-control" id="messageRelease" @bind="message.MessageRelease" placeholder="Enter message release">
+        </div>
+        <div class="mb-3">
+            <label for="messageDirectoryVersion" class="form-label">Message Directory Version</label>
+            <input type="text" class="form-control" id="messageDirectoryVersion" @bind="message.MessageDirectoryVersion" placeholder="Enter directory version">
+        </div>
+        <div class="mb-3">
+            <label for="messageDescription" class="form-label">Message Description</label>
+            <textarea class="form-control" id="messageDescription" @bind="message.MessageDescription" placeholder="Enter message description"></textarea>
+        </div>
+        <button type="button" class="btn btn-success" @onclick="SaveChanges">Guardar Cambios</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+    </form>
 }
+else
+{
+    <p>Cargando mensaje...</p>
+}
+@code {
+    [Parameter]
+    public int MessageId { get; set; }
+
+    private Message message;
+
+    protected override void OnInitialized() 
+    {
+        message = Message.MessagesList.FirstOrDefault(m => m.MessageId == MessageId);
+    }
+
+    public void SaveChanges()
+    {
+        Navigation.NavigateTo("/MessagesList"); 
+    }
+
+    public void Cancel()
+    {
+        Navigation.NavigateTo("/MessagesList"); 
+    }
+}
+

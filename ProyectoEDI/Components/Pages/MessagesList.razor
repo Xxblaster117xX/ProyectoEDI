@@ -42,7 +42,7 @@
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
-                        <button class="btn btn-warning btn-sm" @onclick="() => EditMessage(message)">Modificar</button>
+                        <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
                     </td>
                 </tr>
             }
@@ -189,6 +189,14 @@
         editMessageNameValue = message.MessageName;
         editMessageDescriptionValue = message.MessageDescription;
     }
+
+
+    private void GoEditMessage(Message message)
+    {
+        Navigation.NavigateTo($"/ModificationMessage/{message.MessageId}");
+    }
+
+
     /// <summary>
     /// Guardar los cambios del mensaje
     /// </summary>
