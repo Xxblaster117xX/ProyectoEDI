@@ -14,7 +14,7 @@ namespace BusinessLogic.Definition
     public interface ISegmentManager
     {
         void AddSegment(SegmentRepresentation segment);
-        SegmentRepresentation GetSegmentByCode(int code);
+        SegmentRepresentation GetSegmentByCode(string code);
         List<SegmentRepresentation> GetAllSegments();
         bool HasCompositeElements(SegmentRepresentation segment);
         void CheckSegment(SegmentRepresentation segment); 

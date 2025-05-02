@@ -34,9 +34,9 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public SegmentRepresentation GetSegmentByCode(int code)
+        public SegmentRepresentation GetSegmentByCode(string code)
         {
-            return _segments.FirstOrDefault(s => s.SegmentCode == code);
+            return _segments.FirstOrDefault(s => s.SegmentCode.Equals(code));
         }
 
 
