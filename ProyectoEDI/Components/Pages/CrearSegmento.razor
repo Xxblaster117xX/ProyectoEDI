@@ -53,7 +53,6 @@
                 <!-- Campos específicos según el tipo de segmento -->
                 @if (segmento != null)
                 {
-                /*por cada atributo del segmento creamos un label y un input, usamos BindingFlags para excluir los atributos heredados*/
                     @foreach (var property in segmento.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
                     {
                         <div class="mb-3">
@@ -62,22 +61,25 @@
                             {
                                 <input type="checkbox" class="form-check-input" id="@property.Name"
                                        checked="@(GetPropertyValue(segmento, property) is true)"
-                                       @onchange="(e) => property.SetValue(segmento,(bool)e.Value)">
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value is true)">
                             }
                             else if (property.PropertyType == typeof(int))
                             {
                                 <input type="number" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,int.Parse(e.Value.ToString()))">
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, int.Parse(e.Value.ToString()))">
                             }
                             else if (property.PropertyType == typeof(string))
                             {
                                 <input type="text" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value.ToString())">
                             }
                             else
                             {
                                 <input type="text" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
+                                       value="@(GetPropertyValue(segmento, property))"
+                                       @onchange="(e) => SetPropertyValue(segmento, property, e.Value)">
                             }
                         </div>
                     }
@@ -85,9 +87,8 @@
                 }
             }
 
-            <!-- Botón de envío desahibilitado si segmento es null -->
+            <!-- Botón de envío -->
             <div class="d-flex justify-content-center">
-                
                 <button type="submit" class="btn btn-danger w-50" disabled="@(segmento == null)">Enviar</button>
             </div>
         </form>
@@ -98,36 +99,26 @@
     // variables para almacenar el tipo de segmento y la instancia del segmento
     private SegmentTypeEnum tipoSegmento;
     private SegmentRepresentation segmento;
-    
+    private int numAtributos;
 
 
-    /*
-         * Este metodo convierte el valor seleccionado en un valor del enum SegmentTypeEnum.
-         * Usamos Reflection para crear dinámicamente una instancia del segmento seleccionado.
-         * */
+
     private void OnSegmentTypeChanged(ChangeEventArgs e)
     {
-        /*
-        *
-        * Convierte el valor seleccionado (e.Value) a un valor del enum SegmentTypeEnum.
-              Usa Enum.TryParse para realizar la conversión de forma segura
-              ya que el valor seleccionado en el <select> es un texto, pero necesitamos convertirlo al tipo SegmentTypeEnum para trabajar con él. .
-         */
-
         if (Enum.TryParse<SegmentTypeEnum>(e.Value.ToString(), out var segmentType))
         {
             tipoSegmento = segmentType;
 
-            // Creamos el nombre completo del tipo
+            // Crear el nombre completo del tipo
             var segmentTypeName = $"Entities.Entidades_Representacion.Segments.{segmentType}Segment, Entities";
 
-            // Obtener el tipo dinámicamente 
+            // Obtener el tipo dinámicamente
             var type = Type.GetType(segmentTypeName);
             if (type != null)
             {
-             // Creamos una instancia del tipo de segmento
                 segmento = (SegmentRepresentation)Activator.CreateInstance(type);
                 
+                Console.WriteLine($"Instancia creada: {type.Name}");
             }
             else
             {
@@ -144,26 +135,17 @@
             // Añadimos el segmento en el servicio
             SegmentService.AddSegment(segmento);
 
-            // Reiniciamos el formulario
+            // Reiniciamos el formularaio
             segmento = null;
             tipoSegmento = default;
         }
     }
-
-        /*
-         * Este método obtiene el valor de una propiedad de un objeto usando Reflection.
-         * Se utiliza para obtener el valor de las propiedades del segmento dinámicamente.
-         */
 
     private object GetPropertyValue(object obj, PropertyInfo property)
     {
         return property.GetValue(obj);
     }
 
-        /*
-         * Este método establece el valor de una propiedad de un objeto usando Reflection.
-         * Se utiliza para establecer el valor de las propiedades del segmento dinámicamente.
-         */
     private void SetPropertyValue(object obj, PropertyInfo property, object value)
     {
         property.SetValue(obj, value);
