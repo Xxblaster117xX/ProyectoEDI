@@ -3,6 +3,9 @@ using Entities.Entidades_Definicion;
 
 public class DataElementManager : IDataElementManager
 {
+    /// <summary>
+    /// Dos elementos añadidos para revisar la visualización
+    /// </summary>
     private List<DataElement> dataElements = new List<DataElement>
     {
         new DataElement
@@ -68,7 +71,7 @@ public class DataElementManager : IDataElementManager
 
             // Agregar el DataElement a la lista
             dataElements.Add(dataElement);
-            return "DataElement agregado exitosamente.";
+            return "Elemento de dato agregado exitosamente.";
         }
         else
         {
@@ -83,11 +86,11 @@ public class DataElementManager : IDataElementManager
         if (dataElement != null)
         {
             dataElements.Remove(dataElement);
-            return "DataElement eliminado exitosamente.";
+            return "Elemento de dato eliminado exitosamente.";
         }
         else
         {
-            return "No se encontró el DataElement con el código proporcionado.";
+            return "No se encontró el elemento de dato con el código proporcionado.";
         }
     }
 
@@ -105,11 +108,11 @@ public class DataElementManager : IDataElementManager
                 existingElement.DataElementValueFormat = dataElement.DataElementValueFormat;
                 existingElement.CodeLists = dataElement.CodeLists;
 
-                return "DataElement actualizado exitosamente.";
+                return "El elemento de dato ha sido actualizado exitosamente.";
             }
             else
             {
-                return "El DataElement a actualizar no existe.";
+                return "El elemento de dato a actualizar no existe.";
             }
         }
         else
