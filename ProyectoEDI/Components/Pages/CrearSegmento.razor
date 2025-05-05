@@ -11,8 +11,7 @@
         <h2 class="text-center mb-4">Crear Segmento</h2>
 
         <form @onsubmit="CreateSegment">
-            <!-- Selección del tipo de segmento -->
-            
+            <!-- Selección del tipo de segmento -->          
 
             <div class="mb-3">
                 <label for="codigo" class="form-label">Código:</label>
@@ -34,41 +33,8 @@
                 <label class="form-check-label" for="obligatorio">Obligatorio</label>
             </div>
 
-
-                <!-- Campos específicos según el tipo de segmento -->
-                @if (segmento != null)
-                {
-                /*por cada atributo del segmento creamos un label y un input, usamos BindingFlags para excluir los atributos heredados*/
-                    @foreach (var property in segmento.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
-                    {
-                        <div class="mb-3">
-                            <label for="@property.Name" class="form-label">@property.Name:</label>
-                            @if (property.PropertyType == typeof(bool))
-                            {
-                                <input type="checkbox" class="form-check-input" id="@property.Name"
-                                       checked="@(GetPropertyValue(segmento, property) is true)"
-                                       @onchange="(e) => property.SetValue(segmento,(bool)e.Value)">
-                            }
-                            else if (property.PropertyType == typeof(int))
-                            {
-                                <input type="number" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,int.Parse(e.Value.ToString()))">
-                            }
-                            else if (property.PropertyType == typeof(string))
-                            {
-                                <input type="text" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
-                            }
-                            else
-                            {
-                                <input type="text" class="form-control" id="@property.Name"
-                                       @onchange="(e) => property.SetValue(segmento,e.Value.ToString())">
-                            }
-                        </div>
-                    }
-                    
-                }
-            }
+                
+            
 
             <!-- Botón de envío -->
             <div class="d-flex justify-content-center">
@@ -81,18 +47,14 @@
 </div>
 
 @code {
-    // variables para almacenar el tipo de segmento y la instancia del segmento
-
+    
     private SegmentDefinition segmento = new SegmentDefinition();
-    private int contador = 0;
-    private int AutoIncrement() => ++contador;
-
-   
+    
     private void CreateSegment()
     {
         if (segmento != null)
         {
-            segmento.SegmentId = AutoIncrement(); // Asignamos un ID
+            segmento.SegmentId = SegmentManager.AutoIncrement(); // Asignamos un ID
             // Añadimos el segmento en la lista 
             SegmentManager.AddSegment(segmento);
 

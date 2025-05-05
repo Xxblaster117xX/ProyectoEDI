@@ -12,10 +12,19 @@ using Entities.Entidades_Definicion;
         /// <param name="segment"></param>
         /// <exception cref="ArgumentNullException"></exception>
         private readonly List<SegmentDefinition> _segments;
-        /// <summary>
-        /// Constructor de la clase SegmentManager.
-        /// </summary>
-        public SegmentManager()
+    /// <summary>
+    /// Constructor de la clase SegmentManager.
+    /// </summary>
+    /// 
+
+        private int contador = 0;
+
+        public int AutoIncrement()
+        {
+            return ++contador;
+        }
+
+    public SegmentManager()
         {
             _segments = new List<SegmentDefinition>();
         }
@@ -62,6 +71,8 @@ using Entities.Entidades_Definicion;
         {
             throw new NotImplementedException();
         }
+
+        
 
     }
 
