@@ -1,40 +1,32 @@
-﻿@page "/crearSegmento"
+﻿@page "/crearComposite"
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject SegmentManager SegmentManager
+@inject CompositeManager CompositeManager
 @inject NavigationManager Navigation
 
-<PageTitle>Crear Segmento</PageTitle>
+<PageTitle>Crear Elemento de Dato Compuesto</PageTitle>
 
 <div class="container d-flex justify-content-center">
     <div class="card p-4" style="width: 30rem;">
-        <h2 class="text-center mb-4">Crear Segmento</h2>
+        <h3 class="text-center mb-4">Crear Elemento de Dato Compuesto</h3>
 
-        <form @onsubmit="CreateSegment">
-            <!-- Selección del tipo de segmento -->          
+        <form @onsubmit="createComposite">   
 
             <div class="mb-3">
                 <label for="codigo" class="form-label">Código:</label>
-                <input type="text" class="form-control" id="codigo" @bind="segmento.SegmentCode">
+                <input type="text" class="form-control" id="codigo" @bind="compositeDataElement.Code" required>
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" @bind="segmento.SegmentName">
+                <input type="text" class="form-control" id="nombre" @bind="compositeDataElement.Name" required>
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción:</label>
-                <textarea class="form-control" id="descripcion" rows="3" @bind="segmento.SegmentDescription"></textarea>
+                <textarea class="form-control" id="descripcion" rows="3" @bind="compositeDataElement.Description" ></textarea>
             </div>
-
-            <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="obligatorio" @bind="segmento.Obligatory">
-                <label class="form-check-label" for="obligatorio">Obligatorio</label>
-            </div>
-
-
 
 
             <!-- Botón de envío -->
@@ -45,13 +37,14 @@
 
         </form>
     </div>
+
     <!--Confirmación cuando se crea un mensaje-->
     @if (showPopUpMessage)
     {
         <div class="overlay">
             <div class="popUpConfirmation">
-                <h4>Segmento Creado</h4>
-                <p>Segmento creado con éxito.¿Desea visualizarlo?</p>
+                <h4>Composite Data Element Creado</h4>
+                <p>Composición de Elementos de Dato creado con éxito.¿Desea visualizarlo?</p>
                 <div class="popup-buttons">
                     <button class="btn btn-success" @onclick="HandleConfirm">Aceptar</button>
                     <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -59,32 +52,26 @@
             </div>
         </div>
     }
+
 </div>
 
 @code {
-
-    private SegmentDefinition segmento = new SegmentDefinition();
+    public CompositeDataElement compositeDataElement = new CompositeDataElement();
     public bool showPopUpMessage = false;
 
-    private void CreateSegment()
+    public void createComposite()
     {
-        if (segmento != null)
-        {
-            segmento.SegmentId = SegmentManager.AutoIncrement(); // Asignamos un ID
-            // Añadimos el segmento en la lista 
-            SegmentManager.AddSegment(segmento);
-            showPopUpMessage = true;
 
-            // Reiniciamos el formulario
-            segmento = new SegmentDefinition();
+        CompositeManager.AddComposite(compositeDataElement);
+        compositeDataElement = new CompositeDataElement();
+        showPopUpMessage = true;
 
-        }
     }
 
     private void HandleConfirm()
     {
         showPopUpMessage = false;
-        Navigation.NavigateTo("/listarSegmentos");
+        Navigation.NavigateTo("/listarComposite");
     }
     /// <summary>
     /// Método para el caso de cancelación
@@ -93,5 +80,6 @@
     {
         showPopUpMessage = false;
     }
+
+
 }
-    

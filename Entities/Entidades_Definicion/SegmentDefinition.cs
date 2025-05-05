@@ -8,7 +8,7 @@ namespace Entities.Entidades_Definicion
 {
     public class SegmentDefinition
     {
-        public int SegmentId { get; set; } = 0;
+        public int SegmentId { get; set; }
         public string SegmentCode { get; set; }
         public string SegmentName { get; set; }
         public string SegmentDescription { get; set; }

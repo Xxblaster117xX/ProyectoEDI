@@ -1,3 +1,4 @@
+using BusinessLogic;
 using ProyectoEDI.Components;
 using ProyectoEDI.Components.Services;
 
@@ -9,6 +10,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSingleton<MessageService>();
 builder.Services.AddScoped<SegmentManager>();
+builder.Services.AddScoped<CompositeManager>();
 
 var app = builder.Build();
 

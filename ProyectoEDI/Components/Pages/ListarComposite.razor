@@ -1,0 +1,124 @@
+﻿@page "/listarComposite"
+@using BusinessLogic
+@inject CompositeManager CompositeManager
+@inject NavigationManager Navigation
+<PageTitle>Listado de Segmentos</PageTitle>
+@if (showNotification)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @notificationComposite
+    </div>
+}
+
+<h3 class="text-center">Listado de Composición de Elementos de Dato</h3>
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead class="table-danger">
+            <tr>               
+
+                <th class="text-center">Código</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Descripción</th>
+
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--si existe algun segmento en la lista lo mostramos, 
+            solo mostramos la informacion comun a todos los tipos de segmentos
+
+            -->
+            @if (CompositeManager.GetAll() != null && CompositeManager.GetAll().Count > 0)
+            {
+                @foreach (var composite in CompositeManager.GetAll())
+                {
+                    <tr>
+                        <td class="text-center">@composite.Code</td>
+                        <td class="text-center">@composite.Name</td>
+                        <td class="text-center">@composite.Description</td>
+
+                        <td class="text-center">
+                            <button class="btn btn-primary">Ver</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteComposite(composite) ">Eliminar</button>
+                            <button class="btn btn-warning" @onclick="()=> GoModify(composite.Id)">Modificar</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No existen Elementos de Dato Compuesto.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!--En caso de Borrar un mensaje aparecerá el la confirmación-->
+    @if (showPopUp)
+    {
+        <div class="overlay">
+            <div class="popup">
+                <h4>¿Confirmar Eliminación?</h4>
+                <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@compositeToDelete.Name</strong>?</p>
+                <div class="popup-buttons">
+                    <button class="btn btn-danger" @onclick="ConfirmDeleteComposite">Eliminar</button>
+                    <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    //Variables
+    private bool showPopUp = false;
+    private bool showNotification = false;
+    private string notificationComposite = string.Empty;
+    private CompositeDataElement compositeToDelete;
+
+
+    /// <summary>
+    /// Método para borrar un composite, seguidamente aparecerá para confirmar
+    /// </summary>
+    /// <param name="message"></param>
+    private async Task DeleteComposite(CompositeDataElement composite)
+    {
+        compositeToDelete = composite;
+        showPopUp = true;
+    }
+    /// <summary>
+    /// Confirmar el borrado del mensaje
+    /// </summary>
+    private async Task ConfirmDeleteComposite()
+    {
+        if (compositeToDelete != null)
+        {
+            CompositeManager.GetAll().Remove(compositeToDelete);
+
+            showNotification = true;
+            notificationComposite = "Composición de elementos de dato borrado con éxito";
+            showPopUp = false;
+            await Task.Delay(3000);
+            showNotification = false;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Manejar la cancelación del segmento
+    /// </summary>
+    private void HandleCancel()
+    {
+        showPopUp = false;
+
+    }
+
+    // método para navegar a la vista de ModificarComposite
+    private void GoModify(int id)
+    {
+        Navigation.NavigateTo($"/modificarComposite/{id}");
+    }
+}

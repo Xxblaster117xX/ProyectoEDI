@@ -1,0 +1,90 @@
+﻿@page "/modificarComposite/{Id:int}"
+@using BusinessLogic
+@using Entities.Entidades_Definicion
+@using Entities.Enum
+@inject CompositeManager CompositeManager
+@inject NavigationManager Navigation
+
+
+<div class="container d-flex justify-content-center">
+    <div class="card p-4" style="width: 30rem;">
+        <h4 class="text-center mb-4">Modificar Elemento de Dato Compuesto</h4>
+
+        <EditForm Model="compositeDataElement" OnValidSubmit="ModifyComposite">
+
+            <div class="mb-3">
+                <label for="codigo" class="form-label">Código:</label>
+                <InputText  class="form-control" id="codigo" @bind-Value="compositeDataElement.Code"  required />
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <InputText type="text" class="form-control" id="nombre" @bind-Value="compositeDataElement.Name" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <InputTextArea class="form-control" id="descripcion" rows="3" @bind-Value="compositeDataElement.Description" />
+            </div>
+
+
+            <!-- Botón de envío -->
+            <div class="d-flex justify-content-center">
+
+                <button type="submit" class="btn btn-danger w-50">Enviar</button>
+            </div>
+
+        </EditForm>
+    </div>
+
+    <!--Confirmación cuando se modifica un composite-->
+    @if (showPopUpMessage)
+    {
+        <div class="overlay">
+            <div class="popUpConfirmation">
+                <h5>Elemento de Dato Compuesto modificado.</h5>
+                <p>Elemento de Dato Compuesto modificado con éxito.¿Desea ir a la lista ?</p>
+                <div class="popup-buttons">
+                    <button class="btn btn-success" @onclick="HandleConfirm">Aceptar</button>
+                    <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+
+@code {
+    //Un ID para identificar el elemento de dato compuesto a modificar
+    [Parameter] public int Id { get; set; }
+    public CompositeDataElement compositeDataElement= new CompositeDataElement();
+    public bool showPopUpMessage = false;
+
+
+    protected override void OnInitialized()
+    {
+        // Buscar el CompositeDataElement por su ID
+        compositeDataElement = CompositeManager.GetAll().FirstOrDefault(c => c.Id == Id);
+    }
+    public void ModifyComposite()
+    {
+
+        CompositeManager.UpdateComposite(compositeDataElement);
+        
+        showPopUpMessage = true;
+
+    }
+
+    private void HandleConfirm()
+    {
+        showPopUpMessage = false;
+        Navigation.NavigateTo("/listarComposite");
+    }
+    /// <summary>
+    /// Método para el caso de cancelación
+    /// </summary>
+    private void HandleCancel()
+    {
+        showPopUpMessage = false;
+    }
+
+}
