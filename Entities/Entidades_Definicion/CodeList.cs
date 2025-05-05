@@ -8,6 +8,7 @@ namespace Entities.Entidades_Definicion
 {
     public class CodeList
     {
+        public int Id { get; set; } // Identificador único para el CodeList
         public DataElement DataElement { get; set; }
         public string Name { get; set; }
         public string Description{ get; set; }

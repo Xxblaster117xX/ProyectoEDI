@@ -10,15 +10,13 @@ using Entities.Model.Enum;
 using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
 namespace BusinessLogic.Definition
 {
-
-
     /// <summary>
     /// La clase MessageManager se encarga de manejar los mensajes y sus propiedades.
     /// </summary>
     public class MessageManager : IMessageManager
     {
 
-        private readonly List<Message> _messages;
+        public readonly List<Message> _messages;
         /// <summary>
         /// Constructor de la lista de mensajes
         /// </summary>
@@ -119,6 +117,4 @@ namespace BusinessLogic.Definition
             }
         }
     }
-    }
-
-
+}

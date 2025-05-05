@@ -1,0 +1,37 @@
+﻿@page "/crear-codigo-lista"
+@using Entities.Entidades_Definicion
+@rendermode InteractiveServer
+
+<div class="container d-flex justify-content-center align-items-center vh-100" style="margin-top: -100px">
+    <div class="card p-4" style="width: 30rem;">
+        <h2>Crear Lista de Códigos</h2>
+        <form @onsubmit="CrearCodeList">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="name" @bind="NuevaCodeList.Name" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="description" @bind="NuevaCodeList.Description" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="codeFormat" class="form-label">Formato de Código:</label>
+                <input type="text" class="form-control" id="codeFormat" @bind="NuevaCodeList.CodeFormat" required>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger w-50">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+    private CodeList NuevaCodeList = new CodeList();
+
+    private void CrearCodeList()
+    {
+        Console.WriteLine($"Lista de códigos creada: {NuevaCodeList.Name} - {NuevaCodeList.Description}");
+		ListadoCodigos.CodeLists.Add(NuevaCodeList); // Agregar la nueva lista de códigos a la colección
+        NuevaCodeList = new CodeList(); // Reiniciar el formulario
+    }
+}

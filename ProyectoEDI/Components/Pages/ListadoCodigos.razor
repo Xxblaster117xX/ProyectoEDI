@@ -1,0 +1,53 @@
+﻿@page "/listado-codigos"
+@using Entities.Entidades_Definicion
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <h2>Listas de Códigos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Formato de Código</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var codeList in CodeLists)
+            {
+                <tr>
+                    <td>@codeList.Name</td>
+                    <td>@codeList.Description</td>
+                    <td>@codeList.CodeFormat</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" @onclick="() => EditarCodeList(codeList.Id)">Editar</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => EliminarCodeList(codeList.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public static List<CodeList> CodeLists = new List<CodeList>
+    {
+        new CodeList { Id = 1, Name = "Lista 1", Description = "Descripción 1", CodeFormat = "Formato 1" },
+        new CodeList { Id = 2, Name = "Lista 2", Description = "Descripción 2", CodeFormat = "Formato 2" }
+    };
+
+    private void EditarCodeList(int Id)
+    {
+        Console.WriteLine($"Editar lista de códigos con ID: {Id}");
+        NavigationManager.NavigateTo($"/modificar-lista-codigo/{Id}");
+    }
+
+    private void EliminarCodeList(int Id)
+    {
+        Console.WriteLine($"Eliminar lista de códigos con ID: {Id}");
+        CodeList Cl = CodeLists.FirstOrDefault(c => c.Id == Id);
+        CodeLists.Remove(Cl);
+    }
+}

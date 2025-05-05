@@ -4,6 +4,7 @@ using Entities.Entidades_Representacion.Abstract;
 using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
 namespace BusinessLogic
 {
+
     public class SegmentManager : ISegmentManager
     {
 
@@ -37,7 +38,7 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public SegmentDefinition GetSegmentByCode(int code)
+        public SegmentDefinition GetSegmentByCode(string code)
         {
             return _segments.FirstOrDefault(s => s.SegmentCode == code);
         }
@@ -59,7 +60,32 @@ namespace BusinessLogic
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public SegmentDefinition GetSegmentByCode(string code)
+        public SegmentDefinition GetSegmentByCode(int code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddSegment(Entities.Entidades_Representacion.Abstract.Segment segment)
+        {
+            throw new NotImplementedException();
+        }
+
+        Entities.Entidades_Representacion.Abstract.Segment ISegmentManager.GetSegmentByCode(int code)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Entities.Entidades_Representacion.Abstract.Segment> ISegmentManager.GetAllSegments()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasCompositeElements(Entities.Entidades_Representacion.Abstract.Segment segment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CheckSegment(Entities.Entidades_Representacion.Abstract.Segment segment)
         {
             throw new NotImplementedException();
         }

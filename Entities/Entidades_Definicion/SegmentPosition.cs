@@ -11,8 +11,5 @@ namespace Entities.Entidades_Definicion
         public int Position { get; set; }
         public DataElement DataElement{ get; set; }
         public CompositeDataElement CompositeDataElement { get; set; }
-
-
-
     }
 }
