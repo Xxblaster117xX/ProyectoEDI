@@ -10,10 +10,10 @@
 
 @if (message != null)
 {
-    <form class="message-form">
+    <form class="modificationForm">
         <div class="form-row">
             <div class="form-group">
-                <label for="messageType" class="form-label">Message Type</label>
+                <label for="messageType" class="form-label fw-bold">Message Type</label>
                 <select class="form-select" id="messageType" @bind="message.MessageType">
                     @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
                     {
@@ -21,45 +21,48 @@
                     }
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="messageName" class="form-label">Message Name</label>
+                <label for="messageName" class="form-label fw-bold">Message Name</label>
                 <input type="text" class="form-control" id="messageName" @bind="message.MessageName" placeholder="Enter message name">
             </div>
-
             <div class="form-group">
-                <label for="messageVersion" class="form-label">Message Version</label>
+                <label for="messageVersion" class="form-label fw-bold">Message Version</label>
                 <input type="text" class="form-control" id="messageVersion" @bind="message.MessageVersion" placeholder="Enter message version">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
-                <label for="messageRelease" class="form-label">Message Release</label>
+                <label for="messageRelease" class="form-label fw-bold">Message Release</label>
                 <input type="text" class="form-control" id="messageRelease" @bind="message.MessageRelease" placeholder="Enter message release">
             </div>
-
             <div class="form-group">
-                <label for="messageDirectoryVersion" class="form-label">Message Directory Version</label>
+                <label for="messageDirectoryVersion" class="form-label fw-bold">Message Directory Version</label>
                 <input type="text" class="form-control" id="messageDirectoryVersion" @bind="message.MessageDirectoryVersion" placeholder="Enter directory version">
             </div>
-
             <div class="form-group">
-                <label for="messageDescription" class="form-label">Message Description</label>
+                <label for="messageDescription" class="form-label fw-bold">Message Description</label>
                 <textarea class="form-control" id="messageDescription" @bind="message.MessageDescription" placeholder="Enter message description"></textarea>
             </div>
         </div>
         <div class="form-buttons">
-            <button type="button" class="btn btn-success" style="background-color:red" @onclick="SaveChanges">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+            <button type="button" class="btn btn-success px-4" style="background-color:red" @onclick="SaveChanges">Guardar</button>
+            <button type="button" class="btn btn-secondary px-4" @onclick="Cancel">Cancelar</button>
         </div>
     </form>
+
+
+
+
 }
 else
 {
     <p>Cargando mensaje...</p>
 }
 @code {
+
+    /// <summary>
+    /// Pasar el id por parámetro
+    /// </summary>
     [Parameter]
     public int MessageId { get; set; }
 
