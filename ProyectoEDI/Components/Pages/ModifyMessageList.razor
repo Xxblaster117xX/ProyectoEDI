@@ -1,4 +1,4 @@
-﻿@page "/ModificationMessage/{MessageId:int}"
+﻿@page "/ModifyMessage/{MessageId:int}"
 @using Entities.Entidades_Definicion
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="form-buttons">
-            <button type="button" class="btn btn-success px-4" style="background-color:red" @onclick="SaveChanges">Guardar</button>
+            <button type="button" class="btn btn-success px-4" style="background-color:red" @onclick="HandleConfirm">Guardar</button>
             <button type="button" class="btn btn-secondary px-4" @onclick="Cancel">Cancelar</button>
         </div>
     </form>
@@ -68,7 +68,10 @@ else
 
     private Message message;
 
-	//Al cargar la página, se busca el mensaje por su ID
+   
+    /// <summary>
+    /// Al cargar la página, se busca el mensaje por su ID
+    /// </summary>
     protected override void OnInitialized() 
     {
         message = messageManager.GetAllMessages().FirstOrDefault(m => m.MessageId == MessageId);
@@ -81,15 +84,23 @@ else
             Console.WriteLine($"Mensaje encontrado: {message.MessageName}");
         }
     }
-    
-	//Al guardar los cambios, se redirige a la lista de mensajes
-    public void SaveChanges()
-    {
-		Console.WriteLine($"Guardando cambios para el mensaje con ID {MessageId}");
-        Navigation.NavigateTo("/MessagesList");
-    }
-	//Al cancelar los cambios, se redirige a la lista de mensajes
 
+
+
+    /// <summary>
+    /// Al guardar los cambios, se redirige a la lista de mensajes
+    /// </summary>
+    private void HandleConfirm()
+    {
+        // Redirigir a la lista de mensajes con un parámetro indicando éxito
+        Navigation.NavigateTo("/MessagesList?success=modified");
+    }
+
+ 
+
+    /// <summary>
+    /// Al cancelar los cambios, se redirige a la lista de mensajes
+    /// </summary>
     public void Cancel()
     {
 		Console.WriteLine($"Cancelando cambios para el mensaje con ID {MessageId}");

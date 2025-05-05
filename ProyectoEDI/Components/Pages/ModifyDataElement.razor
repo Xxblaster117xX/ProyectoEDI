@@ -1,0 +1,95 @@
+﻿@page "/ModifyDataElement/{Id:int}"
+@inject DataElementManager dataElementManager
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<h3>Modificar Elemento de  dato</h3>
+
+@if (dataElement == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <EditForm Model="dataElement" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Nombre:</label>
+            <InputText class="form-control" @bind-Value="dataElement.DataElementName" required />
+        </div>
+        <div class="form-group">
+            <label>Descripción:</label>
+            <InputText class="form-control" @bind-Value="dataElement.DataElementDescription" required />
+        </div>
+        <div class="form-group">
+            <label>Formato de Valor:</label>
+            <InputText class="form-control" @bind-Value="dataElement.DataElementValueFormat" required />
+        </div>
+
+        <button type="submit" class="btn btn-success" style="background-color:red">Guardar Cambios</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+    </EditForm>
+}
+
+@if (showSuccessPopup)
+{
+    <div class="overlay">
+        <div class="popUpConfirmation">
+            <h4>Modificación Exitosa</h4>
+            <p>El DataElement se ha modificado correctamente. ¿Desea volver a la lista?</p>
+            <div class="popup-buttons">
+                <button class="btn btn-success" @onclick="GoToList">Sí</button>
+                <button class="btn btn-secondary" @onclick="StayHere">No</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+
+    //Un ID para identificar el elemento de datos a modificar
+    [Parameter] public int Id { get; set; }
+    private DataElement dataElement;
+    private bool showSuccessPopup = false;
+
+    /// <summary>
+    /// Al iniciar la página, se busca el DataElement por su ID
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        dataElement = dataElementManager.GetDataElementByCode(Id);
+    }
+
+    /// <summary>
+    /// Guarda directamente y muestra mensaje de éxito
+    /// </summary>
+    private void HandleValidSubmit()
+    {
+        dataElementManager.UpdateDataElement(dataElement);
+        showSuccessPopup = true;
+    }
+    /// <summary>
+    /// Ir a la lista de dataElements
+    /// </summary>
+    private void GoToList()
+    {
+        showSuccessPopup = false;
+        Navigation.NavigateTo("/DataElementList");
+    }
+
+    /// <summary>
+	/// Permanecer en la página actual
+	/// </summary>
+	private void StayHere()
+    {
+        showSuccessPopup = false;
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/DataElementList");
+    }
+}

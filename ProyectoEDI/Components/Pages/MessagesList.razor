@@ -193,7 +193,7 @@
 
     private void GoEditMessage(Message message)
     {
-        Navigation.NavigateTo($"/ModificationMessage/{message.MessageId}");
+        Navigation.NavigateTo($"/ModifyMessage/{message.MessageId}");
     }
 
 
@@ -259,5 +259,20 @@
     private async Task ShowErrorAlert(string message)
     {
         await JS.InvokeVoidAsync("alert", message);
+    }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? success { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrEmpty(success))
+        {
+            if (success == "modified")
+            {
+                notificationMessage = "El mensaje ha sido modificado con éxito.";
+                showNotification = true;
+            }
+        }
     }
 }

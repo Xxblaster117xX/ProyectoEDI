@@ -31,7 +31,11 @@
         <label for="messageDirectoryVersion" class="form-label">Version de directorio del mensaje</label>
         <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Introduce la version de directorio del mensaje">
     </div>
-    <button type="button" id="btn-submit" @onclick="CreateMessage" class="btn btn-success">Crear Mensaje</button>
+    <div class="mb-3">
+        <label for="messageRelease" class="form-label">Fecha de lanzamiento</label>
+        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageReleaseValue" placeholder="Introduce la fecha de lanzamiento(A,B)">
+    </div>
+    <button type="button" id="btn-submit" @onclick="CreateMessages" class="btn btn-success">Crear Mensaje</button>
 </form>
 
 <!--Confirmación cuando se crea un mensaje-->
@@ -67,7 +71,7 @@
     /// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado
     /// </summary>
     /// <returns></returns>
-    private async Task CreateMessage()
+    private async Task CreateMessages()
     {
         if (string.IsNullOrWhiteSpace(messageNameValue))
             return;
@@ -77,6 +81,13 @@
             await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre:{messageNameValue}");
             return;
         }
+
+		if (string.IsNullOrWhiteSpace(messageTypeValue) || string.IsNullOrWhiteSpace(messageVersionValue) || string.IsNullOrWhiteSpace(messageNameValue) || string.IsNullOrWhiteSpace(messageDirectoryVersionValue))
+		{
+			await ShowErrorAlert("Por favor, completa todos los campos.");
+			return;
+		}
+	
 
         else {var message = new Message
             {

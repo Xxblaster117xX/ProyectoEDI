@@ -1,0 +1,81 @@
+﻿@page "/CreateDataElement"
+@inject NavigationManager Navigation
+@inject DataElementManager dataElementManager
+@rendermode InteractiveServer
+
+<h3>Crear Nuevo DataElement</h3>
+
+<EditForm Model="newDataElement" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Nombre:</label>
+        <InputText class="form-control" @bind-Value="newDataElement.DataElementName" required />
+    </div>
+    <div class="form-group">
+        <label>Descripción:</label>
+        <InputText class="form-control" @bind-Value="newDataElement.DataElementDescription" required />
+    </div>
+    <div class="form-group">
+        <label>Formato de Valor:</label>
+        <InputText class="form-control" @bind-Value="newDataElement.DataElementValueFormat" required />
+    </div>
+    <br />
+
+    <button type="submit" id="btn-submit" style="background-color:red">Guardar</button>
+
+</EditForm>
+
+@if (showPopUpMessage)
+{
+    <div class="overlay">
+        <div class="popUpConfirmation">
+            <h4>DataElement Creado</h4>
+            <p>DataElement creado con éxito. ¿Desea visualizarlo?</p>
+            <div class="popup-buttons">
+                <button class="btn btn-success" style="background-color:red" @onclick="HandleConfirm">Aceptar</button>
+                <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private DataElement newDataElement = new DataElement();
+    private bool showPopUpMessage = false;
+    private bool isSubmitted = false;
+
+    /// <summary>
+	/// Guardar el nuevo DataElement creado
+	/// </summary>
+	private void HandleSubmit()
+    {
+
+        dataElementManager.AddDataElement(newDataElement);
+        isSubmitted = true;
+        showPopUpMessage = true;
+    }
+
+
+
+    /// <summary>
+    ///  Al confirmar el botón de aceptar se redirige a la lista de DataElements
+    /// </summary>
+    private void HandleConfirm()
+    {
+        showPopUpMessage = false;
+        Navigation.NavigateTo("/DataElementList");
+    }
+
+    /// <summary>
+	/// Al pulsar el botón cancelar se cierra el popup
+	/// </summary>
+	private void HandleCancel()
+    {
+        showPopUpMessage = false;
+        if (!isSubmitted)
+            return;
+        StateHasChanged();
+    }
+}

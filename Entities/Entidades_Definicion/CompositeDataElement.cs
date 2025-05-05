@@ -11,5 +11,6 @@ namespace Entities.Entidades_Definicion
         public int Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<DataElement> DataElements { get; set; }
     }
 }

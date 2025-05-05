@@ -1,0 +1,131 @@
+﻿@page "/DataElementList"
+@inject DataElementManager dataElementManager
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+@if (showNotification)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @notificationMessage
+    </div>
+}
+
+<h3>Lista de DataElements</h3>
+
+@if (dataElements == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Formato de Valor</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var element in dataElements)
+            {
+                <tr>
+                    <td>@element.Code</td>
+                    <td>@element.DataElementName</td>
+                    <td>@element.DataElementDescription</td>
+                    <td>@element.DataElementValueFormat</td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="() => Modify(element.Code)">Modificar</button>
+                        <button class="btn btn-danger" @onclick="() => ShowDeletePopup(element.Code)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Popup personalizado para confirmar eliminación -->
+@if (showPopUpDelete)
+{
+    <div class="overlay">
+        <div class="popUpConfirmation">
+            <h4>¿Confirmar Eliminación?</h4>
+            <p>¿Está seguro de que desea eliminar este DataElement?</p>
+            <div class="popup-buttons">
+                <button class="btn btn-danger" @onclick="ConfirmDelete">Eliminar</button>
+                <button class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+
+    /// <summary>
+    /// Variables para almacenar la lista de DataElements y el ID del elemento a eliminar
+    /// </summary>
+    private List<DataElement> dataElements;
+    private int elementIdToDelete;
+
+    private bool showPopUpDelete = false;
+    private bool showNotification = false;
+    private string notificationMessage = "";
+
+    /// <summary>
+    /// Al incializar la página, se obtienen todos los DataElements
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        dataElements = dataElementManager.GetAllDataElements();
+    }
+
+    /// <summary>
+    /// Método para viajar a la página de modificación de un dataElement
+    /// </summary>
+    /// <param name="id"></param>
+    private void Modify(int id)
+    {
+        Navigation.NavigateTo($"/ModifyDataElement/{id}");
+    }
+
+    /// <summary>
+    /// Enlazar el popup de confirmación de eliminación
+    /// </summary>
+    /// <param name="id"></param>
+    private void ShowDeletePopup(int id)
+    {
+        elementIdToDelete = id;
+        showPopUpDelete = true;
+    }
+    /// <summary>
+    /// Confirmar la eliminación del DataElement
+    /// </summary>
+    /// <returns></returns>
+    private async Task ConfirmDelete()
+    {
+        dataElementManager.DeleteDataElement(elementIdToDelete);
+        dataElements = dataElementManager.GetAllDataElements();
+
+        showPopUpDelete = false;
+
+        // Mostrar notificación
+        notificationMessage = "El DataElement ha sido eliminado con éxito.";
+        showNotification = true;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+        showNotification = false;
+        StateHasChanged();
+    }
+
+    /// <summary>
+	/// Al pulsar el botón de cancelar se cierra el popup
+	/// </summary>
+	private void CancelDelete()
+    {
+        showPopUpDelete = false;
+    }
+}
