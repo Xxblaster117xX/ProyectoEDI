@@ -6,30 +6,30 @@
 <div class="container">
     <table class="table table-striped table-bordered">
         <thead class="table-primary">
-            <tr>
-                <th>Tipo de Mensaje</th>
-                <th>Versión</th>
-                <th>Release</th>
-                <th>Directorio</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
+            <tr >
+                <th class="text-center">Tipo de Mensaje</th>
+                <th class="text-center">Versión</th>
+                <th class="text-center">Release</th>
+                <th class="text-center">Directorio</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Descripción</th>
                 
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @if (MessageService.GetMessages()!= null)
+            @if (MessageService.GetMessages()!= null && MessageService.GetMessages().Count>0)
             {
                 @foreach (var message in MessageService.GetMessages())
                 {
                     <tr>
-                        <td>@message.MessageType</td>
-                        <td>@message.MessageVersion</td>
-                        <td>@message.MessageRelease</td>
-                        <td>@message.MessageDirectoryVersion</td>
-                        <td>@message.MessageName</td>
-                        <td>@message.MessageDescription</td>
-                        <td>
+                        <td class="text-center">@message.MessageType</td>
+                        <td class="text-center">@message.MessageVersion</td>
+                        <td class="text-center">@message.MessageRelease</td>
+                        <td class="text-center">@message.MessageDirectoryVersion</td>
+                        <td class="text-center">@message.MessageName</td>
+                        <td class="text-center">@message.MessageDescription</td>
+                        <td class="text-center">
                             <button class="btn btn-success">Ver Mensaje</button>
                             <button class="btn btn-warning">Modificar</button>
                         </td>
@@ -39,14 +39,15 @@
             else
             {
                 <tr>
-                    <td colspan="7" class="text-center">No hay mensajes disponibles</td>
+                    <td colspan="7" class="text-center">No existen mensajes</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    
 </div>
 @code {
 
-    
 
 }

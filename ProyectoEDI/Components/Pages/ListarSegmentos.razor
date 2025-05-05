@@ -2,47 +2,50 @@
 @using BusinessLogic
 @inject SegmentManager SegmentManager
 <PageTitle>Listado de Segmentos</PageTitle>
+@if (showNotification)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @notificationSegment
+    </div>
+}
 <h3 class="text-center">Listado de Segmentos:</h3>
 <div class="container">
     <table class="table table-striped table-bordered">
-        <thead class="table-primary">
-            <tr>
-                
-                <th>Id</th>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Obligatorio</th>
-                <th>Acciones</th>
+        <thead class="table-danger">
+            <tr>               
+                <th class="text-center">Id</th>
+                <th class="text-center">Código</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Descripción</th>
+                <th class="text-center">Obligatorio</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
             <!--si existe algun segmento en la lista lo mostramos, 
             solo mostramos la informacion comun a todos los tipos de segmentos
-          
+
             -->
             @if (SegmentManager.GetAllSegments() != null && SegmentManager.GetAllSegments().Count > 0)
             {
                 @foreach (var segmento in SegmentManager.GetAllSegments())
                 {
                     <tr>
-                       
-                        <td>@segmento.SegmentId</td>
-                        <td>@segmento.SegmentCode</td>
-                        <td>@segmento.SegmentName</td>
-                        <td>@segmento.SegmentDescription</td>
+                        <td class="text-center">@segmento.SegmentId</td>
+                        <td class="text-center">@segmento.SegmentCode</td>
+                        <td class="text-center">@segmento.SegmentName</td>
+                        <td class="text-center">@segmento.SegmentDescription</td>
                         @if (segmento.Obligatory == true)
                         {
-                            <td>Mandatory</td>
+                            <td class="text-center">Mandatory</td>
                         }
                         else
                         {
-                            <td>Conditional</td>
+                            <td class="text-center">Conditional</td>
                         }
-                        
-                        
-                        <td>
-                            <button class="btn btn-success">Ver Segmento</button>
+                        <td class="text-center">
+                            <button class="btn btn-primary">Ver</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteSegment(segmento) ">Eliminar</button>
                             <button class="btn btn-warning">Modificar</button>
                         </td>
                     </tr>
@@ -57,7 +60,67 @@
             }
         </tbody>
     </table>
+
+
+
+    <!--En caso de Borrar un mensaje aparecerá el la confirmación-->
+    @if (showPopUp)
+    {
+        <div class="overlay">
+            <div class="popup">
+                <h4>¿Confirmar Eliminación?</h4>
+                <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@segmentToDelete.SegmentName</strong>?</p>
+                <div class="popup-buttons">
+                    <button class="btn btn-danger" @onclick="ConfirmDeleteSegment">Eliminar</button>
+                    <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 @code{
+    //Variables
+    private bool showPopUp = false;
+    private bool showNotification = false;
+    private string notificationSegment = string.Empty;
+    private SegmentDefinition segmentToDelete;
     
+
+    /// <summary>
+    /// Método para borrar un mensaje, seguidamente aparecerá para confirmar
+    /// </summary>
+    /// <param name="message"></param>
+    private async Task DeleteSegment(SegmentDefinition segment)
+    {
+        segmentToDelete = segment;
+        showPopUp = true;
+    }
+    /// <summary>
+    /// Confirmar el borrado del mensaje
+    /// </summary>
+    private async Task ConfirmDeleteSegment()
+    {
+        if (segmentToDelete!= null)
+        {
+            SegmentManager.GetAllSegments().Remove(segmentToDelete);
+            segmentToDelete = null;
+            showNotification = true;
+            notificationSegment = "El segmento ha sido borrado con éxito";
+            showPopUp = false;
+            await Task.Delay(3000);
+            showNotification = false;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Manejar la cancelación del segmento
+    /// </summary>
+    private void HandleCancel()
+    {
+        showPopUp = false;
+        
+    }
+
 }
