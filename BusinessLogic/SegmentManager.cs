@@ -4,7 +4,6 @@ using Entities.Entidades_Representacion.Abstract;
 using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
 namespace BusinessLogic
 {
-
     public class SegmentManager : ISegmentManager
     {
 
@@ -18,10 +17,13 @@ namespace BusinessLogic
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>
-        public SegmentManager()
+
+
+        public List<SegmentDefinition> GetAllSegments()
         {
-            _segments = new List<SegmentDefinition>();
+            return _segments;
         }
+
         /// <summary>
         /// Este método agrega un segmento a la lista de segmentos.
         /// </summary>
@@ -45,10 +47,7 @@ namespace BusinessLogic
         /// Devulve la lista de segmentos
         /// </summary>
         /// <returns></returns>
-        public List<SegmentDefinition> GetAllSegments()
-        {
-            return _segments;
-        }
+
 
         /// <summary>
         /// Este método verifica si un segmento tiene elementos compuestos.

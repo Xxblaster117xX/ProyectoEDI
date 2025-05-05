@@ -4,6 +4,7 @@
 @using Entities.Entidades_Representacion.Segments
 @inject NavigationManager Navigation
 @inject SegmentService SegmentService
+@rendermode InteractiveServer
 <PageTitle>Listar Mensaje</PageTitle>
 <h3 class="text-center">Listado de Segmentos:</h3>
 
@@ -22,6 +23,7 @@
         <tbody>
             @if (SegmentService.GetSegments().Count!=0)
             {
+                Console.WriteLine("Segmentos encontrados: " + SegmentService.GetSegments().Count);
                 @foreach (var s in SegmentService.GetSegments())
                 {
                     <tr>
@@ -30,9 +32,10 @@
                         <td>@s.SegmentDescription</td>
                         <td>@s.Obligatory</td>
 
+
                         <td>
-                            <button class="btn btn-success" >Ver Mensaje</button>
-                            <button class="btn btn-warning" @onclick="@Modificar(s.SegmentId)">Modificar</button>
+                            <button class="btn btn-success">Ver segmento</button>
+                            <button class="btn btn-warning" @onclick="() => Modificar(s)">Modificar</button>
                         </td>
                     </tr>
                 }
@@ -55,21 +58,33 @@
     private string nombre = "un nombre";
     private string desc = "una descripcion";
     private bool obligatorio = true;
+    
+    private bool segmentInicializado = false;
 
     protected override void OnInitialized()
     {
-        Console.WriteLine("Segmento Añadido");
-        Segment.SegmentId = id;
-        Segment.SegmentCode = codigo;
-        Segment.SegmentName = nombre;
-        Segment.SegmentDescription = desc;
-        Segment.SegmentPositions = new List<Entities.Entidades_Definicion.SegmentPosition>();
-        Segment.Obligatory = obligatorio;
-        SegmentService.AddSegment(Segment);
+        if (!segmentInicializado)
+        {
+            Console.WriteLine("Segmento Añadido");
+            Segment.SegmentId = id;
+            Segment.SegmentCode = codigo;
+            Segment.SegmentName = nombre;
+            Segment.SegmentDescription = desc;
+            Segment.SegmentPositions = new List<Entities.Entidades_Definicion.SegmentPosition>();
+            Segment.Obligatory = obligatorio;
+            SegmentService.AddSegment(Segment);
+            segmentInicializado = true;
+        }
     }
 
-    private void Modificar(Segment Segment)
+    private void Modificar(Segment segment)
     {
-        Navigation.NavigateTo($"/modificar-segmento/{Segment.SegmentId}");
+        Console.WriteLine("Entra al metodo Modificar");
+        Navigation.NavigateTo($"/modificar-segmento/{segment.SegmentId}");
+    }
+
+    private void TestClick()
+    {
+        Console.WriteLine("boton pulsado");
     }
 }

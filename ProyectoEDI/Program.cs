@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<MessageService>();
-builder.Services.AddSingleton<SegmentService>();
+builder.Services.AddScoped<SegmentService>();
 builder.Services.AddAntiforgery();
 
 builder.Services.AddControllersWithViews();

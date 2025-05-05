@@ -28,6 +28,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("Entra a visualizacion EDI");
         // Cargar el mensaje por ID
         mensaje = await ObtenerMensajePorId(id);
     }

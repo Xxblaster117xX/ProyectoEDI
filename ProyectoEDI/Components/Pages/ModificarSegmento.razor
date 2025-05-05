@@ -1,7 +1,9 @@
-﻿@page "/modificar-segmento/{id:int}" 
+﻿@page "/modificar-segmento/{Id:int}"
+@inject SegmentService SegmentService
 @inject NavigationManager NavigationManager
-@using Entities.Entidades_Definicion
+@using Entities.Entidades_Representacion.Abstract
 @using Entities.Entidades_Representacion.Segments
+@using ProyectoEDI.Components.Services
 @rendermode InteractiveServer
 
 <div class="container d-flex justify-content-center align-items-center" style="margin-top: 5%">
@@ -43,45 +45,43 @@
 
 @code {
     [Parameter]
-    public int id { get; set; }
+    public int Id { get; set; }
 
     private Segment Segmento; // Cambiado a una clase concreta
-
-    private string Codigo = "0";
-    private string Nombre = "un nombre";
-    private string Desc = "descripcion";
-    private bool Obl = false;
 
     //Metodo que se ejecuta al iniciar la pagina
     protected override async Task OnInitializedAsync()
     {
+        var segments = SegmentService.GetSegments();
 
-        Segmento = await ObtenerSegmentoPorId(id);
-    }
-
-    private async Task<Segment> ObtenerSegmentoPorId(int id)
-    {
-
-
-        await Task.Delay(500); // Simula un retraso
-        return new Segment
+        if (!segments.Any())
         {
-                SegmentId = id, //id recibido por parametro
-                SegmentCode = Codigo,
-                SegmentName = Nombre,
-                SegmentDescription = Desc,
-                Obligatory = Obl
-            };
+            SegmentService.AddSegment(new UnhSegment
+                {
+                    SegmentId = Id,
+                });
+        }
+
+        Segmento = SegmentService.GetSegments().FirstOrDefault(s => s.SegmentId == Id);
+
+        if (Segmento == null)
+        {
+            Console.WriteLine($"Segmento con ID {Id} no encontrado.");
+            NavigationManager.NavigateTo("/listado-edi");
+        }
     }
 
+    // Método para guardar los cambios del segmento
     private async Task GuardarCambios()
     {
-        // Simulación de guardado de datos (reemplazar con lógica real)
-        await Task.Delay(500); // Simula un retraso
-        Console.WriteLine($"Segmento con ID {id} guardado exitosamente.");
-        Console.WriteLine(Segmento.SegmentCode);
-        Console.WriteLine(Segmento.SegmentName);
-        Console.WriteLine(Segmento.SegmentDescription);
-        Console.WriteLine(Segmento.Obligatory);
+        // Simulación de guardado de datos, reemplazar con lógica real
+        Console.WriteLine($"Guardando segmento con ID {Segmento.SegmentId}...");
+        Console.WriteLine($"Código: {Segmento.SegmentCode}, Nombre: {Segmento.SegmentName}, Descripción: {Segmento.SegmentDescription}, Obligatorio: {Segmento.Obligatory}");
+
+        // Llamar al servicio para actualizar el segmento (esto debe implementarse en SegmentService)
+        SegmentService.UpdateSegment(Segmento);
+
+        // Redirigir al listado de segmentos después de guardar
+        NavigationManager.NavigateTo("/listado-edi");
     }
 }
