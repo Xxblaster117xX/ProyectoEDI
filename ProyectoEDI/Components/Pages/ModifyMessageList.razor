@@ -1,4 +1,4 @@
-﻿@page "/ModifyMessage/{MessageId:int}"
+﻿@page "/ModifyMessageList/{MessageId:int}"
 @using Entities.Entidades_Definicion
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
@@ -8,52 +8,51 @@
 
 <h3>Modificar Mensaje</h3>
 
-@if (message != null)
-{
-    <EditForm class="modificationForm" OnInvalidSubmit="HandleConfirm">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="messageType" class="form-label fw-bold">Message Type</label>
-                <select class="form-select" id="messageType" @bind="message.MessageType">
-                    @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
-                    {
-                        <option value="@type">@type</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="messageName" class="form-label fw-bold">Message Name</label>
-                <input type="text" class="form-control" id="messageName" @bind="message.MessageName" placeholder="Enter message name">
-            </div>
-            <div class="form-group">
-                <label for="messageVersion" class="form-label fw-bold">Message Version</label>
-                <input type="text" class="form-control" id="messageVersion" @bind="message.MessageVersion" placeholder="Enter message version">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="messageRelease" class="form-label fw-bold">Message Release</label>
-                <input type="text" class="form-control" id="messageRelease" @bind="message.MessageRelease" placeholder="Enter message release">
-            </div>
-            <div class="form-group">
-                <label for="messageDirectoryVersion" class="form-label fw-bold">Message Directory Version</label>
-                <input type="text" class="form-control" id="messageDirectoryVersion" @bind="message.MessageDirectoryVersion" placeholder="Enter directory version">
-            </div>
-            <div class="form-group">
-                <label for="messageDescription" class="form-label fw-bold">Message Description</label>
-                <textarea class="form-control" id="messageDescription" @bind="message.MessageDescription" placeholder="Enter message description"></textarea>
-            </div>
-        </div>
-        <div class="form-buttons">
-            <button type="button" class="btn btn-success px-4" style="background-color:red">Guardar</button>
-            <button type="button" class="btn btn-secondary px-4" @onclick="Cancel">Cancelar</button>
-        </div>
-    </EditForm>
-}
-else
+@if (message == null)
 {
     <p>Cargando mensaje...</p>
 }
+else
+{
+    <EditForm Model="message" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="messageType" class="form-label fw-bold">Tipo de Mensaje</label>
+            <InputSelect class="form-control" @bind-Value="message.MessageType">
+                @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
+                {
+                    <option value="@type">@type</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group">
+            <label for="messageName" class="form-label fw-bold">Nombre</label>
+            <InputText class="form-control" @bind-Value="message.MessageName" required />
+        </div>
+        <div class="form-group">
+            <label for="messageVersion" class="form-label fw-bold">Versión</label>
+            <InputText class="form-control" @bind-Value="message.MessageVersion" required />
+        </div>
+        <div class="form-group">
+            <label for="messageRelease" class="form-label fw-bold">Release</label>
+            <InputText class="form-control" @bind-Value="message.MessageRelease" required />
+        </div>
+        <div class="form-group">
+            <label for="messageDirectoryVersion" class="form-label fw-bold">Versión del Directorio</label>
+            <InputText class="form-control" @bind-Value="message.MessageDirectoryVersion" required />
+        </div>
+        <div class="form-group">
+            <label for="messageDescription" class="form-label fw-bold">Descripción</label>
+            <InputTextArea class="form-control" @bind-Value="message.MessageDescription" required />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-success" style="background-color:red">Guardar Cambios</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+    </EditForm>
+}
+
 @if (showSuccessPopup)
 {
     <div class="overlay">
@@ -62,66 +61,65 @@ else
             <p>El mensaje se ha modificado correctamente. ¿Desea volver a la lista?</p>
             <div class="popup-buttons">
                 <button class="btn btn-success" @onclick="GoToList">Sí</button>
-                <button class="btn btn-secondary" @onclick="Cancel">No</button>
+                <button class="btn btn-secondary" @onclick="StayHere">No</button>
             </div>
         </div>
     </div>
 }
 
-
 @code {
-
-    /// <summary>
-    /// Pasar el id por parámetro
-    /// </summary>
-    [Parameter]
-    public int MessageId { get; set; }
-
+    [Parameter] public int MessageId { get; set; }
     private Message message;
     private bool showSuccessPopup = false;
 
     /// <summary>
-    /// Al cargar la página, se busca el mensaje por su ID
+    /// Cargar el mensaje por su ID al inicializar la página.
     /// </summary>
-    protected override void OnInitialized() 
+    protected override void OnInitialized()
     {
-        message = messageManager.GetAllMessages().FirstOrDefault(m => m.MessageId == MessageId);
+        Console.WriteLine($"Cargando mensaje con ID {MessageId}");
+        message = messageManager.GetMessageById(MessageId);
         if (message == null)
         {
             Console.WriteLine($"No se encontró el mensaje con ID {MessageId}");
         }
         else
         {
-            Console.WriteLine($"Mensaje encontrado: {message.MessageName}");
+            Console.WriteLine($"Mensaje cargado: {message.MessageName}");
         }
     }
 
-
+    /// <summary>
+    /// Guardar los cambios realizados en el mensaje.
+    /// </summary>
+    private void HandleValidSubmit()
+    {
+        messageManager.UpdateMessage(message);
+        showSuccessPopup = true;
+    }
 
     /// <summary>
-    /// Al guardar los cambios, se redirige a la lista de mensajes
+    /// Redirigir a la lista de mensajes.
     /// </summary>
-    private void HandleConfirm()
-    {   
-        showSuccessPopup = true;
-        // Redirigir a la lista de mensajes con un parámetro indicando éxito
+    private void GoToList()
+    {
+        showSuccessPopup = false;
         Navigation.NavigateTo("/MessagesList?success=modified");
     }
 
-	public void GoToList()
-	{
-		showSuccessPopup = false;
-		Navigation.NavigateTo("/MessagesList");
-	}
-  
     /// <summary>
-    /// Al cancelar los cambios, se redirige a la lista de mensajes
+    /// Permanecer en la página actual.
     /// </summary>
-    public void Cancel()
+    private void StayHere()
     {
-		Console.WriteLine($"Cancelando cambios para el mensaje con ID {MessageId}");
-        Navigation.NavigateTo("/MessagesList"); 
+        showSuccessPopup = false;
+    }
+
+    /// <summary>
+    /// Cancelar la edición y volver a la lista de mensajes.
+    /// </summary>
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/MessagesList");
     }
 }
-
-    

@@ -1,17 +1,18 @@
-﻿@rendermode InteractiveServer
+﻿@page "/"
+@rendermode InteractiveServer
 @using AppLayer
 @inject NavigationManager Navigation
 @using Entities.Model.Enum
-@using Entities.Entidades_Definicion;
+@using Entities.Entidades_Definicion
 @inject IJSRuntime JS
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
-@page "/"
-<!--Formulario del mensaje-->
+
+
+<h2>Datos del Mensaje</h2>
 <form>
-	<h2>Datos del Mensaje</h2>
     <div class="mb-3">
-        <label for="messageType" class="form-label">Tipo del mensaje </label>
+        <label for="messageType" class="form-label">Tipo del mensaje</label>
         <select class="form-select" id="messageType" @bind="messageTypeValue">
             @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
             {
@@ -24,27 +25,26 @@
         <input type="text" class="form-control" id="messageName" @bind="messageNameValue" placeholder="Introduce el nombre del mensaje">
     </div>
     <div class="mb-3">
-        <label for="messageVersion" class="form-label">Version del mensaje </label>
-        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Introduce la version del mensaje">
+        <label for="messageVersion" class="form-label">Versión del mensaje</label>
+        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Introduce la versión del mensaje">
     </div>
-
     <div class="mb-3">
-        <label for="messageDirectoryVersion" class="form-label">Version de directorio del mensaje</label>
-        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Introduce la version de directorio del mensaje">
+        <label for="messageDirectoryVersion" class="form-label">Versión de directorio del mensaje</label>
+        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Introduce la versión de directorio del mensaje">
     </div>
     <div class="mb-3">
         <label for="messageRelease" class="form-label">Fecha de lanzamiento</label>
-        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageReleaseValue" placeholder="Introduce la fecha de lanzamiento">
+        <input type="text" class="form-control" id="messageRelease" @bind="messageReleaseValue" placeholder="Introduce la fecha de lanzamiento">
     </div>
-    <button type="button" id="btn-submit" @onclick="CreateMessages" class="btn btn-success">Crear Mensaje</button>
+    <button type="button" id="btn-submit" @onclick="Create" class="btn btn-success">Crear Mensaje</button>
 </form>
 
-<!--Confirmación cuando se crea un mensaje-->
 @if (showPopUpMessage)
-{   <div class="overlay">
+{
+    <div class="overlay">
         <div class="popUpConfirmation">
             <h4>Mensaje Creado</h4>
-            <p>Mensaje creado con éxito.¿Desea visualizarlo?</p>
+            <p>Mensaje creado con éxito. ¿Desea visualizarlo?</p>
             <div class="popup-buttons">
                 <button class="btn btn-success" @onclick="HandleConfirm">Aceptar</button>
                 <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -52,71 +52,73 @@
         </div>
     </div>
 }
+
 @code {
     private static int _currentId = 0;
     private string messageTypeValue = string.Empty;
-    private string messageVersionValue;
-    private string messageNameValue;
-    private string messageDirectoryVersionValue;
-    private string messageReleaseValue;
+    private string messageVersionValue = string.Empty;
+    private string messageNameValue = string.Empty;
+    private string messageDirectoryVersionValue = string.Empty;
+    private string messageReleaseValue = string.Empty;
     public bool showPopUpMessage = false;
-   
+
     /// <summary>
-    /// Método para aumentar en 1 el id al crear un mensaje
+    /// Método para generar un ID único para cada mensaje.
     /// </summary>
-    /// <returns></returns>
     private int AutoIncrementId() => ++_currentId;
 
-		
     /// <summary>
-    /// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado
+    /// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado.
     /// </summary>
-    /// <returns></returns>
-    private async Task CreateMessages()
+    private async Task Create()
     {
-        if (string.IsNullOrWhiteSpace(messageNameValue))
-            return;
-
-        if (IsMessageNameSimilar(messageNameValue))
+        // Validar campos obligatorios
+        if (string.IsNullOrWhiteSpace(messageTypeValue) ||
+            string.IsNullOrWhiteSpace(messageVersionValue) ||
+            string.IsNullOrWhiteSpace(messageNameValue) ||
+            string.IsNullOrWhiteSpace(messageDirectoryVersionValue) ||
+            string.IsNullOrWhiteSpace(messageReleaseValue))
         {
-            await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre:{messageNameValue}");
+            await ShowErrorAlert("Por favor, completa todos los campos.");
             return;
         }
 
-		if (string.IsNullOrWhiteSpace(messageTypeValue) || string.IsNullOrWhiteSpace(messageVersionValue) || string.IsNullOrWhiteSpace(messageNameValue) || string.IsNullOrWhiteSpace(messageDirectoryVersionValue))
-		{
-			await ShowErrorAlert("Por favor, completa todos los campos.");
-			return;
-		}
-	
+        // Verificar si el nombre del mensaje ya existe
+        if (IsMessageNameSimilar(messageNameValue))
+        {
+            await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre: {messageNameValue}");
+            return;
+        }
 
-        else {var message = new Message
+        // Crear el mensaje
+        var message = new Message
             {
                 MessageId = AutoIncrementId(),
                 MessageType = Enum.Parse<MessageTypeEnum>(messageTypeValue),
                 MessageVersion = messageVersionValue,
                 MessageName = messageNameValue,
                 MessageDirectoryVersion = messageDirectoryVersionValue,
-                MessageRelease = "A",
+                MessageRelease = messageReleaseValue,
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
-			
-            messageManager.AddMessage(message);
-            var allMessages = messageManager.GetAllMessages();
-            Console.WriteLine($"Total mensajes guardados: {message.MessageName}");
-            showPopUpMessage = true;
-        }
+
+        // Guardar el mensaje
+        messageManager.AddMessage(message);
+        Console.WriteLine($"Mensaje creado: {message.MessageName}");
+        showPopUpMessage = true;
     }
+
     /// <summary>
-    /// Método para el  caso de confirmar la visualización
+    /// Confirmar la visualización del mensaje creado.
     /// </summary>
     private void HandleConfirm()
     {
         showPopUpMessage = false;
-        Navigation.NavigateTo("/MessagesList");
+        Navigation.NavigateTo("/MessagesList?success=created");
     }
+
     /// <summary>
-    /// Método para el caso de cancelación
+    /// Cancelar la visualización del mensaje creado.
     /// </summary>
     private void HandleCancel()
     {
@@ -124,23 +126,19 @@
     }
 
     /// <summary>
-    /// Función para ver si el nombre del mensaje es similar a otro ya creado 
+    /// Verificar si el nombre del mensaje ya existe.
     /// </summary>
-    /// <param name="newName"></param>
-    /// <returns></returns>
     private bool IsMessageNameSimilar(string newName)
     {
         return messageManager.GetAllMessages().Any(m =>
-            m.MessageName.Contains(newName, StringComparison.OrdinalIgnoreCase) ||
-            newName.Contains(m.MessageName, StringComparison.OrdinalIgnoreCase));
+            m.MessageName.Equals(newName, StringComparison.OrdinalIgnoreCase));
     }
+
     /// <summary>
-    /// Método para enseñar la alerta en caso de que el mensaje si que sea similar
+    /// Mostrar una alerta de error.
     /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
     private async Task ShowErrorAlert(string message)
     {
-        await JS.InvokeVoidAsync("alert", message);  
+        await JS.InvokeVoidAsync("alert", message);
     }
 }

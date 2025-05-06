@@ -24,6 +24,11 @@ namespace BusinessLogic.Definition
         {
             _messages = new List<Message>();
         }
+        public Message GetMessageById(int id)
+        {
+            var message = _messages.FirstOrDefault(m => m.MessageId == id);
+            return message;
+        }
         /// <summary>
         /// Añadir un mensaje
         /// </summary>
@@ -79,6 +84,33 @@ namespace BusinessLogic.Definition
                           .Select(p => p.Segment)
                           .ToList();
         }
+
+        public void UpdateMessage(Message updatedMessage)
+        {
+            if (updatedMessage == null)
+            {
+                throw new ArgumentNullException(nameof(updatedMessage), "El mensaje no puede ser nulo.");
+            }
+
+            // Buscar el mensaje existente por su ID
+            var existingMessage = GetAllMessages().FirstOrDefault(m => m.MessageId == updatedMessage.MessageId);
+
+            if (existingMessage == null)
+            {
+                throw new InvalidOperationException($"No se encontró un mensaje con el ID {updatedMessage.MessageId}.");
+            }
+
+            // Actualizar los campos del mensaje existente
+            existingMessage.MessageType = updatedMessage.MessageType;
+            existingMessage.MessageName = updatedMessage.MessageName;
+            existingMessage.MessageVersion = updatedMessage.MessageVersion;
+            existingMessage.MessageRelease = updatedMessage.MessageRelease;
+            existingMessage.MessageDirectoryVersion = updatedMessage.MessageDirectoryVersion;
+            existingMessage.MessageDescription = updatedMessage.MessageDescription;
+
+            Console.WriteLine($"Mensaje con ID {updatedMessage.MessageId} actualizado correctamente.");
+        }
+
 
         /// <summary>
         /// Valida el mensaje y lanza una excepción si no cumple con los requisitos.

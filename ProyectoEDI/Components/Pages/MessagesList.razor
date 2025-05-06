@@ -69,84 +69,34 @@
         </div>
     </div>
 }
-<!--Formulario para editar un mensaje-->
-@if (isEditing)
-{
-    <div class="overlay">
-        <div class="popup">
-            <h4>Modificar Mensaje</h4>
-            <form>
-                <div class="mb-3">
-                    <label for="editMessageType" class="form-label">Message Type</label>
-                    <select class="form-select" id="editMessageType" @bind="editMessageTypeValue">
-                        @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
-                        {
-                            <option value="@type">@type</option>
-                        }
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="editMessageName" class="form-label">Nombre del mensaje</label>
-                    <input type="text" class="form-control" id="editMessageName" @bind="editMessageNameValue" placeholder="Introduce el nombre del mensaje">
-                </div>
-                <div class="mb-1">
-                    <label for="editMessageVersion" class="form-label">Versión del mensaje</label>
-                    <input type="text" class="form-control" id="editMessageVersion" @bind="editMessageVersionValue" placeholder="Introduce la versión del mensaje">
-                </div>
-                <div class="mb-2">
-                    <label for="editMessageRelease" class="form-label">Fecha del mensaje</label>
-                    <input type="text" class="form-control" id="editMessageRelease" @bind="editMessageReleaseValue" placeholder="Introduce la fecha de lanzamiento del mensaje">
-                </div>
-                <div class="mb-3">
-                    <label for="editMessageDirectoryVersion" class="form-label">Versión de directorio del mensaje</label>
-                    <input type="text" class="form-control" id="editMessageDirectoryVersion" @bind="editMessageDirectoryVersionValue" placeholder="Introduce la versión de directorio">
-                </div>
-
-                <div class="mb-5">
-                    <label for="editMessageDescription" class="form-label"> Descripción del mensaje</label>
-                    <textarea class="form-control" id="editMessageDescription" @bind="editMessageDescriptionValue" placeholder="Introduce la descripción del mensaje"></textarea>
-                </div>
-                <div class="popup-buttons">
-                    <button type="button" class="btn btn-success" @onclick="SaveEditMessage">Guardar cambios</button>
-                    <button type="button" class="btn btn-secondary" @onclick="CancelEditMessage">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-}
 
 @code {
-
-    //Variables
+    // Variables
     private bool showPopUp = false;
     private bool isEditing = false;
     private Message messageToDelete;
     private Message messageBeingEdited;
     private string notificationMessage = string.Empty;
     private bool showNotification = false;
-    private string editMessageIdValue;
-    private string editMessageTypeValue;
-    private string editMessageVersionValue;
-    private string editMessageReleaseValue;
-    private string editMessageDirectoryVersionValue;
-    private string editMessageNameValue;
-    private string editMessageDescriptionValue;
 
+    [Parameter]
+    public string success { get; set; }
 
-    //Método para viajar a un mensaje, aún por hacer
+    // Método para viajar a un mensaje(Aún sin funcionar porque no hay vista de detalles del mensaje)
     public void ViewMessage(Message message)
     {
         Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
     }
+
     /// <summary>
     /// Método para borrar un mensaje, seguidamente aparecerá para confirmar
     /// </summary>
-    /// <param name="message"></param>
     private async Task DeleteMessage(Message message)
     {
         messageToDelete = message;
         showPopUp = true;
     }
+
     /// <summary>
     /// Confirmar el borrado del mensaje
     /// </summary>
@@ -158,11 +108,12 @@
             messageToDelete = null;
             showNotification = true;
             notificationMessage = "El mensaje ha sido borrado con éxito";
-            showPopUp = false; 
+            showPopUp = false;
             await Task.Delay(3000);
             showNotification = false;
         }
     }
+
     /// <summary>
     /// Manejar la cancelación del mensaje
     /// </summary>
@@ -173,112 +124,17 @@
     }
 
     /// <summary>
-    /// Método para editar un mensaje(Actualmente no se está utilizando)
-    /// </summary>
-    /// <param name="message"></param>
-    private void EditMessage(Message message)
-    {
-        isEditing = true;
-        messageBeingEdited = message;
-
-        editMessageIdValue = message.MessageId.ToString();
-        editMessageTypeValue = message.MessageType.ToString();
-        editMessageVersionValue = message.MessageVersion;
-        editMessageReleaseValue = message.MessageRelease;
-        editMessageDirectoryVersionValue = message.MessageDirectoryVersion;
-        editMessageNameValue = message.MessageName;
-        editMessageDescriptionValue = message.MessageDescription;
-    }
-
-    /// <summary>
     /// Método para viajar a la página de edición de un mensaje
     /// </summary>
-    /// <param name="message"></param>
     private void GoEditMessage(Message message)
     {
-        Navigation.NavigateTo($"/ModifyMessage/{message.MessageId}");
+        Navigation.NavigateTo($"/ModifyMessageList/{message.MessageId}");
     }
 
-
     /// <summary>
-    /// Guardar los cambios del mensaje(Actualmente no se utiliza el método)
+    /// Inicialización de la página para manejar notificaciones
     /// </summary>
-    private async Task SaveEditMessage()
-    {
-        //Controles para que los campos no se queden vacíos una vez se hayan estado modificando
-        if (string.IsNullOrWhiteSpace(editMessageNameValue))
-        {
-            await ShowErrorAlert($"Todos los campos deben estar rellenos:   {editMessageNameValue}");
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(editMessageVersionValue))
-        {
-            await ShowErrorAlert($"Todos los campos deben estar rellenos: {editMessageVersionValue}");
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(editMessageReleaseValue))
-        {
-            await ShowErrorAlert($"Todos los campos deben estar rellenos:   {editMessageReleaseValue}");
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(editMessageDirectoryVersionValue))
-        {
-            await ShowErrorAlert($"Todos los campos deben estar rellenos:  {editMessageDirectoryVersionValue}");
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(editMessageDescriptionValue))
-        {
-            await ShowErrorAlert($"Todos los campos deben estar rellenos:  {editMessageDescriptionValue}");
-            return;
-        }
-
-        if (messageBeingEdited != null)
-        {
-            messageBeingEdited.MessageType = Enum.Parse<MessageTypeEnum>(editMessageTypeValue);
-            messageBeingEdited.MessageVersion = editMessageVersionValue;
-            messageBeingEdited.MessageRelease = editMessageReleaseValue;
-            messageBeingEdited.MessageDirectoryVersion = editMessageDirectoryVersionValue;
-            messageBeingEdited.MessageName = editMessageNameValue;
-            messageBeingEdited.MessageDescription = editMessageDescriptionValue;
-        }
-
-        isEditing = false;
-        messageBeingEdited = null;
-
-        notificationMessage = "El mensaje ha sido modificado con éxito";
-        showNotification = true;
-        await Task.Delay(3000);
-        showNotification = false;
-    }
-    /// <summary>
-    /// Cancelar los datos de un mensaje
-    /// </summary>
-    private void CancelEditMessage()
-    {
-        isEditing = false;
-        messageBeingEdited = null;
-    }
-
-
-    /// <summary>
-    /// Método para verificar si el nombre del mensaje ya existe
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
-    private async Task ShowErrorAlert(string message)
-    {
-        await JS.InvokeVoidAsync("alert", message);
-    }
-
-    [Parameter]
-    [SupplyParameterFromQuery]
-    public string success { get; set; }
-
-
-    /// <summary>
-	/// El modificador de la página, se encarga de mostrar el mensaje de éxito
-	/// </summary>
-	protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         if (!string.IsNullOrEmpty(success))
         {

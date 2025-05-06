@@ -14,7 +14,7 @@
 
 @if (dataElements == null)
 {
-    <p>Cargando...</p>
+    <p>Cargando mensajes...</p>
 }
 else
 {
@@ -52,7 +52,7 @@ else
     <div class="overlay">
         <div class="popUpConfirmation">
             <h4>¿Confirmar Eliminación?</h4>
-            <p>¿Está seguro de que desea eliminar este DataElement?</p>
+            <p>¿Está seguro de que desea eliminar el elemento de dato?</p>
             <div class="popup-buttons">
                 <button class="btn btn-danger" @onclick="ConfirmDelete">Eliminar</button>
                 <button class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
@@ -69,7 +69,7 @@ else
     /// </summary>
     private List<DataElement> dataElements;
     private int elementIdToDelete;
-
+    DataElement dataElement = new DataElement();
     private bool showPopUpDelete = false;
     private bool showNotification = false;
     private string notificationMessage = "";
