@@ -112,6 +112,8 @@ namespace BusinessLogic.Definition
         }
 
 
+
+
         /// <summary>
         /// Valida el mensaje y lanza una excepción si no cumple con los requisitos.
         /// </summary>

@@ -18,6 +18,6 @@ namespace BusinessLogic.Definition
         string DeleteDataElement(int id);
 
         // Actualizar un DataElement existente
-        string UpdateDataElement(DataElement dataElement);
+        void UpdateDataElement(DataElement updatedDataElement);
     }
 }

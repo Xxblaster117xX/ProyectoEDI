@@ -95,31 +95,28 @@ public class DataElementManager : IDataElementManager
     }
 
     // Actualizar un DataElement
-    public string UpdateDataElement(DataElement dataElement)
+    public void UpdateDataElement(DataElement updatedDataElement)
     {
-        string errorMessage;
-        if (ValidateDataElement(dataElement, out errorMessage))
+        if (updatedDataElement == null)
         {
-            var existingElement = GetDataElementByCode(dataElement.DataElementId);
-            if (existingElement != null)
-            {
-                existingElement.DataElementName = dataElement.DataElementName;
-                existingElement.DataElementDescription = dataElement.DataElementDescription;
-                existingElement.DataElementValueFormat = dataElement.DataElementValueFormat;
-                existingElement.CodeLists = dataElement.CodeLists;
+            throw new ArgumentNullException(nameof(updatedDataElement), "El elemento de dato no puede ser nulo.");
+        }
 
-                return "El elemento de dato ha sido actualizado exitosamente.";
-            }
-            else
-            {
-                return "El elemento de dato a actualizar no existe.";
-            }
-        }
-        else
+        // Buscar el elemento de dato existente por su ID
+        var existingDataElement = GetAllDataElements().FirstOrDefault(de => de.DataElementId == updatedDataElement.DataElementId);
+
+        if (existingDataElement == null)
         {
-            return errorMessage;
+            throw new InvalidOperationException($"No se encontró un elemento de dato con el ID {updatedDataElement.DataElementId}.");
         }
+        // Actualizar los campos del elemento de dato existente
+        existingDataElement.DataElementName = updatedDataElement.DataElementName;
+        existingDataElement.DataElementDescription = updatedDataElement.DataElementDescription;
+        existingDataElement.DataElementValueFormat = updatedDataElement.DataElementValueFormat;
+
+        Console.WriteLine($"Elemento de dato con ID {updatedDataElement.DataElementId} actualizado correctamente.");
     }
+
 
     // Obtener todos los DataElements
     public List<DataElement> GetAllDataElements()

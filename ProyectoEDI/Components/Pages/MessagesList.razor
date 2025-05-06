@@ -1,6 +1,8 @@
 ﻿@page "/MessagesList"
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Web
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion
 @inject IJSRuntime JS
@@ -82,7 +84,9 @@
     [Parameter]
     public string success { get; set; }
 
-    // Método para viajar a un mensaje(Aún sin funcionar porque no hay vista de detalles del mensaje)
+    /// <summary>
+    /// Método para viajar a un mensaje (Aún sin funcionar porque no hay vista de detalles del mensaje)
+    /// </summary>
     public void ViewMessage(Message message)
     {
         Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
@@ -136,9 +140,11 @@
     /// </summary>
     protected override void OnInitialized()
     {
-        if (!string.IsNullOrEmpty(success))
+        // Leer el parámetro de éxito de la URL
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("success", out var successValue))
         {
-            if (success == "modified")
+            if (successValue == "modified")
             {
                 notificationMessage = "El mensaje ha sido modificado con éxito.";
                 showNotification = true;

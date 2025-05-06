@@ -1,34 +1,35 @@
-﻿@page "/ModifyDataElement/{Id:int}"
-@inject DataElementManager dataElementManager
+﻿@page "/ModifyDataElement/{DataElementId:int}"
+@using Entities.Entidades_Definicion
 @inject NavigationManager Navigation
+@inject DataElementManager dataElementManager
 @rendermode InteractiveServer
 
-<h3>Modificar Elemento de  dato</h3>
+<h3>Modificar Elemento de Dato</h3>
 
 @if (dataElement == null)
 {
-    <p>Cargando...</p>
+    <p>Cargando elemento de dato...</p>
 }
 else
 {
-    <EditForm Model="dataElement" OnValidSubmit="HandleValidSubmit" FormName="FormularioDataElement">
+    <EditForm Model="dataElement" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="form-group">
-            <label>Nombre:</label>
+            <label for="dataElementName" class="form-label fw-bold">Nombre</label>
             <InputText class="form-control" @bind-Value="dataElement.DataElementName" required />
         </div>
         <div class="form-group">
-            <label>Descripción:</label>
-            <InputText class="form-control" @bind-Value="dataElement.DataElementDescription" required />
+            <label for="dataElementDescription" class="form-label fw-bold">Descripción</label>
+            <InputTextArea class="form-control" @bind-Value="dataElement.DataElementDescription" required />
         </div>
         <div class="form-group">
-            <label>Formato de Valor:</label>
+            <label for="dataElementValueFormat" class="form-label fw-bold">Formato de Valor</label>
             <InputText class="form-control" @bind-Value="dataElement.DataElementValueFormat" required />
         </div>
         <br />
-        <button type="submit" class="btn btn-success" style="background-color:red">Guardar Cambios</button>
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
         <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
     </EditForm>
 }
@@ -38,7 +39,7 @@ else
     <div class="overlay">
         <div class="popUpConfirmation">
             <h4>Modificación Exitosa</h4>
-            <p>El DataElement se ha modificado correctamente. ¿Desea volver a la lista?</p>
+            <p>El elemento de dato se ha modificado correctamente. ¿Desea volver a la lista?</p>
             <div class="popup-buttons">
                 <button class="btn btn-success" @onclick="GoToList">Sí</button>
                 <button class="btn btn-secondary" @onclick="StayHere">No</button>
@@ -48,46 +49,56 @@ else
 }
 
 @code {
-
-
-    //Un ID para identificar el elemento de dato a modificar
-    [Parameter] public int Id { get; set; }
+    [Parameter] public int DataElementId { get; set; }
     private DataElement dataElement;
     private bool showSuccessPopup = false;
 
     /// <summary>
-    /// Al iniciar la página, se busca el DataElement por su ID
+    /// Cargar el elemento de dato por su ID al inicializar la página.
     /// </summary>
     protected override void OnInitialized()
     {
-        dataElement = dataElementManager.GetDataElementByCode(Id);
+        Console.WriteLine($"Cargando elemento de dato con ID {DataElementId}");
+        dataElement = dataElementManager.GetDataElementByCode(DataElementId);
+        if (dataElement == null)
+        {
+            Console.WriteLine($"No se encontró el elemento de dato con ID {DataElementId}");
+        }
+        else
+        {
+            Console.WriteLine($"Elemento de dato cargado: {dataElement.DataElementName}");
+        }
     }
 
     /// <summary>
-    /// Guarda directamente y muestra mensaje de éxito
+    /// Guardar los cambios realizados en el elemento de dato.
     /// </summary>
     private void HandleValidSubmit()
     {
         dataElementManager.UpdateDataElement(dataElement);
         showSuccessPopup = true;
     }
+
     /// <summary>
-    /// Ir a la lista de dataElements
+    /// Redirigir a la lista de elementos de dato.
     /// </summary>
     private void GoToList()
     {
         showSuccessPopup = false;
-        Navigation.NavigateTo("/DataElementList");
+        Navigation.NavigateTo("/DataElementList?success=modified");
     }
 
     /// <summary>
-	/// Permanecer en la página actual
-	/// </summary>
-	private void StayHere()
+    /// Permanecer en la página actual.
+    /// </summary>
+    private void StayHere()
     {
         showSuccessPopup = false;
     }
 
+    /// <summary>
+    /// Cancelar la edición y volver a la lista de elementos de dato.
+    /// </summary>
     private void Cancel()
     {
         Navigation.NavigateTo("/DataElementList");
