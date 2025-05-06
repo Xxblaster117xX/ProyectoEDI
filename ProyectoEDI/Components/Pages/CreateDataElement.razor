@@ -3,12 +3,12 @@
 @inject DataElementManager dataElementManager
 @rendermode InteractiveServer
 
-<h3>Crear Nuevo DataElement</h3>
+<h3>Crear Nuevo Elemento de dato</h3>
 
 <EditForm Model="newDataElement" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
+	<h2>Datos del Elemento de dato</h2>
     <div class="form-group">
         <label>Nombre:</label>
         <InputText class="form-control" @bind-Value="newDataElement.DataElementName" required />
@@ -24,7 +24,6 @@
     <br />
 
     <button type="submit" id="btn-submit" style="background-color:red">Guardar</button>
-
 </EditForm>
 
 @if (showPopUpMessage)

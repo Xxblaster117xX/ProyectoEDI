@@ -10,7 +10,7 @@
 
 @if (message != null)
 {
-    <form class="modificationForm">
+    <EditForm class="modificationForm" OnInvalidSubmit="HandleConfirm">
         <div class="form-row">
             <div class="form-group">
                 <label for="messageType" class="form-label fw-bold">Message Type</label>
@@ -45,19 +45,30 @@
             </div>
         </div>
         <div class="form-buttons">
-            <button type="button" class="btn btn-success px-4" style="background-color:red" @onclick="HandleConfirm">Guardar</button>
+            <button type="button" class="btn btn-success px-4" style="background-color:red">Guardar</button>
             <button type="button" class="btn btn-secondary px-4" @onclick="Cancel">Cancelar</button>
         </div>
-    </form>
-
-
-
-
+    </EditForm>
 }
 else
 {
     <p>Cargando mensaje...</p>
 }
+@if (showSuccessPopup)
+{
+    <div class="overlay">
+        <div class="popUpConfirmation">
+            <h4>Modificación Exitosa</h4>
+            <p>El mensaje se ha modificado correctamente. ¿Desea volver a la lista?</p>
+            <div class="popup-buttons">
+                <button class="btn btn-success" @onclick="GoToList">Sí</button>
+                <button class="btn btn-secondary" @onclick="Cancel">No</button>
+            </div>
+        </div>
+    </div>
+}
+
+
 @code {
 
     /// <summary>
@@ -67,8 +78,8 @@ else
     public int MessageId { get; set; }
 
     private Message message;
+    private bool showSuccessPopup = false;
 
-   
     /// <summary>
     /// Al cargar la página, se busca el mensaje por su ID
     /// </summary>
@@ -91,13 +102,18 @@ else
     /// Al guardar los cambios, se redirige a la lista de mensajes
     /// </summary>
     private void HandleConfirm()
-    {
+    {   
+        showSuccessPopup = true;
         // Redirigir a la lista de mensajes con un parámetro indicando éxito
         Navigation.NavigateTo("/MessagesList?success=modified");
     }
 
- 
-
+	public void GoToList()
+	{
+		showSuccessPopup = false;
+		Navigation.NavigateTo("/MessagesList");
+	}
+  
     /// <summary>
     /// Al cancelar los cambios, se redirige a la lista de mensajes
     /// </summary>
@@ -108,3 +124,4 @@ else
     }
 }
 
+    

@@ -131,7 +131,7 @@
     private string editMessageDirectoryVersionValue;
     private string editMessageNameValue;
     private string editMessageDescriptionValue;
-	
+
 
     //Método para viajar a un mensaje, aún por hacer
     public void ViewMessage(Message message)
@@ -190,7 +190,10 @@
         editMessageDescriptionValue = message.MessageDescription;
     }
 
-
+    /// <summary>
+    /// Método para viajar a la página de edición de un mensaje
+    /// </summary>
+    /// <param name="message"></param>
     private void GoEditMessage(Message message)
     {
         Navigation.NavigateTo($"/ModifyMessage/{message.MessageId}");
@@ -256,15 +259,26 @@
         messageBeingEdited = null;
     }
 
+
+    /// <summary>
+    /// Método para verificar si el nombre del mensaje ya existe
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
     private async Task ShowErrorAlert(string message)
     {
         await JS.InvokeVoidAsync("alert", message);
     }
+
     [Parameter]
     [SupplyParameterFromQuery]
-    public string? success { get; set; }
+    public string success { get; set; }
 
-    protected override void OnInitialized()
+
+    /// <summary>
+	/// El modificador de la página, se encarga de mostrar el mensaje de éxito
+	/// </summary>
+	protected override void OnInitialized()
     {
         if (!string.IsNullOrEmpty(success))
         {
