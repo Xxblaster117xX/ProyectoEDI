@@ -3,6 +3,8 @@
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 
+<PageTitle>Listas de codigos</PageTitle>
+
 <div class="container">
     <h2>Listas de Códigos</h2>
     <table class="table">
@@ -22,6 +24,7 @@
                     <td>@codeList.Description</td>
                     <td>@codeList.CodeFormat</td>
                     <td>
+                        <button class="btn btn-info btn-sm" @onclick="() => VerCodeList(codeList.Id)">Ver</button>
                         <button class="btn btn-warning btn-sm" @onclick="() => EditarCodeList(codeList.Id)">Editar</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => EliminarCodeList(codeList.Id)">Eliminar</button>
                     </td>
@@ -38,6 +41,12 @@
         new CodeList { Id = 2, Name = "Lista 2", Description = "Descripción 2", CodeFormat = "Formato 2" }
     };
 
+    private void VerCodeList(int Id)
+    {
+        Console.WriteLine($"Ver lista de códigos con ID: {Id}");
+        NavigationManager.NavigateTo($"/ver-lista-codigo/{Id}");
+    }
+
     private void EditarCodeList(int Id)
     {
         Console.WriteLine($"Editar lista de códigos con ID: {Id}");
@@ -48,6 +57,12 @@
     {
         Console.WriteLine($"Eliminar lista de códigos con ID: {Id}");
         CodeList Cl = CodeLists.FirstOrDefault(c => c.Id == Id);
-        CodeLists.Remove(Cl);
+        if (Cl != null)
+        {
+            CodeLists.Remove(Cl);
+            Console.WriteLine($"Lista de códigos eliminada: {Cl.Name}");
+        }
+       
+        
     }
 }
