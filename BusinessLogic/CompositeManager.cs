@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class CompositeManager: ICompositeManager
+    public class CompositeManager : ICompositeManager
     {
         private List<CompositeDataElement> _compositeList = new List<CompositeDataElement>();
 
@@ -20,7 +20,7 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Este método para validar un composite.
+        /// Este método es para validar que no se introducen campos vacios al composite.
         /// </summary>
         /// <param name="composite"></param>
         public bool ValidateComposite(CompositeDataElement composite)
@@ -93,11 +93,11 @@ namespace BusinessLogic
                     existingElement.Description = composite.Description;
                     existingElement.Code = composite.Code;
 
-                    errorMessage= "El elemento de dato compuesto ha sido actualizado exitosamente.";
+                    errorMessage = "El elemento de dato compuesto ha sido actualizado exitosamente.";
                 }
                 else
                 {
-                    errorMessage =  "El elemento de dato compuesto a actualizar no existe.";
+                    errorMessage = "El elemento de dato compuesto a actualizar no existe.";
                 }
             }
             else
@@ -107,7 +107,15 @@ namespace BusinessLogic
             return errorMessage;
         }
 
+
+
+
        
+
+
     }
-    
 }
+
+ 
+
+    

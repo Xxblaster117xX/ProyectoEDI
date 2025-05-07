@@ -15,17 +15,17 @@
     <table class="table table-striped table-bordered">
         <thead class="table-danger">
             <tr>               
-                
+
                 <th class="text-center">Código</th>
                 <th class="text-center">Nombre</th>
                 <th class="text-center">Descripción</th>
-
+                <th class="text-center">Data Elements</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
             <!--si existe algun composite en la lista lo mostramos, 
-            
+
 
             -->
             @if (CompositeManager.GetAll() != null && CompositeManager.GetAll().Count > 0)
@@ -33,11 +33,17 @@
                 @foreach (var composite in CompositeManager.GetAll())
                 {
                     <tr>
-                        
+
                         <td class="text-center">@composite.Code</td>
                         <td class="text-center">@composite.Name</td>
                         <td class="text-center">@composite.Description</td>
+                        <td class="text-center">
+                            @foreach (var de in composite.DataElements)
+                            {
+                                <p>@de.Code</p>
+                            }
 
+                        </td>
                         <td class="text-center">
                             <button class="btn btn-primary">Ver</button>
                             <button class="btn btn-danger" @onclick="() => DeleteComposite(composite) ">Eliminar</button>
