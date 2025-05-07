@@ -14,16 +14,22 @@
     <div class="alert alert-success text-center" role="alert">
         @notificationMessage
     </div>
+    
 }
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="10"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-bug" />
 <h3>Lista de Mensajes</h3>
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Tipo</th>
-            <th>Versión</th>
+            <th>Versión y fecha del mensaje</th>
             <th>Nombre</th>
-            <th>Release</th>
             <th>Directorio</th>
             <th>Descripción</th>
             <th>Acciones</th>
@@ -36,9 +42,8 @@
             {
                 <tr>
                     <td>@message.MessageType</td>
-                    <td>@message.MessageVersion</td>
+                    <td>@message.MessageVersion @message.MessageRelease</td>
                     <td>@message.MessageName</td>
-                    <td>@message.MessageRelease</td>
                     <td>@message.MessageDirectoryVersion</td>
                     <td>@message.MessageDescription</td>
                     <td>
