@@ -6,40 +6,51 @@
 <PageTitle>Listas de codigos</PageTitle>
 
 <div class="container">
-    <h2>Listas de Códigos</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Formato de Código</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var codeList in CodeLists)
-            {
+    <div class="d-flex" style="margin-bottom: 20px;">
+        <h2 class="justify-content-center w-100">Listas de Códigos</h2> 
+        <button style="width:55px; height:55px;" class="btn btn-danger rounded-circle" @onclick="() => AnyadirCodeList()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg>
+        </button>
+    </div>
+    <div class="navbar-nav-scroll">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td>@codeList.Name</td>
-                    <td>@codeList.Description</td>
-                    <td>@codeList.CodeFormat</td>
-                    <td>
-                        <button class="btn btn-info btn-sm" @onclick="() => VerCodeList(codeList.Id)">Ver</button>
-                        <button class="btn btn-warning btn-sm" @onclick="() => EditarCodeList(codeList.Id)">Editar</button>
-                        <button class="btn btn-danger btn-sm" @onclick="() => EliminarCodeList(codeList.Id)">Eliminar</button>
-                    </td>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Formato de Código</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var codeList in CodeLists)
+                {
+                    <tr @onmousedown="(e) => AccionesMouseTr(e, codeList.Id)">
+                        <td>@codeList.Name</td>
+                        <td>@codeList.Description</td>
+                        <td>@codeList.CodeFormat</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" @onclick="() => VerCodeList(codeList.Id)">Ver</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditarCodeList(codeList.Id)">Editar</button>
+                            <button class="btn btn-danger btn-sm" @onclick="() => EliminarCodeList(codeList.Id)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @code {
-    public static List<CodeList> CodeLists = new List<CodeList>
+    public static List<CodeList> CodeLists = new List<CodeList>();
+
+    private void AnyadirCodeList()
     {
-        new CodeList { Id = 1, Name = "Lista 1", Description = "Descripción 1", CodeFormat = "Formato 1" },
-        new CodeList { Id = 2, Name = "Lista 2", Description = "Descripción 2", CodeFormat = "Formato 2" }
-    };
+        Console.WriteLine("Añadir lista de códigos");
+        NavigationManager.NavigateTo("/crear-codigo-lista");
+    }
 
     private void VerCodeList(int Id)
     {
@@ -61,8 +72,27 @@
         {
             CodeLists.Remove(Cl);
             Console.WriteLine($"Lista de códigos eliminada: {Cl.Name}");
+        } 
+    }
+
+    private void AccionesMouseTr(MouseEventArgs e, int Id)
+    {
+
+
+        if (e.Button == 1) // Click central (Rueda del mouse)
+        {
+            Console.WriteLine($"Botón central presionado en el mensaje con ID: {Id}");
+            EliminarCodeList(Id);
         }
-       
-        
+        if (e.Button == 0 && e.CtrlKey == true) // Click izquierdo y Control a la vez
+        {
+            Console.WriteLine($"Botón izquierdo y Control presionado en el mensaje con ID: {Id}");
+            VerCodeList(Id);
+        }
+        if (e.Button == 0 && e.AltKey == true) // Click izquierdo y Control a la vez
+        {
+            Console.WriteLine($"Botón izquierdo y Alt presionado en el mensaje con ID: {Id}");
+            EditarCodeList(Id);
+        }
     }
 }

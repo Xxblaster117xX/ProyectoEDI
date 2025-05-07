@@ -1,13 +1,12 @@
 ﻿@page "/listar-mensaje"
 @using Entities.Entidades_Definicion
-@using ProyectoEDI.Components.Services
-@inject MessageService MessageService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 <PageTitle>Listar Mensaje</PageTitle>
 <h3 class="text-center">Listado de Mensajes:</h3>
 <div class="container">
-    <table class="table table-striped table-bordered">
-        <thead class="table-primary">
+    <table class="table table-striped table-hover">
+        <thead class="">
             <tr>
                 <th>Tipo de Mensaje</th>
                 <th>Versión</th>
@@ -19,12 +18,12 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody>
-            @if (Mensajes != null && Mensajes.Any())
+        <tbody class="">
+            @if (Messages != null && Messages.Any())
             {
-                @foreach (var message in Mensajes)
+                @foreach (var message in Messages)
                 {
-                    <tr>
+                    <tr class="table-bordered" @onmousedown="(e) => AccionesMouseTr(e, message.MessageId)">
                         <td>@message.MessageType</td>
                         <td>@message.MessageVersion</td>
                         <td>@message.MessageRelease</td>
@@ -32,15 +31,16 @@
                         <td>@message.MessageName</td>
                         <td>@message.MessageDescription</td>
                         <td>
-                            <button class="btn btn-success">Ver Mensaje</button>
-                            <button class="btn btn-warning">Modificar</button>
+                            <button class="btn btn-info btn-sm" @onclick="() => VerMensaje(message.MessageId)">Ver</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditarMensaje(message.MessageId)">Modificar</button>
+                            <button class="btn btn-danger btn-sm" @onclick="() => EliminarMensaje(message.MessageId)">Eliminar</button>
                         </td>
                     </tr>
                 }
             }
             else
             {
-                <tr>
+                <tr class="">
                     <td colspan="7" class="text-center">No hay mensajes disponibles</td>
                 </tr>
             }
@@ -48,11 +48,55 @@
     </table>
 </div>
 @code {
-    private List<Message> Mensajes;
+    public static List<Message> Messages = new List<Message>();
 
-    protected override void OnInitialized()
+    private void AnyadirCodeList()
     {
-        Mensajes = MessageService.GetMessages(); // Obtener los mensajes del servicio
-        Console.WriteLine($"Mensajes cargados: {Mensajes.Count}");
+        Console.WriteLine("Añadir Mensaje");
+        NavigationManager.NavigateTo("/crear-mensaje");
+    }
+
+    private void VerMensaje(int Id)
+    {
+        Console.WriteLine($"Ver lista de códigos con ID: {Id}");
+        NavigationManager.NavigateTo($"/visualizacionedi/{Id}");
+    }
+
+    private void EditarMensaje(int Id)
+    {
+        Console.WriteLine($"Editar mensaje con ID: {Id}");
+        NavigationManager.NavigateTo($"/modificar-mensaje/{Id}");
+    }
+
+    private void EliminarMensaje(int Id)
+    {
+        Console.WriteLine($"Eliminar mensaje con ID: {Id}");
+        Message M = Messages.FirstOrDefault(c => c.MessageId == Id);
+        if (M != null)
+        {
+            Messages.Remove(M);
+            Console.WriteLine($"mensaje eliminado: {M.MessageName}");
+        }
+    }
+
+    private void AccionesMouseTr(MouseEventArgs e, int Id)
+    {
+
+
+        if (e.Button == 1) // Click central (Rueda del mouse)
+        {
+            Console.WriteLine($"Botón central presionado en el mensaje con ID: {Id}");
+            EliminarMensaje(Id);
+        }
+        if (e.Button == 0 && e.CtrlKey == true) // Click izquierdo y Control a la vez
+        {
+            Console.WriteLine($"Botón izquierdo y Control presionado en el mensaje con ID: {Id}");
+            VerMensaje(Id);
+        }
+        if (e.Button == 0 && e.AltKey == true) // Click izquierdo y Control a la vez
+        {
+            Console.WriteLine($"Botón izquierdo y Alt presionado en el mensaje con ID: {Id}");
+            EditarMensaje(Id);
+        }
     }
 }

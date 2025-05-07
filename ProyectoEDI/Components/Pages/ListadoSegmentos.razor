@@ -51,31 +51,7 @@
 </div>
 @code {
 
-    Segment Segment = new UnhSegment();
-
-    private int id = 1;
-    private string codigo = "23dawsd";
-    private string nombre = "un nombre";
-    private string desc = "una descripcion";
-    private bool obligatorio = true;
-    
-    private bool segmentInicializado = false;
-
-    protected override void OnInitialized()
-    {
-        if (!segmentInicializado)
-        {
-            Console.WriteLine("Segmento Añadido");
-            Segment.SegmentId = id;
-            Segment.SegmentCode = codigo;
-            Segment.SegmentName = nombre;
-            Segment.SegmentDescription = desc;
-            Segment.SegmentPositions = new List<Entities.Entidades_Definicion.SegmentPosition>();
-            Segment.Obligatory = obligatorio;
-            SegmentService.AddSegment(Segment);
-            segmentInicializado = true;
-        }
-    }
+    public static List<Segment> Segments = new List<Segment>();
 
     private void Modificar(Segment segment)
     {

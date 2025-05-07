@@ -2,11 +2,11 @@
 @using Entities.Entidades_Definicion
 @using ProyectoEDI.Components.Services
 @using Entities.Model.Enum
-@inject MessageService MessageService
+@rendermode InteractiveServer
 <PageTitle>Crear Mensaje</PageTitle>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="width: 30rem;">
+<div class="container d-flex justify-content-center align-items-center vh-100" style="margin-top:-80px">
+    <div class="card p-4 navbar-nav-scroll" style="width: 40rem;">
         <h2 class="text-center mb-4">Crear Mensaje</h2>
 
         <form @onsubmit="CrearMensaj">
@@ -44,7 +44,7 @@
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripcion:</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" @bind="Mensaje.MessageDescription"></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" style="max-height:200px" @bind="Mensaje.MessageDescription"></textarea>
             </div>
 
 
@@ -55,14 +55,72 @@
         </form>
     </div>
 </div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11;">
+    @foreach (var toast in Toasts)
+    {
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:white; border-color:lightgray;">
+            <div class="toast-header" style="background-color:lightgray;">
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" @onclick="() => CerrarToast(toast.Id)"></button>
+            </div>
+            <div class="toast-body">
+                @toast.Message
+            </div>
+        </div>
+    }
+</div>
+
 @code {
     private Message Mensaje = new Message();
+    private List<ToastMessage> Toasts = new List<ToastMessage>();
 
     private void CrearMensaj()
     {
-        Console.WriteLine($"Mensaje enviado: {Mensaje.MessageName}"); // Depuración
+        Console.WriteLine($"Mensaje creado: {Mensaje.MessageName}"); // Depuración
         Console.WriteLine($"Tipo: {Mensaje.MessageType}, Versión: {Mensaje.MessageVersion}, Release: {Mensaje.MessageRelease}");
-        MessageService.AddMessage(Mensaje); // Añadir el mensaje al servicio
+        ListarMensaje.Messages.Add(Mensaje);// Añadir el mensaje
         Mensaje = new Message(); // Reiniciar el formulario
+
+        //Mostrar un Toast
+        AgregarToast("Nuevo mensaje creado");
+    }
+
+    private void AgregarToast(string message)
+    {
+        var toast = new ToastMessage
+            {
+                Id = Guid.NewGuid(),
+                Message = message
+            };
+
+        Toasts.Add(toast);
+        StateHasChanged();
+
+        // Configurar el temporizador para eliminar el Toast después de 5 segundos
+        _ = RemoverToastDespuesDeTiempo(toast.Id, 5000);
+    }
+
+    private async Task RemoverToastDespuesDeTiempo(Guid toastId, int delay)
+    {
+        await Task.Delay(delay);
+        CerrarToast(toastId);
+    }
+
+    private void CerrarToast(Guid toastId)
+    {
+        var toast = Toasts.FirstOrDefault(t => t.Id == toastId);
+        if (toast != null)
+        {
+            Toasts.Remove(toast);
+            StateHasChanged();
+        }
+    }
+
+    private class ToastMessage
+    {
+        public Guid Id { get; set; }
+        public string Message { get; set; }
     }
 }

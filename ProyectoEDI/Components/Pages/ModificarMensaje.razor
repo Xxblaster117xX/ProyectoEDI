@@ -1,68 +1,85 @@
 ﻿@page "/modificar-mensaje/{id:int}"
 @using Entities.Entidades_Definicion
+@using Entities.Model.Enum
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
-<h3>Modificar Mensaje</h3>
+<PageTitle>Modificar mensaje</PageTitle>
 
-@if (mensaje == null)
-{
-    <p>Cargando mensaje...</p>
-}
-else
-{
-    <EditForm Model="mensaje" OnValidSubmit="GuardarCambios">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="form-group">
-            <label for="messageName">Nombre del Mensaje:</label>
-            <InputText id="messageName" class="form-control" @bind-Value="mensaje.MessageName" />
-        </div>
-        <div class="form-group">
-            <label for="messageType">Tipo de Mensaje:</label>
-            <InputSelect id="messageType" class="form-control" @bind-Value="mensaje.MessageType">
-                @foreach (var tipo in Enum.GetValues(typeof(Entities.Model.Enum.MessageTypeEnum)))
-                {
-                    <option value="@tipo">@tipo</option>
-                }
-            </InputSelect>
-        </div>
-        <div class="form-group">
-            <label for="messageDescription">Descripción:</label>
-            <InputTextArea id="messageDescription" class="form-control" @bind-Value="mensaje.MessageDescription" />
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-    </EditForm>
-}
+<div class="container d-flex justify-content-center align-items-center vh-100" style="margin-top:-100px">
+    <div class="card p-4" style="width: 30rem;">
+        <h2>Modificar Lista de Códigos</h2>
+        <form @onsubmit="Modificarmensaje">
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Mensaje</label>
+                <select class="form-select" id="tipo" @bind="Mensaje.MessageType">
+                    <option value="" disabled selected>Seleccione un tipo...</option>
+                    @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Versión:</label>
+                <input class="form-control" id="description" @bind="Mensaje.MessageVersion" rows="3" required>
+            </div>
+            <div class="mb-3">
+                <label for="codeFormat" class="form-label">Release:</label>
+                <input type="text" class="form-control" id="codeFormat" @bind="Mensaje.MessageRelease" required>
+            </div>
+            <div class="mb-3">
+                <label for="codeFormat" class="form-label">Directory Version:</label>
+                <input type="text" class="form-control" id="codeFormat" @bind="Mensaje.MessageDirectoryVersion" required>
+            </div>
+            <div class="mb-3">
+                <label for="codeFormat" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="codeFormat" @bind="Mensaje.MessageName" required>
+            </div>
+            <div class="mb-3">
+                <label for="codeFormat" class="form-label">Descripcion:</label>
+                <textarea type="text" class="form-control" id="codeFormat" @bind="Mensaje.MessageDescription" required></textarea>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @code {
     [Parameter]
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    private Message mensaje;
+    private Message Mensaje = new Message();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        // Simulación de carga de datos (reemplazar con lógica real)
-        mensaje = await ObtenerMensajePorId(id);
+        // Simular la carga de datos
+        Mensaje = ListarMensaje.Messages.FirstOrDefault(c => c.MessageId == Id);
     }
 
-    private async Task<Message> ObtenerMensajePorId(int id)
+    private void Modificarmensaje()
     {
-        // Simulación de carga de datos (reemplazar con lógica real)
-        await Task.Delay(500); // Simula un retraso
-        return new Message
-            {
-                MessageType = Entities.Model.Enum.MessageTypeEnum.INVOIC,
-                MessageName = "Factura Electrónica",
-                MessageDescription = "Mensaje de prueba para una factura electrónica",
-                MessagePositions = new List<MessagePosition>()
-            };
-    }
+        Console.WriteLine($"Mensaje modificado: {Mensaje.MessageName} - {Mensaje.MessageDescription}");
+        var M = ListarMensaje.Messages.FirstOrDefault(c => c.MessageId == Id);
+        if (M != null)
+        {
+            M.MessageType = Mensaje.MessageType;
+            M.MessageVersion = Mensaje.MessageVersion;
+            M.MessageRelease = Mensaje.MessageRelease;
+            M.MessageDirectoryVersion = Mensaje.MessageDirectoryVersion;
+            M.MessageName = Mensaje.MessageName;
+            M.MessageDescription = Mensaje.MessageDescription;
 
-    private async Task GuardarCambios()
-    {
-        // Simulación de guardado de datos (reemplazar con lógica real)
-        await Task.Delay(500); // Simula un retraso
-        Console.WriteLine($"Mensaje con ID {id} guardado exitosamente.");
+            Console.WriteLine($"Mensaje modificado: {M.MessageName} - {M.MessageDescription}");
+        }
+        else
+        {
+            Console.WriteLine($"No se encontró unmensaje  con el ID: {Id} para modificar.");
+        }
+
+        //Redirigir al listado de mensajes
+        NavigationManager.NavigateTo("/listar-mensaje");
     }
 }

@@ -27,13 +27,70 @@
     </div>
 </div>
 
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11;">
+    @foreach (var toast in Toasts)
+    {
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:white; border-color:lightgray;">
+            <div class="toast-header" style="background-color:lightgray;">
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" @onclick="() => CerrarToast(toast.Id)"></button>
+            </div>
+            <div class="toast-body">
+                @toast.Message
+            </div>
+        </div>
+    }
+</div>
+
 @code {
     private CodeList NuevaCodeList = new CodeList();
+    private List<ToastMessage> Toasts = new List<ToastMessage>();
 
     private void CrearCodeList()
     {
         Console.WriteLine($"Lista de códigos creada: {NuevaCodeList.Name} - {NuevaCodeList.Description}");
-		ListadoCodigos.CodeLists.Add(NuevaCodeList); // Agregar la nueva lista de códigos a la colección
+        ListadoCodigos.CodeLists.Add(NuevaCodeList); // Agregar la nueva lista de códigos a la colección
         NuevaCodeList = new CodeList(); // Reiniciar el formulario
+
+        // Mostrar un nuevo Toast
+        AgregarToast("Nueva lista de códigos creada.");
+    }
+
+    private void AgregarToast(string message)
+    {
+        var toast = new ToastMessage
+            {
+                Id = Guid.NewGuid(),
+                Message = message
+            };
+
+        Toasts.Add(toast);
+        StateHasChanged();
+
+        // Configurar el temporizador para eliminar el Toast después de 5 segundos
+        _ = RemoverToastDespuesDeTiempo(toast.Id, 5000);
+    }
+
+    private async Task RemoverToastDespuesDeTiempo(Guid toastId, int delay)
+    {
+        await Task.Delay(delay);
+        CerrarToast(toastId);
+    }
+
+    private void CerrarToast(Guid toastId)
+    {
+        var toast = Toasts.FirstOrDefault(t => t.Id == toastId);
+        if (toast != null)
+        {
+            Toasts.Remove(toast);
+            StateHasChanged();
+        }
+    }
+
+    private class ToastMessage
+    {
+        public Guid Id { get; set; }
+        public string Message { get; set; }
     }
 }
