@@ -7,6 +7,7 @@
 
 <PageTitle>Crear Segmento</PageTitle>
 
+
 <div class="container d-flex justify-content-center">
     <div class="card p-4" style="width: 30rem;">
         <h2 class="text-center mb-4">Crear Segmento</h2>
@@ -45,7 +46,7 @@
 
         </form>
     </div>
-    <!--Confirmación cuando se crea un mensaje-->
+    <!-- PopUp para visualizar la lista de segmentos cuando se crea un segmento-->
     @if (showPopUpMessage)
     {
         <div class="overlay">
@@ -63,6 +64,7 @@
 
 @code {
 
+
     private SegmentDefinition segmento = new SegmentDefinition();
     public bool showPopUpMessage = false;
 
@@ -74,7 +76,6 @@
             // Añadimos el segmento en la lista 
             SegmentManager.AddSegment(segmento);
             showPopUpMessage = true;
-
             // Reiniciamos el formulario
             segmento = new SegmentDefinition();
 
@@ -83,11 +84,13 @@
 
     private void HandleConfirm()
     {
+
+
         showPopUpMessage = false;
         Navigation.NavigateTo("/listarSegmentos");
     }
     /// <summary>
-    /// Método para el caso de cancelación
+    /// Método para el caso de cancelación de la lista de segmentos
     /// </summary>
     private void HandleCancel()
     {

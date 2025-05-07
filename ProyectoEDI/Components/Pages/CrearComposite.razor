@@ -61,9 +61,9 @@
 
     public void createComposite()
     {
-
+        compositeDataElement.Id = CompositeManager.AutoIncrementId();
         CompositeManager.AddComposite(compositeDataElement);
-        compositeDataElement = new CompositeDataElement();
+       
         showPopUpMessage = true;
 
     }

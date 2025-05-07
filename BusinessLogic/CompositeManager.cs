@@ -12,6 +12,17 @@ namespace BusinessLogic
     {
         private List<CompositeDataElement> _compositeList = new List<CompositeDataElement>();
 
+        private int contador = 0;
+
+        public int AutoIncrementId()
+        {
+            return ++contador;
+        }
+
+        /// <summary>
+        /// Este método para validar un composite.
+        /// </summary>
+        /// <param name="composite"></param>
         public bool ValidateComposite(CompositeDataElement composite)
         {
             if (string.IsNullOrWhiteSpace(composite.Name))
@@ -37,23 +48,39 @@ namespace BusinessLogic
             return true;
         }
 
-        // Método de validación
+        /// <summary>
+        /// Este método agrega un composite a la lista de composite.
+        /// </summary>
+        /// <param name="composite"></param>
 
         public void AddComposite(CompositeDataElement composite)
         {
 
             _compositeList.Add(composite);
         }
+
+        /// <summary>
+        /// Este método obtiene un todos los composite de la lista.
+        /// </summary>
+        ///
         public List<CompositeDataElement> GetAll()
         {
             return _compositeList;
         }
 
+        /// <summary>
+        /// Este método obtiene un composite por id .
+        /// </summary>
+        ///
         public CompositeDataElement GetCompositeById(int id)
         {
             return _compositeList.FirstOrDefault(composite => composite.Id == id);
         }
 
+        /// <summary>
+        /// Este método actualiza un composite .
+        /// </summary>
+        ///
         public string UpdateComposite(CompositeDataElement composite)
         {
             string errorMessage;

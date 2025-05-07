@@ -10,12 +10,12 @@
     </div>
 }
 
-<h3 class="text-center">Listado de Composición de Elementos de Dato</h3>
+<h3 class="text-center">Listado de Elementos de Dato Compuesto</h3>
 <div class="container">
     <table class="table table-striped table-bordered">
         <thead class="table-danger">
             <tr>               
-
+                
                 <th class="text-center">Código</th>
                 <th class="text-center">Nombre</th>
                 <th class="text-center">Descripción</th>
@@ -24,8 +24,8 @@
             </tr>
         </thead>
         <tbody>
-            <!--si existe algun segmento en la lista lo mostramos, 
-            solo mostramos la informacion comun a todos los tipos de segmentos
+            <!--si existe algun composite en la lista lo mostramos, 
+            
 
             -->
             @if (CompositeManager.GetAll() != null && CompositeManager.GetAll().Count > 0)
@@ -33,6 +33,7 @@
                 @foreach (var composite in CompositeManager.GetAll())
                 {
                     <tr>
+                        
                         <td class="text-center">@composite.Code</td>
                         <td class="text-center">@composite.Name</td>
                         <td class="text-center">@composite.Description</td>
@@ -55,7 +56,7 @@
         </tbody>
     </table>
 
-    <!--En caso de Borrar un mensaje aparecerá el la confirmación-->
+    <!--En caso de Borrar un composite aparecerá el la confirmación-->
     @if (showPopUp)
     {
         <div class="overlay">
@@ -98,7 +99,7 @@
             CompositeManager.GetAll().Remove(compositeToDelete);
 
             showNotification = true;
-            notificationComposite = "Composición de elementos de dato borrado con éxito";
+            notificationComposite = "Elemento de dato compuesto borrado con éxito";
             showPopUp = false;
             await Task.Delay(3000);
             showNotification = false;
