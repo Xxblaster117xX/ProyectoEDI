@@ -8,36 +8,44 @@
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
 
-
 <h2>Datos del Mensaje</h2>
-<form>
+
+<EditForm Model="@this" OnValidSubmit="Create">
+    <DataAnnotationsValidator />
+
     <div class="mb-3">
-        <label for="messageType" class="form-label">Tipo del mensaje</label>
-        <select class="form-select" id="messageType" @bind="messageTypeValue">
+        <label class="form-label">Tipo del mensaje</label>
+        <InputSelect class="form-select" @bind-Value="messageTypeValue">
+            <option disabled value="">-- Selecciona un tipo --</option>
             @foreach (var type in Enum.GetValues(typeof(MessageTypeEnum)))
             {
                 <option value="@type">@type</option>
             }
-        </select>
+        </InputSelect>
     </div>
+
     <div class="mb-3">
-        <label for="messageName" class="form-label">Nombre del mensaje</label>
-        <input type="text" class="form-control" id="messageName" @bind="messageNameValue" placeholder="Introduce el nombre del mensaje">
+        <label class="form-label">Nombre del mensaje</label>
+        <InputText class="form-control" @bind-Value="messageNameValue" placeholder="Introduce el nombre del mensaje" />
     </div>
+
     <div class="mb-3">
-        <label for="messageVersion" class="form-label">Versión del mensaje</label>
-        <input type="text" class="form-control" id="messageVersion" @bind="messageVersionValue" placeholder="Introduce la versión del mensaje">
+        <label class="form-label">Versión del mensaje</label>
+        <InputText class="form-control" @bind-Value="messageVersionValue" placeholder="Introduce la versión del mensaje" />
     </div>
+
     <div class="mb-3">
-        <label for="messageDirectoryVersion" class="form-label">Versión de directorio del mensaje</label>
-        <input type="text" class="form-control" id="messageDirectoryVersion" @bind="messageDirectoryVersionValue" placeholder="Introduce la versión de directorio del mensaje">
+        <label class="form-label">Versión de directorio del mensaje</label>
+        <InputText class="form-control" @bind-Value="messageDirectoryVersionValue" placeholder="Introduce la versión de directorio del mensaje" />
     </div>
+
     <div class="mb-3">
-        <label for="messageRelease" class="form-label">Fecha de lanzamiento</label>
-        <input type="text" class="form-control" id="messageRelease" @bind="messageReleaseValue" placeholder="Introduce la fecha de lanzamiento">
+        <label class="form-label">Fecha de lanzamiento</label>
+        <InputText class="form-control" @bind-Value="messageReleaseValue" placeholder="Introduce la fecha de lanzamiento" />
     </div>
-    <button type="button" id="btn-submit" @onclick="Create" class="btn btn-success">Crear Mensaje</button>
-</form>
+
+    <button type="submit" id="btn-submit" style="background-color:red">Crear Mensaje</button>
+</EditForm>
 
 @if (showPopUpMessage)
 {
@@ -62,17 +70,10 @@
     private string messageReleaseValue = string.Empty;
     public bool showPopUpMessage = false;
 
-    /// <summary>
-    /// Método para generar un ID único para cada mensaje.
-    /// </summary>
     private int AutoIncrementId() => ++_currentId;
 
-    /// <summary>
-    /// Crear un mensaje, verificando que el nombre no sea igual a otro ya creado.
-    /// </summary>
     private async Task Create()
     {
-        // Validar campos obligatorios
         if (string.IsNullOrWhiteSpace(messageTypeValue) ||
             string.IsNullOrWhiteSpace(messageVersionValue) ||
             string.IsNullOrWhiteSpace(messageNameValue) ||
@@ -83,14 +84,12 @@
             return;
         }
 
-        // Verificar si el nombre del mensaje ya existe
         if (IsMessageNameSimilar(messageNameValue))
         {
             await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre: {messageNameValue}");
             return;
         }
 
-        // Crear el mensaje
         var message = new Message
             {
                 MessageId = AutoIncrementId(),
@@ -102,41 +101,28 @@
                 MessageDescription = "Aquí iría la descripción del mensaje"
             };
 
-        // Guardar el mensaje
         messageManager.AddMessage(message);
         Console.WriteLine($"Mensaje creado: {message.MessageName}");
         showPopUpMessage = true;
     }
 
-    /// <summary>
-    /// Confirmar la visualización del mensaje creado.
-    /// </summary>
     private void HandleConfirm()
     {
         showPopUpMessage = false;
         Navigation.NavigateTo("/MessagesList?success=created");
     }
 
-    /// <summary>
-    /// Cancelar la visualización del mensaje creado.
-    /// </summary>
     private void HandleCancel()
     {
         showPopUpMessage = false;
     }
 
-    /// <summary>
-    /// Verificar si el nombre del mensaje ya existe.
-    /// </summary>
     private bool IsMessageNameSimilar(string newName)
     {
         return messageManager.GetAllMessages().Any(m =>
             m.MessageName.Equals(newName, StringComparison.OrdinalIgnoreCase));
     }
 
-    /// <summary>
-    /// Mostrar una alerta de error.
-    /// </summary>
     private async Task ShowErrorAlert(string message)
     {
         await JS.InvokeVoidAsync("alert", message);

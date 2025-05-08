@@ -2,27 +2,20 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.WebUtilities
-@using System.Web
 @using Entities.Model.Enum
 @using Entities.Entidades_Definicion
-@inject IJSRuntime JS
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
 
-@if (showNotification)
+<h3>Lista de Mensajes</h3>
+
+@if (!string.IsNullOrEmpty(notificationMessage))
 {
     <div class="alert alert-success text-center" role="alert">
         @notificationMessage
     </div>
-    
 }
-<BlazoredToasts Position="ToastPosition.BottomRight"
-                Timeout="10"
-                IconType="IconType.FontAwesome"
-                SuccessClass="success-toast-override"
-                SuccessIcon="fa fa-thumbs-up"
-                ErrorIcon="fa fa-bug" />
-<h3>Lista de Mensajes</h3>
+
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
 <table class="table table-striped">
     <thead>
@@ -49,7 +42,12 @@
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
-                        <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
+                        <div>
+                            <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
+                            <a   target="_blank" class="btn btn-light btn-sm" @onclick="()=>GoEditMessage(message)">
+                                <img src="/bootstrap/images/edit-icon.png" alt="Editar" style="width: 16px; height: 16px;" />
+                            </a>
+                        </div>
                     </td>
                 </tr>
             }
@@ -62,13 +60,14 @@
         }
     </tbody>
 </table>
-<!--En caso de Borrar un mensaje aparecerá el la confirmación-->
+
+<!-- Popup de confirmación -->
 @if (showPopUp)
 {
     <div class="overlay">
         <div class="popup">
             <h4>¿Confirmar Eliminación?</h4>
-            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete.MessageName</strong>?</p>
+            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete?.MessageName</strong>?</p>
             <div class="popup-buttons">
                 <button class="btn btn-danger" @onclick="ConfirmDeleteMessage">Eliminar</button>
                 <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -78,82 +77,73 @@
 }
 
 @code {
-    // Variables
     private bool showPopUp = false;
-    private bool isEditing = false;
     private Message messageToDelete;
-    private Message messageBeingEdited;
-    private string notificationMessage = string.Empty;
-    private bool showNotification = false;
+    private string notificationMessage;
 
-    [Parameter]
-    public string success { get; set; }
-
-    /// <summary>
-    /// Método para viajar a un mensaje (Aún sin funcionar porque no hay vista de detalles del mensaje)
-    /// </summary>
     public void ViewMessage(Message message)
     {
         Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
     }
 
-    /// <summary>
-    /// Método para borrar un mensaje, seguidamente aparecerá para confirmar
-    /// </summary>
-    private async Task DeleteMessage(Message message)
+    private Task DeleteMessage(Message message)
     {
         messageToDelete = message;
         showPopUp = true;
+        return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Confirmar el borrado del mensaje
-    /// </summary>
     private async Task ConfirmDeleteMessage()
     {
         if (messageToDelete != null)
         {
             messageManager.GetAllMessages().Remove(messageToDelete);
             messageToDelete = null;
-            showNotification = true;
-            notificationMessage = "El mensaje ha sido borrado con éxito";
             showPopUp = false;
-            await Task.Delay(3000);
-            showNotification = false;
+
+            notificationMessage = "El mensaje ha sido borrado con éxito.";
+            StateHasChanged();
+            await Task.Delay(3000); 
+            notificationMessage = null;
+            StateHasChanged();
         }
     }
 
-    /// <summary>
-    /// Manejar la cancelación del mensaje
-    /// </summary>
     private void HandleCancel()
     {
         showPopUp = false;
         messageToDelete = null;
     }
 
-    /// <summary>
-    /// Método para viajar a la página de edición de un mensaje
-    /// </summary>
     private void GoEditMessage(Message message)
     {
         Navigation.NavigateTo($"/ModifyMessageList/{message.MessageId}");
     }
 
-    /// <summary>
-    /// Inicialización de la página para manejar notificaciones
-    /// </summary>
+    private async Task OpenInNewTab(string url)
+    {
+        await JS.InvokeVoidAsync("openInNewTab", url);
+    }
+
+
     protected override void OnInitialized()
     {
-        // Leer el parámetro de éxito de la URL
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("success", out var successValue))
         {
             if (successValue == "modified")
             {
                 notificationMessage = "El mensaje ha sido modificado con éxito.";
-                showNotification = true;
+                _ = HideNotificationAfterDelay();
             }
         }
+    }
+
+    private async Task HideNotificationAfterDelay()
+    {
+        StateHasChanged();
+        await Task.Delay(3000);
+        notificationMessage = null;
+        StateHasChanged();
     }
 }
