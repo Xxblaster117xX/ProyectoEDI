@@ -66,11 +66,7 @@ using Entities.Entidades_Definicion;
             return segment.SegmentPositions.Any(p => p.CompositeDataElement != null);
         }
 
-        public void CheckSegment(SegmentDefinition segment)
-
-        {
-            throw new NotImplementedException();
-        }
+      
 
         
 

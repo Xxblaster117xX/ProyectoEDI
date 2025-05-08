@@ -17,7 +17,7 @@ namespace BusinessLogic.Definition
         SegmentDefinition GetSegmentByCode(string code);
         List<SegmentDefinition> GetAllSegments();
         bool HasCompositeElements(SegmentDefinition segment);
-        void CheckSegment(SegmentDefinition segment); 
+       
 
 
     }
