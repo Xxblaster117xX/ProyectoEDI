@@ -6,6 +6,8 @@
 @using Entities.Entidades_Definicion
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
+   @inject IJSRuntime JS
+   
 
 <h3>Lista de Mensajes</h3>
 
@@ -44,9 +46,10 @@
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
                         <div>
                             <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
-                            <a   target="_blank" class="btn btn-light btn-sm" @onclick="()=>GoEditMessage(message)">
+                            <button class="btn btn-light btn-sm" @onclick="() => OpenInNewTab($"/ModifyMessageList/{message.MessageId}")">
                                 <img src="/bootstrap/images/edit-icon.png" alt="Editar" style="width: 16px; height: 16px;" />
-                            </a>
+
+                            </button>
                         </div>
                     </td>
                 </tr>
