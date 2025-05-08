@@ -9,12 +9,12 @@ namespace BusinessLogic.Interfaz
 {
     public interface ICompositeManager
     {
-        bool ValidateComposite(CompositeDataElement composite);
+        
         void AddComposite(CompositeDataElement composite);
        
         List<CompositeDataElement> GetAll();
 
-        string UpdateComposite(CompositeDataElement composite);
+        void UpdateComposite(CompositeDataElement composite);
 
         CompositeDataElement GetCompositeById(int id);
     }

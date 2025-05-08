@@ -20,33 +20,10 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Este método es para validar que no se introducen campos vacios al composite.
+        /// Este método es para validar un composite.
         /// </summary>
         /// <param name="composite"></param>
-        public bool ValidateComposite(CompositeDataElement composite)
-        {
-            if (string.IsNullOrWhiteSpace(composite.Name))
-            {
-
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(composite.Description))
-            {
-
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(composite.Code))
-            {
-
-                return false;
-            }
-
-
-
-            return true;
-        }
+       
 
         /// <summary>
         /// Este método agrega un composite a la lista de composite.
@@ -55,8 +32,8 @@ namespace BusinessLogic
 
         public void AddComposite(CompositeDataElement composite)
         {
+             _compositeList.Add(composite);
 
-            _compositeList.Add(composite);
         }
 
         /// <summary>
@@ -81,11 +58,10 @@ namespace BusinessLogic
         /// Este método actualiza un composite .
         /// </summary>
         ///
-        public string UpdateComposite(CompositeDataElement composite)
+        public void UpdateComposite(CompositeDataElement composite)
         {
             string errorMessage;
-            if (ValidateComposite(composite))
-            {
+           
                 var existingElement = GetCompositeById(composite.Id);
                 if (existingElement != null)
                 {
@@ -93,25 +69,10 @@ namespace BusinessLogic
                     existingElement.Description = composite.Description;
                     existingElement.Code = composite.Code;
 
-                    errorMessage = "El elemento de dato compuesto ha sido actualizado exitosamente.";
+                    
                 }
-                else
-                {
-                    errorMessage = "El elemento de dato compuesto a actualizar no existe.";
-                }
-            }
-            else
-            {
-                errorMessage = "El elemento de dato compuesto no es valido.";
-            }
-            return errorMessage;
+ 
         }
-
-
-
-
-       
-
 
     }
 }

@@ -7,43 +7,65 @@
 
 
 <div class="container d-flex justify-content-center">
-    <div class="card p-4" style="width: 30rem;">
-        <h4 class="text-center mb-4">Modificar Elemento de Dato Compuesto</h4>
+    <div class="card p-4" style="width: 50rem;">
+        <h3 class="text-center mb-4">Crear Elemento de Dato Compuesto</h3>
 
         <EditForm Model="compositeDataElement" OnValidSubmit="ModifyComposite">
+            <DataAnnotationsValidator />
 
             <div class="mb-3">
                 <label for="codigo" class="form-label">Código:</label>
-                <InputText  class="form-control" id="codigo" @bind-Value="compositeDataElement.Code"  required />
+                <InputText class="form-control" id="codigo" @bind-Value="compositeDataElement.Code" />
+                <ValidationMessage For="@(() => compositeDataElement.Code)" />
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <InputText type="text" class="form-control" id="nombre" @bind-Value="compositeDataElement.Name" required/>
+                <InputText id="nombre" class="form-control" @bind-Value="compositeDataElement.Name" />
+                <ValidationMessage For="@(() => compositeDataElement.Name)" />
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción:</label>
-                <InputTextArea class="form-control" id="descripcion" rows="3" @bind-Value="compositeDataElement.Description" />
+                <InputTextArea id="descripcion" class="form-control" @bind-Value="compositeDataElement.Description" />
             </div>
 
+            <label for="dataelement" class="form-label">Selecciona un Data Element:</label>
+            <select id="dataelement" class="form-select" @onchange="OnDataElementSelected">
+                <option value="" disabled selected>Seleccione un elemento de dato...</option>
+                @foreach (var dataElement in DataElements)
+                {
+                    <option value="@dataElement.Code">@dataElement.Name</option>
+                }
+            </select>
 
-            <!-- Botón de envío -->
-            <div class="d-flex justify-content-center">
 
-                <button type="submit" class="btn btn-danger w-50">Enviar</button>
+            <div class="mt-4">
+                <h5>Data Elements Seleccionados:</h5>
+                @foreach (var dataelement in compositeDataElement.DataElements)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body d-flex justify-content-between">
+                            <p><strong>Code:</strong> @dataelement.Code</p>
+                            <p><strong>Name:</strong> @dataelement.Name</p>
+                            <button type="button" class="btn btn-danger w-25" @onclick="() => DeleteDataElement(dataelement)">Eliminar</button>
+                        </div>
+                    </div>
+                }
             </div>
 
+            <div class="d-flex justify-content-center mt-5">
+                <button type="submit" class="btn btn-primary w-50">Enviar</button>
+            </div>
         </EditForm>
     </div>
 
-    <!--Confirmación cuando se modifica un composite-->
     @if (showPopUpMessage)
     {
         <div class="overlay">
             <div class="popUpConfirmation">
-                <h5>Elemento de Dato Compuesto modificado.</h5>
-                <p>Elemento de Dato Compuesto modificado con éxito.¿Desea ir a la lista ?</p>
+                <h4>Composite Data Element Creado</h4>
+                <p>Composición de Elementos de Dato creado con éxito. ¿Desea visualizarlo?</p>
                 <div class="popup-buttons">
                     <button class="btn btn-success" @onclick="HandleConfirm">Aceptar</button>
                     <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -51,13 +73,86 @@
             </div>
         </div>
     }
-    </div>
+</div>
 
 @code {
+
+    private string valorSelect = string.Empty;
     //Un ID para identificar el elemento de dato compuesto a modificar
     [Parameter] public int Id { get; set; }
-    public CompositeDataElement compositeDataElement= new CompositeDataElement();
+    public CompositeDataElement compositeDataElement = new CompositeDataElement();
     public bool showPopUpMessage = false;
+    
+
+    // método para crear un nuevo CompositeDataElement a partir del seleccionado
+    public void OnDataElementSelected(ChangeEventArgs e)
+    {
+        // parseamos a int el valor recibido del select
+        if (int.TryParse(e.Value.ToString(), out int codigoSeleccionado))
+        {
+            // Buscamos el DataElement seleccionado usando el código
+            var dataElement = DataElements.FirstOrDefault(de => de.Code == codigoSeleccionado);
+            if (dataElement != null)
+            {
+                // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
+                var newDataElement = new DataElement
+                    {
+                        Code = dataElement.Code,
+                        Name = dataElement.Name,
+                        Description = dataElement.Description,
+                        ValueFormat = dataElement.ValueFormat,
+                        CodeLists = dataElement.CodeLists
+                    };
+
+                // Agregamos el nuevo DataElement a la lista del compositeDataElement
+                compositeDataElement.DataElements.Add(newDataElement);
+
+            }
+
+        }
+        valorSelect = string.Empty; // Limpiamos el valor del select.
+    }
+
+    // método para eliminar un DataElement de la lista del compositeDataElement
+    public void DeleteDataElement(DataElement dataElement)
+    {
+        compositeDataElement.DataElements.Remove(dataElement);
+
+
+    }
+
+    /// <summary>
+    /// Lista con 3 elementos añadidos para probar el select
+    /// </summary>
+    private List<DataElement> DataElements = new List<DataElement>()
+
+    {
+        new DataElement
+        {
+            Code = 1,
+            Name = "Elemento A",
+            Description = "Descripción del Elemento A",
+            ValueFormat = "Formato A",
+            CodeLists = new List<CodeList>()
+        },
+        new DataElement
+        {
+            Code = 2,
+            Name = "Elemento B",
+            Description = "Descripción del Elemento B",
+            ValueFormat = "Formato B",
+            CodeLists = new List<CodeList>()
+        },
+
+        new DataElement
+        {
+            Code = 2,
+            Name = "Elemento C",
+            Description = "Descripción del Elemento C",
+            ValueFormat = "Formato C",
+            CodeLists = new List<CodeList>()
+        }
+    };
 
 
     protected override void OnInitialized()
