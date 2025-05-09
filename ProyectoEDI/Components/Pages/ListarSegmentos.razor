@@ -2,12 +2,17 @@
 @using BusinessLogic
 @inject SegmentManager SegmentManager
 <PageTitle>Listado de Segmentos</PageTitle>
-@if (showNotification)
-{
-    <div class="alert alert-success text-center" role="alert">
-        @notificationSegment
-    </div>
-}
+@* @if (showNotification) *@
+@* { *@
+@*     <div class="alert alert-success text-center" role="alert"> *@
+@*         @notificationSegment *@
+@*     </div> *@
+@* } *@
+
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
+
+
+
 <h3 class="text-center">Listado de Segmentos:</h3>
 <div class="container">
     <table class="table table-striped table-bordered">
@@ -79,12 +84,28 @@
     }
 </div>
 @code{
+
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+    private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    private ToastMessage CreateToastMessage(ToastType toastType) => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Elimninación Segmento.",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El segmento ha sido eliminado con éxito.",
+        };
+
+
+
+
     //Variables
     private bool showPopUp = false;
     private bool showNotification = false;
     private string notificationSegment = string.Empty;
     private SegmentDefinition segmentToDelete;
-    
+
 
     /// <summary>
     /// Método para borrar un segmento, seguidamente aparecerá para confirmar
@@ -94,6 +115,7 @@
     {
         segmentToDelete = segment;
         showPopUp = true;
+       
     }
     /// <summary>
     /// Confirmar el borrado del segmento
@@ -109,6 +131,8 @@
             showPopUp = false;
             await Task.Delay(3000);
             showNotification = false;
+
+            ShowMessage(ToastType.Success);
         }
     }
 
