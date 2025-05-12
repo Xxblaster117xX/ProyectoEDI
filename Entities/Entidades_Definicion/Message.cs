@@ -15,10 +15,15 @@ namespace Entities.Entidades_Definicion
 
         [Required]
         public MessageTypeEnum MessageType { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string MessageVersion { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string MessageRelease { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string MessageDirectoryVersion { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string MessageName { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string MessageDescription { get; set; }
         public List<MessagePosition> MessagePositions { get; set; }
         public static List<Message> MessagesList { get; } = new List<Message>();

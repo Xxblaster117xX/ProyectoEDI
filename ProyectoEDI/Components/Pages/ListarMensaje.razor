@@ -81,8 +81,6 @@
 
     private void AccionesMouseTr(MouseEventArgs e, int Id)
     {
-
-
         if (e.Button == 1) // Click central (Rueda del mouse)
         {
             Console.WriteLine($"Botón central presionado en el mensaje con ID: {Id}");
@@ -93,7 +91,7 @@
             Console.WriteLine($"Botón izquierdo y Control presionado en el mensaje con ID: {Id}");
             VerMensaje(Id);
         }
-        if (e.Button == 0 && e.AltKey == true) // Click izquierdo y Control a la vez
+        if (e.Button == 0 && e.AltKey == true) // Click izquierdo y Alt a la vez
         {
             Console.WriteLine($"Botón izquierdo y Alt presionado en el mensaje con ID: {Id}");
             EditarMensaje(Id);

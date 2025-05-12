@@ -9,9 +9,19 @@
     <div class="card p-4 navbar-nav-scroll" style="width: 40rem;">
         <h2 class="text-center mb-4">Crear Mensaje</h2>
 
-        <form @onsubmit="CrearMensaj">
+        <EditForm Model= "Mensaje" OnValidSubmit="CrearMensaj">
+            <DataAnnotationsValidator />
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Mensaje</label>
+                <InputSelect @bind-Value="Mensaje.MessageType" class="form-select">
+                    <option value="" disabled selected>Seleccione un tipo...</option>
+                    @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </InputSelect>
+				<ValidationMessage For="@(() => Mensaje.MessageType)" />
+                <!--
                 <select class="form-select" id="tipo" @bind = "Mensaje.MessageType">
                     <option value="" disabled selected>Seleccione un tipo...</option>
                     @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
@@ -19,32 +29,38 @@
                         <option value="@tipo">@tipo</option>
                     }
                 </select>
+                -->
             </div>
 
             <div class="mb-3">
                 <label for="version" class="form-label">Versión:</label>
-                <input type="text" class="form-control" id="version" name="version"  @bind="Mensaje.MessageVersion">
+                <InputText type="text" class="form-control" id="version" name="version"  @bind-value="Mensaje.MessageVersion" />
+				<ValidationMessage For="@(() => Mensaje.MessageVersion)" />
 
             </div>
 
             <div class="mb-3">
                 <label for="release" class="form-label">Release:</label>
-                <input type="text" class="form-control" id="release" name="release" @bind="Mensaje.MessageRelease">
+                <InputText type="text" class="form-control" id="release" name="release" @bind-value="Mensaje.MessageRelease" />
+				<ValidationMessage For="@(() => Mensaje.MessageRelease)" />
             </div>
 
             <div class="mb-3">
                 <label for="directoryVersion" class="form-label">Directory Version:</label>
-                <input type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind="Mensaje.MessageDirectoryVersion">
+                <InputText type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind-value="Mensaje.MessageDirectoryVersion" />
+				<ValidationMessage For="@(() => Mensaje.MessageDirectoryVersion)" />
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" @bind="Mensaje.MessageName">
+                <InputText type="text" class="form-control" id="nombre" name="nombre" @bind-value="Mensaje.MessageName" />
+                <ValidationMessage For="@(() => Mensaje.MessageName)" />
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripcion:</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" style="max-height:200px" @bind="Mensaje.MessageDescription"></textarea>
+                <InputTextArea class="form-control" id="descripcion" name="descripcion" rows="3" style="max-height:200px" @bind-value="Mensaje.MessageDescription" />
+                <ValidationMessage For="@(() => Mensaje.MessageDescription)" />
             </div>
 
 
@@ -52,7 +68,7 @@
                 <button type="submit" class="btn btn-danger w-50">Enviar</button>
             </div>
 
-        </form>
+        </EditForm>
     </div>
 </div>
 
