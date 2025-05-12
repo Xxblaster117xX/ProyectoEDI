@@ -9,12 +9,6 @@
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
-@if (dataElements == null)
-{
-    <p>No hay elementos de datos</p>
-}
-else
-{
     <table class="table">
         <thead>
             <tr>
@@ -26,7 +20,8 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var element in dataElements)
+        @if (dataElementList != null && dataElementList.Any())
+            @foreach (var element in dataElementList)
             {
                 <tr>
                     <td>@element.Code</td>
@@ -39,9 +34,16 @@ else
                     </td>
                 </tr>
             }
+        else
+        {
+           <tr>
+                <td colspan="5" class="text-center">No hay elementos de datos disponibles.</td>
+           </tr>
+        }   
         </tbody>
     </table>
-}
+
+
 
 <!-- Popup personalizado para confirmar eliminación -->
 @if (showPopUpDelete)
@@ -63,7 +65,7 @@ else
     /// <summary>
     /// Variables para almacenar la lista de DataElements y el ID del elemento a eliminar
     /// </summary>
-    private List<DataElement> dataElements;
+    private List<DataElement> dataElementList;
     private int elementIdToDelete;
     DataElement dataElement = new DataElement();
     private bool showPopUpDelete = false;
@@ -74,7 +76,7 @@ else
     /// </summary>
     protected override void OnInitialized()
     {
-        dataElements = dataElementManager.GetAllDataElements();
+        dataElementList = dataElementManager.GetAllDataElements();
     }
 
     /// <summary>
@@ -102,7 +104,7 @@ else
     private async Task ConfirmDelete()
     {
         dataElementManager.DeleteDataElement(elementIdToDelete);
-        dataElements = dataElementManager.GetAllDataElements();
+        dataElementList = dataElementManager.GetAllDataElements();
 
         showPopUpDelete = false;
 
@@ -128,7 +130,7 @@ else
 	// Método para mostrar el mensaje de notificación
     private void ShowDeleteDataElement(ToastType toastType) => messages.Add(CreateDeleteToastDataElement(toastType));
 
-	// 
+	
     // Método para crear un mensaje de notificación
     private ToastMessage CreateDeleteToastDataElement(ToastType toastType)
     => new ToastMessage
