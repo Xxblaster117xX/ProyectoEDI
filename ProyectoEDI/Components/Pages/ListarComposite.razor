@@ -3,14 +3,8 @@
 @inject CompositeManager CompositeManager
 @inject NavigationManager Navigation
 <PageTitle>Listado de Segmentos</PageTitle>
-@* @if (showNotification) *@
-@* { *@
-@*     <div class="alert alert-success text-center" role="alert"> *@
-@*         @notificationComposite *@
-@*     </div> *@
-@* } *@
 
-<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <h3 class="text-center">Listado de Elementos de Dato Compuesto</h3>
 <div class="container">
@@ -104,7 +98,7 @@
     /// Método para borrar un composite, seguidamente aparecerá para confirmar
     /// </summary>
     /// <param name="message"></param>
-    private async Task DeleteComposite(CompositeDataElement composite)
+    private void DeleteComposite(CompositeDataElement composite)
     {
         compositeToDelete = composite;
         showPopUp = true;
@@ -117,12 +111,9 @@
         if (compositeToDelete != null)
         {
             CompositeManager.GetAll().Remove(compositeToDelete);
-
-            showNotification = true;
-           
             showPopUp = false;
             await Task.Delay(3000);
-            showNotification = false;
+            
             ShowMessage(ToastType.Success);
         }
     }

@@ -2,14 +2,8 @@
 @using BusinessLogic
 @inject SegmentManager SegmentManager
 <PageTitle>Listado de Segmentos</PageTitle>
-@* @if (showNotification) *@
-@* { *@
-@*     <div class="alert alert-success text-center" role="alert"> *@
-@*         @notificationSegment *@
-@*     </div> *@
-@* } *@
 
-<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 
 
@@ -74,7 +68,7 @@
         <div class="overlay">
             <div class="popup">
                 <h4>¿Confirmar Eliminación?</h4>
-                <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@segmentToDelete.SegmentName</strong>?</p>
+                <p>¿Estás seguro de que deseas eliminar el segmento: <strong>@segmentToDelete.SegmentName</strong>?</p>
                 <div class="popup-buttons">
                     <button class="btn btn-danger" @onclick="ConfirmDeleteSegment">Eliminar</button>
                     <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -97,9 +91,6 @@
             Message = $"El segmento ha sido eliminado con éxito.",
         };
 
-
-
-
     //Variables
     private bool showPopUp = false;
     private bool showNotification = false;
@@ -107,11 +98,12 @@
     private SegmentDefinition segmentToDelete;
 
 
+
     /// <summary>
     /// Método para borrar un segmento, seguidamente aparecerá para confirmar
     /// </summary>
     /// <param name="message"></param>
-    private async Task DeleteSegment(SegmentDefinition segment)
+    private void DeleteSegment(SegmentDefinition segment)
     {
         segmentToDelete = segment;
         showPopUp = true;
