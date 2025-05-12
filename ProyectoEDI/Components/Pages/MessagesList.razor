@@ -6,17 +6,12 @@
 @using Entities.Entidades_Definicion
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
-   @inject IJSRuntime JS
-   
+@inject IJSRuntime JS
+
+
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <h3>Lista de Mensajes</h3>
-
-@if (!string.IsNullOrEmpty(notificationMessage))
-{
-    <div class="alert alert-success text-center" role="alert">
-        @notificationMessage
-    </div>
-}
 
 <!--Tabla para mostrar un mensaje con sus respectivos campos-->
 <table class="table table-striped">
@@ -41,15 +36,13 @@
                     <td>@message.MessageName</td>
                     <td>@message.MessageDirectoryVersion</td>
                     <td>@message.MessageDescription</td>
+
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
                         <div>
                             <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
-                            <button class="btn btn-light btn-sm" @onclick="() => OpenInNewTab($"/ModifyMessageList/{message.MessageId}")">
-                                <img src="/bootstrap/images/edit-icon.png" alt="Editar" style="width: 16px; height: 16px;" />
 
-                            </button>
                         </div>
                     </td>
                 </tr>
@@ -70,7 +63,7 @@
     <div class="overlay">
         <div class="popup">
             <h4>¿Confirmar Eliminación?</h4>
-            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete?.MessageName</strong>?</p>
+            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete.MessageName</strong>?</p>
             <div class="popup-buttons">
                 <button class="btn btn-danger" @onclick="ConfirmDeleteMessage">Eliminar</button>
                 <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -80,6 +73,7 @@
 }
 
 @code {
+
     private bool showPopUp = false;
     private Message messageToDelete;
     private string notificationMessage;
@@ -102,12 +96,14 @@
         {
             messageManager.GetAllMessages().Remove(messageToDelete);
             messageToDelete = null;
+
+            ShowDeleteMessage(ToastType.Danger);
+
             showPopUp = false;
 
-            notificationMessage = "El mensaje ha sido borrado con éxito.";
             StateHasChanged();
             await Task.Delay(3000); 
-            notificationMessage = null;
+
             StateHasChanged();
         }
     }
@@ -128,7 +124,6 @@
         await JS.InvokeVoidAsync("openInNewTab", url);
     }
 
-
     protected override void OnInitialized()
     {
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
@@ -136,11 +131,12 @@
         {
             if (successValue == "modified")
             {
-                notificationMessage = "El mensaje ha sido modificado con éxito.";
-                _ = HideNotificationAfterDelay();
+                ShowModifyMessage(ToastType.Success);
+              
             }
         }
     }
+
 
     private async Task HideNotificationAfterDelay()
     {
@@ -149,4 +145,30 @@
         notificationMessage = null;
         StateHasChanged();
     }
+
+    //Lista para almacenar los mensajes de notificación
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+    private void ShowDeleteMessage(ToastType toastType) => messages.Add(CreateDeleteToastMessage(toastType));
+
+    private ToastMessage CreateDeleteToastMessage(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Mensaje borrado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
+        };
+
+    private void ShowModifyMessage(ToastType toastType) => messages.Add(CreateModifyToastMessage(toastType));
+
+    private ToastMessage CreateModifyToastMessage(ToastType toastType)
+    => new ToastMessage
+  {
+      Type = toastType,
+      Title = "Mensaje modificado",
+      HelpText = $"{DateTime.Now}",
+      Message = $"El mensaje ha sido modificado con éxito {DateTime.Now}",
+  };
+
 }

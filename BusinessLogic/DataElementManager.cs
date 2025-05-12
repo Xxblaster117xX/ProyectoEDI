@@ -6,25 +6,8 @@ public class DataElementManager : IDataElementManager
     /// <summary>
     /// Dos elementos añadidos para revisar la visualización
     /// </summary>
-    private List<DataElement> dataElements = new List<DataElement>
-    {
-        new DataElement
-        {
-            Code = 1,
-            DataElementName = "Elemento A",
-            DataElementDescription = "Descripción del Elemento A",
-            DataElementValueFormat = "Formato A",
-            CodeLists = new List<CodeList>()
-        },
-        new DataElement
-        {
-            Code = 2,
-            DataElementName = "Elemento B",
-            DataElementDescription = "Descripción del Elemento B",
-            DataElementValueFormat = "Formato B",
-            CodeLists = new List<CodeList>()
-        }
-    };
+    public List<DataElement> dataElements = new List<DataElement>();
+
 
     // Método de validación
     private bool ValidateDataElement(DataElement dataElement, out string errorMessage)
@@ -64,10 +47,7 @@ public class DataElementManager : IDataElementManager
     {
         string errorMessage;
         if (ValidateDataElement(dataElement, out errorMessage))
-        {
-            // Generar un código único para el nuevo DataElement
-            int newCode = dataElements.Max(de => de.DataElementId) + 1; // Obtiene el máximo código y le suma 1
-            dataElement.Code = newCode;
+        { 
 
             // Agregar el DataElement a la lista
             dataElements.Add(dataElement);

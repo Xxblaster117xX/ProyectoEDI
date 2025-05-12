@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<MessageManager>();
+builder.Services.AddBlazorBootstrap();
 builder.Services.AddScoped<DataElementManager>();
 var app = builder.Build();
 

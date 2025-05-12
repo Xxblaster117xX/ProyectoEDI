@@ -1,20 +1,17 @@
 ﻿@page "/DataElementList"
 @inject DataElementManager dataElementManager
+@using Entities.Entidades_Definicion
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-@if (showNotification)
-{
-    <div class="alert alert-success text-center" role="alert">
-        @notificationMessage
-    </div>
-}
 
 <h3>Lista de DataElements</h3>
 
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
 @if (dataElements == null)
 {
-    <p>Cargando mensajes...</p>
+    <p>No hay elementos de datos</p>
 }
 else
 {
@@ -63,7 +60,6 @@ else
 
 @code {
 
-
     /// <summary>
     /// Variables para almacenar la lista de DataElements y el ID del elemento a eliminar
     /// </summary>
@@ -71,8 +67,7 @@ else
     private int elementIdToDelete;
     DataElement dataElement = new DataElement();
     private bool showPopUpDelete = false;
-    private bool showNotification = false;
-    private string notificationMessage = "";
+  
 
     /// <summary>
     /// Al incializar la página, se obtienen todos los DataElements
@@ -112,12 +107,7 @@ else
         showPopUpDelete = false;
 
         // Mostrar notificación
-        notificationMessage = "El Elemento de dato ha sido eliminado con éxito.";
-        showNotification = true;
-        StateHasChanged();
-
-        await Task.Delay(3000);
-        showNotification = false;
+		ShowDeleteDataElement(ToastType.Danger);
         StateHasChanged();
     }
 
@@ -132,4 +122,35 @@ else
     [SupplyParameterFromQuery]
     public string success { get; set; }
 
+    //Lista para almacenar los mensajes de notificación
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+	// Método para mostrar el mensaje de notificación
+    private void ShowDeleteDataElement(ToastType toastType) => messages.Add(CreateDeleteToastDataElement(toastType));
+
+	// 
+    // Método para crear un mensaje de notificación
+    private ToastMessage CreateDeleteToastDataElement(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Mensaje borrado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
+        };
+
+    // Método para mostrar el mensaje de notificación
+    private void ShowModifyDataElement(ToastType toastType) => messages.Add(CreateModifyToastDataElement(toastType));
+
+    //
+    // Método para crear un mensaje de notificación
+    private ToastMessage CreateModifyToastDataElement(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Mensaje borrado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
+        };
+ 
 }

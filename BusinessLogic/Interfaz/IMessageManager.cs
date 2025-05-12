@@ -12,7 +12,7 @@ namespace BusinessLogic.Definition
     /// </summary>
     public interface IMessageManager
     {
-        void AddMessage(Message message);
+        string AddMessage(Message message);
         Message GetMessageById(int id);
         Message GetMessageByType(MessageTypeEnum message);
         List<Message> GetAllMessages();
@@ -20,7 +20,7 @@ namespace BusinessLogic.Definition
         bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type);
         List<SegmentDefinition> GetSegments(Message message);
         void UpdateMessage(Message updateMessage);
-        void CheckMessage(Message message);
+        bool CheckMessage(Message message, out string errorMessage);
        
 
     }

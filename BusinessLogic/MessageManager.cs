@@ -34,9 +34,21 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="message"></param>
 
-        public void AddMessage(Message message)
+        public string AddMessage(Message message)
         {
-            _messages.Add(message);
+
+            string errorMessage;
+            if (CheckMessage(message, out errorMessage))
+            {
+
+                // Agregar el DataElement a la lista
+                _messages.Add(message);
+                return "Elemento de dato agregado exitosamente.";
+            }
+            else
+            {
+                return errorMessage;
+            }
         }
 
         /// <summary>
@@ -119,36 +131,39 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="message"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void CheckMessage(Message message)
+        public  bool CheckMessage(Message message, out string errorMessage)
         {
+            errorMessage = string.Empty;
             if (string.IsNullOrEmpty(message.MessageType.ToString()))
             {
-                throw new ArgumentException("El tipo de mensaje no puede ser nulo o vacío.");
+             errorMessage="El tipo de mensaje no puede ser nulo o vacío.";
+                return false;
             }
             else if (message.MessageType == null)
             {
-                throw new ArgumentException("El tipo de mensaje es obligatorio.");
+                errorMessage="El tipo de mensaje es obligatorio.";
             }
             else if (string.IsNullOrWhiteSpace(message.MessageVersion))
             {
-                throw new ArgumentException("La versión del mensaje no puede ser nula o vacía.");
+               errorMessage="La versión del mensaje no puede ser nula o vacía.";
             }
             else if (message.MessagePositions == null || message.MessagePositions.Count == 0)
             {
-                throw new ArgumentException("El mensaje debe contener al menos un segmento.");
+                errorMessage="El mensaje debe contener al menos un segmento.";
             }
             else if (message.MessagePositions.Any(p => p.Segment == null))
             {
-                throw new ArgumentException("Todos los segmentos deben estar definidos.");
+                errorMessage="Todos los segmentos deben estar definidos.";
             }
             else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.M && p.Segment == null))
             {
-                throw new ArgumentException("Los segmentos obligatorios no pueden ser nulos.");
+                errorMessage="Los segmentos obligatorios no pueden ser nulos.";
             }
             else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.C && p.Segment == null))
             {
-                throw new ArgumentException("Los segmentos condicionales no pueden ser nulos.");
+               errorMessage= "Los segmentos condicionales no pueden ser nulos.";
             }
+            return true;
         }
     }
     }
