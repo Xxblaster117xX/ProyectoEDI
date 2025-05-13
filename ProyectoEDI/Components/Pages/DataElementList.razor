@@ -30,6 +30,7 @@
                     <td>@element.Format</td>
                     <td>
                         <button class="btn btn-warning" @onclick="() => Modify(element.Code)">Modificar</button>
+                        <button class="btn btn-info" @onclick="() => OpenEditPopup(element)">ModificarPopUp</button>
                         <button class="btn btn-danger" @onclick="() => ShowDeletePopup(element.Code)">Eliminar</button>
                     </td>
                 </tr>
@@ -43,7 +44,30 @@
     </tbody>
 </table>
 
-
+@if (showEditPopup)
+{
+    <div class="overlay">
+        <div class="popUpConfirmation">
+            <h4>Editar DataElement</h4>
+            <div class="mb-2">
+                <label>Nombre:</label>
+                <input class="form-control" @bind="EditDataElement.DataElementName" />
+            </div>
+            <div class="mb-2">
+                <label>Descripción:</label>
+                <input class="form-control" @bind="EditDataElement.DataElementDescription" />
+            </div>
+            <div class="mb-2">
+                <label>Formato:</label>
+                <input class="form-control" @bind="EditDataElement.Format" />
+            </div>
+            <div class="popup-buttons">
+                <button class="btn btn-success" @onclick="SaveEdit">Guardar</button>
+                <button class="btn btn-secondary" @onclick="CancelEdit">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
 
 <!-- Popup personalizado para confirmar eliminación -->
 @if (showPopUpDelete)
@@ -69,7 +93,8 @@
     private int elementIdToDelete;
     DataElement dataElement = new DataElement();
     private bool showPopUpDelete = false;
-
+    private DataElement EditDataElement = new DataElement();
+    private bool showEditPopup = false;
 
     /// <summary>
     /// Al incializar la página, se obtienen todos los DataElements
@@ -107,6 +132,26 @@
         elementIdToDelete = id;
         showPopUpDelete = true;
     }
+
+    /// <summary>
+    /// Abrir popup de edición
+    /// </summary>
+    /// <param name="dataElement"></param>
+    private void OpenEditPopup(DataElement dataElement)
+    {
+        EditDataElement = new DataElement
+            {
+                Code = dataElement.Code,
+                DataElementName = dataElement.DataElementName,
+                DataElementDescription = dataElement.DataElementDescription,
+                Format = dataElement.Format,
+            };
+        showEditPopup = true;
+    }
+
+
+   
+
     /// <summary>
     /// Confirmar la eliminación del DataElement
     /// </summary>
@@ -122,6 +167,33 @@
         ShowDeleteDataElement(ToastType.Danger);
         StateHasChanged();
     }
+    private void CancelEdit()
+    {
+        showEditPopup = false;
+    }
+
+    private void SaveEdit()
+    {
+        // Busca el elemento original por Code (identificador único)
+        var original = dataElementList.FirstOrDefault(e => e.Code == EditDataElement.Code);
+        if (original != null)
+        {
+            original.DataElementName = EditDataElement.DataElementName;
+            original.DataElementDescription = EditDataElement.DataElementDescription;
+            original.Format = EditDataElement.Format;
+
+            // Actualiza en la base de datos o backend
+            dataElementManager.UpdateDataElement(original);
+
+            // Refresca la lista (opcional, si UpdateDataElement ya lo hace puedes omitir)
+            dataElementList = dataElementManager.GetAllDataElements();
+
+            ShowModifyDataElement(ToastType.Success);
+        }
+        showEditPopup = false;
+        StateHasChanged();
+    }
+
 
     /// <summary>
     /// Al pulsar el botón de cancelar se cierra el popup
