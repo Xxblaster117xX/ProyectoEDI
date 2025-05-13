@@ -12,15 +12,15 @@ namespace Entities.Entidades_Definicion
     public class Message
     {
 
-        public  int MessageId { get; set; }
+        public  int Id { get; set; }
 
         [Required]
         public MessageTypeEnum MessageType { get; set; }
-        public string MessageVersion { get; set; }
-        public string MessageRelease { get; set; }
-        public string MessageDirectoryVersion { get; set; }
-        public string MessageName { get; set; }
-        public string MessageDescription { get; set; }
+        public string Version { get; set; }
+        public string Release { get; set; }
+        public string DirectoryVersion { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public List<MessagePosition> MessagePositions { get; set; }
        
     }

@@ -29,23 +29,23 @@ else
         </div>
         <div class="form-group">
             <label for="messageName" class="form-label fw-bold">Nombre</label>
-            <InputText class="form-control" @bind-Value="message.MessageName" required />
+            <InputText class="form-control" @bind-Value="message.Name" required />
         </div>
         <div class="form-group">
             <label for="messageVersion" class="form-label fw-bold">Versión</label>
-            <InputText class="form-control" @bind-Value="message.MessageVersion" required />
+            <InputText class="form-control" @bind-Value="message.Version" required />
         </div>
         <div class="form-group">
             <label for="messageRelease" class="form-label fw-bold">Release</label>
-            <InputText class="form-control" @bind-Value="message.MessageRelease" required />
+            <InputText class="form-control" @bind-Value="message.Release" required />
         </div>
         <div class="form-group">
             <label for="messageDirectoryVersion" class="form-label fw-bold">Versión del Directorio</label>
-            <InputText class="form-control" @bind-Value="message.MessageDirectoryVersion" required />
+            <InputText class="form-control" @bind-Value="message.DirectoryVersion" required />
         </div>
         <div class="form-group">
             <label for="messageDescription" class="form-label fw-bold">Descripción</label>
-            <InputTextArea class="form-control" @bind-Value="message.MessageDescription" required />
+            <InputTextArea class="form-control" @bind-Value="message.Description" required />
         </div>
         <br />
         <button type="submit" class="btn btn-success" style="background-color:red">Guardar Cambios</button>
@@ -85,7 +85,7 @@ else
         }
         else
         {
-            Console.WriteLine($"Mensaje cargado: {message.MessageName}");
+            Console.WriteLine($"Mensaje cargado: {message.Name}");
         }
     }
 

@@ -26,7 +26,7 @@ namespace BusinessLogic.Definition
         }
         public Message GetMessageById(int id)
         {
-            var message = _messages.FirstOrDefault(m => m.MessageId == id);
+            var message = _messages.FirstOrDefault(m => m.Id == id);
             return message;
         }
         /// <summary>
@@ -36,8 +36,7 @@ namespace BusinessLogic.Definition
 
         public string AddMessage(Message message)
         {
-
-            string errorMessage;
+          string errorMessage;
             if (CheckMessage(message, out errorMessage))
             {
 
@@ -75,7 +74,7 @@ namespace BusinessLogic.Definition
         /// <returns></returns>
         public bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type)
         {
-            return message.MessagePositions.Any(pos => pos.RequirementIndicator == type);
+            return message.MessagePositions.Any(pos => pos.RequirementIndicatorEnum == type);
         }
         /// <summary>
         /// Valorar si el mensaje tiene segmento conditional(condicional)
@@ -105,22 +104,22 @@ namespace BusinessLogic.Definition
             }
 
             // Buscar el mensaje existente por su ID
-            var existingMessage = GetAllMessages().FirstOrDefault(m => m.MessageId == updatedMessage.MessageId);
+            var existingMessage = GetAllMessages().FirstOrDefault(m => m.Id == updatedMessage.Id);
 
             if (existingMessage == null)
             {
-                throw new InvalidOperationException($"No se encontró un mensaje con el ID {updatedMessage.MessageId}.");
+                throw new InvalidOperationException($"No se encontró un mensaje con el ID {updatedMessage.Id}.");
             }
 
             // Actualizar los campos del mensaje existente
             existingMessage.MessageType = updatedMessage.MessageType;
-            existingMessage.MessageName = updatedMessage.MessageName;
-            existingMessage.MessageVersion = updatedMessage.MessageVersion;
-            existingMessage.MessageRelease = updatedMessage.MessageRelease;
-            existingMessage.MessageDirectoryVersion = updatedMessage.MessageDirectoryVersion;
-            existingMessage.MessageDescription = updatedMessage.MessageDescription;
+            existingMessage.Name = updatedMessage.Name;
+            existingMessage.Version = updatedMessage.Version;
+            existingMessage.Release = updatedMessage.Release;
+            existingMessage.DirectoryVersion = updatedMessage.DirectoryVersion;
+            existingMessage.Description = updatedMessage.Description;
 
-            Console.WriteLine($"Mensaje con ID {updatedMessage.MessageId} actualizado correctamente.");
+            Console.WriteLine($"Mensaje con ID {updatedMessage.Id} actualizado correctamente.");
         }
 
 
@@ -143,7 +142,7 @@ namespace BusinessLogic.Definition
             {
                 errorMessage="El tipo de mensaje es obligatorio.";
             }
-            else if (string.IsNullOrWhiteSpace(message.MessageVersion))
+            else if (string.IsNullOrWhiteSpace(message.Version))
             {
                errorMessage="La versión del mensaje no puede ser nula o vacía.";
             }
@@ -155,11 +154,11 @@ namespace BusinessLogic.Definition
             {
                 errorMessage="Todos los segmentos deben estar definidos.";
             }
-            else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.M && p.Segment == null))
+            else if (message.MessagePositions.Any(p => p.RequirementIndicatorEnum == RequirementIndicatorEnum.M && p.Segment == null))
             {
                 errorMessage="Los segmentos obligatorios no pueden ser nulos.";
             }
-            else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.C && p.Segment == null))
+            else if (message.MessagePositions.Any(p => p.RequirementIndicatorEnum == RequirementIndicatorEnum.C && p.Segment == null))
             {
                errorMessage= "Los segmentos condicionales no pueden ser nulos.";
             }

@@ -8,7 +8,6 @@
 @inject MessageManager messageManager
 @inject IJSRuntime JS
 
-
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <h3>Lista de Mensajes</h3>
@@ -32,15 +31,15 @@
             {
                 <tr>
                     <td>@message.MessageType</td>
-                    <td>@message.MessageVersion @message.MessageRelease</td>
-                    <td>@message.MessageName</td>
-                    <td>@message.MessageDirectoryVersion</td>
-                    <td>@message.MessageDescription</td>
-
+                    <td>@message.Version @message.Release</td>
+                    <td>@message.Name</td>
+                    <td>@message.DirectoryVersion</td>
+                    <td>@message.Description</td>
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
                         <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
+                        <button class="btn btn-info btn-sm" @onclick="() => OpenEditPopup(message)">Modificar (popup)</button>
                     </td>
                 </tr>
             }
@@ -54,13 +53,13 @@
     </tbody>
 </table>
 
-<!-- Popup de confirmación -->
+<!-- Popup de confirmación de eliminación -->
 @if (showPopUp)
 {
     <div class="overlay">
         <div class="popup">
             <h4>¿Confirmar Eliminación?</h4>
-            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete.MessageName</strong>?</p>
+            <p>¿Estás seguro de que deseas eliminar el mensaje: <strong>@messageToDelete.Name</strong>?</p>
             <div class="popup-buttons">
                 <button class="btn btn-danger" @onclick="ConfirmDeleteMessage">Eliminar</button>
                 <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
@@ -69,14 +68,62 @@
     </div>
 }
 
+<!-- Popup de edición -->
+@if (showEditPopup)
+{
+    <div class="overlay" style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 9999;">
+        <div class="popup" style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
+            <h4>Modificar Mensaje</h4>
+            <div class="mb-2">
+                <label>Tipo:</label>
+                <select class="form-control text-center" @bind="editMessage.MessageType">
+                    @foreach (var tipo in Enum.GetValues<MessageTypeEnum>())
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-2">
+                <label>Versión:</label>
+                <input class="form-control text-center" @bind="editMessage.Version" />
+            </div>
+            <div class="mb-2">
+                <label>Release:</label>
+                <input class="form-control text-center" @bind="editMessage.Release" />
+            </div>
+            <div class="mb-2">
+                <label>Nombre:</label>
+                <input class="form-control text-center" @bind="editMessage.Name" />
+            </div>
+            <div class="mb-2">
+                <label>Directorio:</label>
+                <input class="form-control text-center" @bind="editMessage.DirectoryVersion" />
+            </div>
+            <div class="mb-2">
+                <label>Descripción:</label>
+                <textarea class="form-control text-center" @bind="editMessage.Description"></textarea>
+            </div>
+            <div class="popup-buttons" style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                <button class="btn btn-success" @onclick="SaveEditMessage">Guardar</button>
+                <button class="btn btn-secondary" @onclick="CancelEditPopup">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+}
+
 @code {
     private bool showPopUp = false;
     private Message messageToDelete;
     private string notificationMessage;
 
+    // Variable para el popUp de edición
+    private bool showEditPopup = false;
+    private Message editMessage = new Message();
+
     public void ViewMessage(Message message)
     {
-        Navigation.NavigateTo($"/MessageDetails/{message.MessageId}");
+        Navigation.NavigateTo($"/MessageDetails/{message.Id}");
     }
 
     private Task DeleteMessage(Message message)
@@ -98,7 +145,7 @@
             showPopUp = false;
 
             StateHasChanged();
-            await Task.Delay(3000); 
+            await Task.Delay(3000);
 
             StateHasChanged();
         }
@@ -112,7 +159,48 @@
 
     private void GoEditMessage(Message message)
     {
-        Navigation.NavigateTo($"/ModifyMessageList/{message.MessageId}");
+        Navigation.NavigateTo($"/ModifyMessageList/{message.Id}");
+    }
+
+    // Abrir popup de edición
+    private void OpenEditPopup(Message message)
+    {
+       
+        editMessage = new Message
+            {
+                Id = message.Id,
+                MessageType = message.MessageType,
+                Version = message.Version,
+                Release = message.Release,
+                DirectoryVersion = message.DirectoryVersion,
+                Name = message.Name,
+                Description = message.Description,
+                MessagePositions = message.MessagePositions
+            };
+        showEditPopup = true;
+    }
+
+    private void CancelEditPopup()
+    {
+        showEditPopup = false;
+    }
+
+    private void SaveEditMessage()
+    {
+        // Buscar el mensaje original y actualizar sus campos
+        var original = messageManager.GetAllMessages().FirstOrDefault(m => m.Id == editMessage.Id);
+        if (original != null)
+        {
+            original.MessageType = editMessage.MessageType;
+            original.Version = editMessage.Version;
+            original.Release = editMessage.Release;
+            original.DirectoryVersion = editMessage.DirectoryVersion;
+            original.Name = editMessage.Name;
+            original.Description= editMessage.Description;
+        }
+        showEditPopup = false;
+        ShowModifyMessage(ToastType.Success);
+        StateHasChanged();
     }
 
     private async Task OpenInNewTab(string url)
@@ -128,11 +216,9 @@
             if (successValue == "modified")
             {
                 ShowModifyMessage(ToastType.Success);
-              
             }
         }
     }
-
 
     private async Task HideNotificationAfterDelay()
     {
@@ -160,11 +246,10 @@
 
     private ToastMessage CreateModifyToastMessage(ToastType toastType)
     => new ToastMessage
-  {
-      Type = toastType,
-      Title = "Mensaje modificado",
-      HelpText = $"{DateTime.Now}",
-      Message = $"El mensaje ha sido modificado con éxito {DateTime.Now}",
-  };
-
+        {
+            Type = toastType,
+            Title = "Mensaje modificado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El mensaje ha sido modificado con éxito {DateTime.Now}",
+        };
 }

@@ -92,17 +92,17 @@
 
         var message = new Message
             {
-                MessageId = AutoIncrementId(),
+                Id = AutoIncrementId(),
                 MessageType = Enum.Parse<MessageTypeEnum>(messageTypeValue),
-                MessageVersion = messageVersionValue,
-                MessageName = messageNameValue,
-                MessageDirectoryVersion = messageDirectoryVersionValue,
-                MessageRelease = messageReleaseValue,
-                MessageDescription = "Aquí iría la descripción del mensaje"
+                Version= messageVersionValue,
+                Name = messageNameValue,
+                DirectoryVersion = messageDirectoryVersionValue,
+                Release = messageReleaseValue,
+                Description = "Aquí iría la descripción del mensaje"
             };
 
         messageManager.AddMessage(message);
-        Console.WriteLine($"Mensaje creado: {message.MessageName}");
+        Console.WriteLine($"Mensaje creado: {message.Name}");
         showPopUpMessage = true;
     }
 
@@ -120,7 +120,7 @@
     private bool IsMessageNameSimilar(string newName)
     {
         return messageManager.GetAllMessages().Any(m =>
-            m.MessageName.Equals(newName, StringComparison.OrdinalIgnoreCase));
+            m.Name.Equals(newName, StringComparison.OrdinalIgnoreCase));
     }
 
     private async Task ShowErrorAlert(string message)

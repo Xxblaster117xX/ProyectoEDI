@@ -46,6 +46,7 @@
     border-radius: 8px;
     font-size: 0.95rem;
     transition: border-color 0.3s ease;
+    align-items: center;
 }
 
     .form-control:focus,

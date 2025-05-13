@@ -12,13 +12,16 @@ namespace Entities.Entidades_Definicion
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DataElementId { get; set; }
+        public int Id { get; set; }
         public int Code {  get; set; }
         public List<CodeList> CodeLists { get; set; } = new List<CodeList>();
 
         public string DataElementName { get; set; }
         public string DataElementDescription { get; set; }
-        public string DataElementValueFormat { get; set; }
+        public string Format { get; set; }
+        public bool obligatory { get; set; }
+        public int repetition { get; set; }
+
 
     }
 }

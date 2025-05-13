@@ -9,10 +9,11 @@ namespace Entities.Entidades_Definicion
 {
     public class MessagePermittedQualifier
     {
-        public MessagePosition MessagePosition;
+        public int Id { get; set; }
+        public MessagePosition MessagePosition { get; set; }
         public SegmentDefinition Segment { get; set; }
         public DataElement DataElement { get; set; }
-        public DataElementQualifier Qualifier { get; set; }
+        public DataElementQualifier DataElementQualifier { get; set; }
 
     }
 }

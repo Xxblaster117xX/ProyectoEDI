@@ -8,7 +8,8 @@ namespace Entities.Entidades_Definicion
 {
     public class CodeList
     {
-        public DataElement DataElement { get; set; }
+        public int id { get; set; }
+        public int  IdDataElement { get; set; }
         public string Name { get; set; }
         public string Description{ get; set; }
         public string CodeFormat { get; set; }

@@ -3,23 +3,23 @@
 @using Entities.Entidades_Definicion
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
-
+@using Microsoft.AspNetCore.WebUtilities
 
 <h3>Lista de DataElements</h3>
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Formato de Valor</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Formato de Valor</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         @if (dataElementList != null && dataElementList.Any())
             @foreach (var element in dataElementList)
             {
@@ -27,7 +27,7 @@
                     <td>@element.Code</td>
                     <td>@element.DataElementName</td>
                     <td>@element.DataElementDescription</td>
-                    <td>@element.DataElementValueFormat</td>
+                    <td>@element.Format</td>
                     <td>
                         <button class="btn btn-warning" @onclick="() => Modify(element.Code)">Modificar</button>
                         <button class="btn btn-danger" @onclick="() => ShowDeletePopup(element.Code)">Eliminar</button>
@@ -36,12 +36,12 @@
             }
         else
         {
-           <tr>
+            <tr>
                 <td colspan="5" class="text-center">No hay elementos de datos disponibles.</td>
-           </tr>
+            </tr>
         }   
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 
 
@@ -69,14 +69,24 @@
     private int elementIdToDelete;
     DataElement dataElement = new DataElement();
     private bool showPopUpDelete = false;
-  
+
 
     /// <summary>
     /// Al incializar la página, se obtienen todos los DataElements
     /// </summary>
+
+
     protected override void OnInitialized()
     {
         dataElementList = dataElementManager.GetAllDataElements();
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("success", out var successValue))
+        {
+            if (successValue == "modified")
+            {
+                ShowModifyDataElement(ToastType.Success);
+            }
+        }
     }
 
     /// <summary>
@@ -109,14 +119,14 @@
         showPopUpDelete = false;
 
         // Mostrar notificación
-		ShowDeleteDataElement(ToastType.Danger);
+        ShowDeleteDataElement(ToastType.Danger);
         StateHasChanged();
     }
 
     /// <summary>
-	/// Al pulsar el botón de cancelar se cierra el popup
-	/// </summary>
-	private void CancelDelete()
+    /// Al pulsar el botón de cancelar se cierra el popup
+    /// </summary>
+    private void CancelDelete()
     {
         showPopUpDelete = false;
     }
@@ -127,11 +137,18 @@
     //Lista para almacenar los mensajes de notificación
     List<ToastMessage> messages = new List<ToastMessage>();
 
-	// Método para mostrar el mensaje de notificación
+    /// <summary>
+    /// Método para mostrar el mensaje de notificación mediante el tipo de toastType
+    /// </summary>
+    /// <param name="toastType"></param>
     private void ShowDeleteDataElement(ToastType toastType) => messages.Add(CreateDeleteToastDataElement(toastType));
 
-	
-    // Método para crear un mensaje de notificación
+
+    /// <summary>
+    /// Método para crear el mensaje de borrado en el toast
+    /// </summary>
+    /// <param name="toastType"></param>
+    /// <returns></returns>
     private ToastMessage CreateDeleteToastDataElement(ToastType toastType)
     => new ToastMessage
         {
@@ -150,9 +167,9 @@
     => new ToastMessage
         {
             Type = toastType,
-            Title = "Mensaje borrado",
+            Title = "Mensaje modificado",
             HelpText = $"{DateTime.Now}",
-            Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
+            Message = $"El mensaje ha sido modificado con éxito {DateTime.Now}",
         };
  
 }

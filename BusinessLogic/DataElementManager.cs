@@ -26,7 +26,7 @@ public class DataElementManager : IDataElementManager
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(dataElement.DataElementValueFormat))
+        if (string.IsNullOrWhiteSpace(dataElement.Format))
         {
             errorMessage = "El formato del DataElement es obligatorio.";
             return false;
@@ -83,18 +83,18 @@ public class DataElementManager : IDataElementManager
         }
 
         // Buscar el elemento de dato existente por su ID
-        var existingDataElement = GetAllDataElements().FirstOrDefault(de => de.DataElementId == updatedDataElement.DataElementId);
+        var existingDataElement = GetAllDataElements().FirstOrDefault(de => de.Id == updatedDataElement.Id);
 
         if (existingDataElement == null)
         {
-            throw new InvalidOperationException($"No se encontró un elemento de dato con el ID {updatedDataElement.DataElementId}.");
+            throw new InvalidOperationException($"No se encontró un elemento de dato con el ID {updatedDataElement.Id}.");
         }
         // Actualizar los campos del elemento de dato existente
         existingDataElement.DataElementName = updatedDataElement.DataElementName;
         existingDataElement.DataElementDescription = updatedDataElement.DataElementDescription;
-        existingDataElement.DataElementValueFormat = updatedDataElement.DataElementValueFormat;
+        existingDataElement.Format = updatedDataElement.Format;
 
-        Console.WriteLine($"Elemento de dato con ID {updatedDataElement.DataElementId} actualizado correctamente.");
+        Console.WriteLine($"Elemento de dato con ID {updatedDataElement.Id} actualizado correctamente.");
     }
 
 
