@@ -18,8 +18,9 @@ namespace Entities.Entidades_Definicion
         [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Obligatory { get; set; }
 
-       
+        public int Repeticiones { get; set; }
         public List<DataElement> DataElements { get; set; }= new List<DataElement>();
     }
 }

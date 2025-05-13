@@ -13,6 +13,8 @@ namespace Entities.Entidades_Definicion
         public string Name { get; set; }
         public string Description { get; set; }
         public string ValueFormat { get; set; }
+        public bool Obligatory { get; set; }
+        public int Repeticiones { get; set; }
         public List<CodeList> CodeLists { get; set; }
 
     }

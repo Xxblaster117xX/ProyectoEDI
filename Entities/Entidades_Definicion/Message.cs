@@ -13,7 +13,12 @@ namespace Entities.Entidades_Definicion
 
         public MessageTypeEnum MessageType;
         public string MessageVersion { get; set; }
+
         public string MessageRelease { get; set; }
+        // tipo de directory por ejemplo (UN)
+        public string? Directory { get; set; }
+
+        // ejemplo EAN005
         public string MessageDirectoryVersion { get; set; }
         public string MessageName { get; set; }
         public string MessageDescription { get; set; }

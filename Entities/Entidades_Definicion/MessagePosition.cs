@@ -10,9 +10,11 @@ namespace Entities.Entidades_Definicion
 {
     public class MessagePosition
     {
+        public int Id { get; set; }
         public int Position { get; set; }
         public SegmentDefinition Segment { get; set; }
         public SegmentGroup SegmentGroup { get; set; }
+        public bool Obligatorio { get; set; }
         public RequirementIndicatorEnum RequirementIndicator { get; set; }
         public string Repetition { get; set; }
 
