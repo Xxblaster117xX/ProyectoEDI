@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton<MessageService>();
 builder.Services.AddScoped<SegmentManager>();
 builder.Services.AddScoped<CompositeManager>();
+builder.Services.AddScoped<SegmentGroupManager>();
 // blazor bootstrap
 builder.Services.AddBlazorBootstrap();
 

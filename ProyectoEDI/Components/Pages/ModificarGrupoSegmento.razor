@@ -1,0 +1,200 @@
+﻿@page "/modificarGrupoSegmento/{Id:int}"
+
+@using BusinessLogic
+@using Entities.Entidades_Definicion
+@using Entities.Enum
+@inject SegmentGroupManager SegmentGroupManager
+@inject SegmentManager SegmentManager
+@inject NavigationManager Navigation
+
+<PageTitle>Modificar Grupo de Segmento</PageTitle>
+
+
+<div class="container d-flex justify-content-center">
+    <div class="card p-4" style="width: 50rem;">
+        <h3 class="text-center mb-4">Modificar Grupo de Segmento</h3>
+
+        <EditForm Model="SegmentGroup" OnValidSubmit="ModifyGrupoSegmento">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label for="numero" class="form-label">Número de grupos de segmentos:</label>
+                <InputNumber class="form-control" id="numero" @bind-Value="SegmentGroup.NumeroGrupoSegmentos" />
+                <ValidationMessage For="@(() => SegmentGroup.NumeroGrupoSegmentos)" />
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="obligatorio" @bind="SegmentGroup.Obligatorio">
+                <label class="form-check-label" for="obligatorio">Obligatorio</label>
+            </div>
+
+            <label for="segmento" class="form-label">Segmento:</label>
+            <select id="segmento" class="form-select" @onchange="OnSegmentSelected">
+                <option value="" disabled selected>Seleccione un Segmento...</option>
+                @foreach (var segmento in SegmentManager.GetAllSegments())
+                {
+                    <option value="@segmento.SegmentCode">@segmento.SegmentName</option>
+                }
+            </select>
+            <label for="segmento" class="form-label">Grupo de Segmentos:</label>
+            <select id="segmento" class="form-select" @onchange="OnGroupSegmentSelected">
+                <option value="" disabled selected>Seleccione un Grupo de Segmentos...</option>
+                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroups())
+                {
+                    <option value="@GrupoSegmento.Id">GrupoSegmento @GrupoSegmento.Id</option>
+                }
+            </select>
+
+            <div class="mt-4">
+                <h5>Segmentos Seleccionados:</h5>
+                @foreach (var segmento in SegmentGroup.Segments)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body d-flex justify-content-between">
+                            <p><strong>Code:</strong> @segmento.SegmentCode</p>
+                            <p><strong>Name:</strong> @segmento.SegmentName</p>
+                            <button type="button" class="btn btn-danger w-25" @onclick="() => DeleteSegment(segmento)">Eliminar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="mt-4">
+                <h5> Grupo de Segmentos Seleccionados:</h5>
+                @foreach (var GrupoSegmento in SegmentGroup.SegmentsGroups)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body d-flex justify-content-between">
+                            <p><strong>Id:</strong> @GrupoSegmento.Id</p>
+                            <p><strong>Nombre:</strong> Grupo Segmento @GrupoSegmento.Id</p>
+                            <button type="button" class="btn btn-danger w-25" @onclick="() => DeleteGroupSegment(GrupoSegmento)">Eliminar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex justify-content-center mt-5">
+                <button type="submit" class="btn btn-primary w-50">Enviar</button>
+            </div>
+        </EditForm>
+    </div>
+
+    @if (showPopUpMessage)
+    {
+        <div class="overlay">
+            <div class="popUpConfirmation">
+                <h4>Segment Group Modificado</h4>
+                <p>Segment Group modificado con éxito. ¿Desea visualizarlo?</p>
+                <div class="popup-buttons">
+                    <button class="btn btn-success" @onclick="HandleConfirm">Aceptar</button>
+                    <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    public SegmentGroup SegmentGroup = new SegmentGroup();
+
+    public bool showPopUpMessage = false;
+
+    //Un ID para identificar el grupo de segmento a modificar
+    [Parameter] public int Id { get; set; }
+
+    // método para crear un nuevo segmento a partir del seleccionado
+    public void OnSegmentSelected(ChangeEventArgs e)
+    {
+        var codigoSeleccionado = e.Value?.ToString();
+        // parseamos a int el valor recibido del select
+        if (!string.IsNullOrEmpty(codigoSeleccionado))
+        {
+
+            // Buscamos el DataElement seleccionado usando el código
+            var segment = SegmentManager.GetAllSegments().FirstOrDefault(s => s.SegmentCode == codigoSeleccionado);
+            if (segment != null)
+            {
+                // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
+                var newSegment = new SegmentDefinition
+                    {
+                        SegmentCode = segment.SegmentCode,
+                        SegmentDescription = segment.SegmentDescription,
+                        SegmentName = segment.SegmentName,
+                        Obligatory = segment.Obligatory,
+                        SegmentPositions = segment.SegmentPositions,
+                    };
+
+                SegmentGroup.Segments.Add(newSegment);
+            }
+        }
+
+    }
+
+    // método para crear un nuevo segmento a partir del seleccionado
+    public void OnGroupSegmentSelected(ChangeEventArgs e)
+    {
+
+        // parseamos a int el valor recibido del select
+        if (int.TryParse(e.Value.ToString(), out int IdSeleccionado))
+        {
+
+            // Buscamos el DataElement seleccionado usando el código
+            var GrupoSegmento = SegmentGroupManager.GetAllSegmentsGroups().FirstOrDefault(gs => gs.Id == IdSeleccionado);
+            if (GrupoSegmento != null)
+            {
+                // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
+                var newGrupoSegmento = new SegmentGroup
+                    {
+                        Id = GrupoSegmento.Id,
+                        Obligatorio = GrupoSegmento.Obligatorio,
+                        NumeroGrupoSegmentos = GrupoSegmento.NumeroGrupoSegmentos,
+                    };
+
+
+                SegmentGroup.SegmentsGroups.Add(newGrupoSegmento);
+            }
+        }
+
+    }
+
+
+
+    protected override void OnInitialized()
+    {
+        // Buscar el grupo de segmento por su ID
+        SegmentGroup = SegmentGroupManager.GetAllSegmentsGroups().FirstOrDefault(gs => gs.Id == Id);
+    }
+    public void ModifyGrupoSegmento()
+    {
+
+        SegmentGroupManager.UpdateComposite(SegmentGroup);
+
+        showPopUpMessage = true;
+
+    }
+
+    public void HandleConfirm()
+    {
+        showPopUpMessage = false;
+        Navigation.NavigateTo("/listaGrupoSegmentos");
+    }
+    /// <summary>
+    /// Método para el caso de cancelación
+    /// </summary>
+    public void HandleCancel()
+    {
+        showPopUpMessage = false;
+    }
+
+    public void DeleteSegment(SegmentDefinition segment)
+    {
+        SegmentGroup.Segments.Remove(segment);
+    }
+
+    public void DeleteGroupSegment(SegmentGroup GrupoSegmento)
+    {
+        SegmentGroup.SegmentsGroups.Remove(GrupoSegmento);
+    }
+}
+

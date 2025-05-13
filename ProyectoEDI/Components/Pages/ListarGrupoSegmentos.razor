@@ -1,0 +1,162 @@
+﻿@page "/listaGrupoSegmentos"
+@using BusinessLogic
+@using Entities.Entidades_Definicion
+@using Entities.Enum
+@inject SegmentGroupManager SegmentGroupManager
+@inject NavigationManager Navigation
+
+<h3>Listar Grupo Segmentos</h3>
+
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead class="table-danger">
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Número Grupo Segmentos</th>
+                
+                <th class="text-center">Obligatorio</th>
+                <th class="text-center">Segmentos</th>
+                <th class="text-center">Grupos de Segmentos</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--si existe algun segmento en la lista lo mostramos,
+            solo mostramos la informacion comun a todos los tipos de segmentos
+
+            -->
+            @if (SegmentGroupManager.GetAllSegmentsGroups() != null && SegmentGroupManager.GetAllSegmentsGroups().Count > 0)
+            {
+                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroups())
+                {
+                    <tr>
+                        <td class="text-center">@GrupoSegmento.Id</td>
+                        <td class="text-center">@GrupoSegmento.NumeroGrupoSegmentos</td>
+                        
+                        @if (GrupoSegmento.Obligatorio == true)
+                        {
+                            <td class="text-center">Sí</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">No</td>
+                        }
+                        <td>
+                            @foreach (var s in GrupoSegmento.Segments)
+                            {
+                                <p>@s.SegmentCode</p>
+                                <p>@s.SegmentName</p>
+                            
+                            }
+                        </td>
+                        <td>
+                            @foreach (var gs in GrupoSegmento.SegmentsGroups)
+                            {
+                                
+                                <p>Grupo Segmento @gs.Id </p>
+
+                            }
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-primary">Ver</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteSegmentGroup(GrupoSegmento) ">Eliminar</button>
+                            <button class="btn btn-warning"@onclick="() => GoModify(GrupoSegmento.Id)">Modificar</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No existen Grupos de Segmentos.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!--En caso de Borrar un mensaje aparecerá el la confirmación-->
+    @if (showPopUp)
+    {
+        <div class="overlay">
+            <div class="popup">
+                <h4>Confirmar Eliminación</h4>
+                <p>¿Estás seguro de que deseas eliminar el grupo de segmento:?</p>
+                <div class="popup-buttons">
+                    <button class="btn btn-danger" @onclick="ConfirmDeleteSegmentGroup">Eliminar</button>
+                    <button class="btn btn-secondary" @onclick="HandleCancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+    private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    private ToastMessage CreateToastMessage(ToastType toastType) => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Eliminación Grupo Segmento.",
+            HelpText = $"{DateTime.Now}",
+            Message = $"El grupo de segmento ha sido eliminado con éxito.",
+        };
+
+    //Variables
+    private bool showPopUp = false;
+    private bool showNotification = false;
+    private string notificationSegment = string.Empty;
+    private SegmentGroup SegmentGroupToDelete;
+
+
+
+    /// <summary>
+    /// Método para borrar un segmento, seguidamente aparecerá para confirmar
+    /// </summary>
+    /// <param name="message"></param>
+    private void DeleteSegmentGroup(SegmentGroup SegmentGroup)
+    {
+        SegmentGroupToDelete = SegmentGroup;
+        showPopUp = true;
+
+    }
+    /// <summary>
+    /// Confirmar el borrado del segmento
+    /// </summary>
+    private async Task ConfirmDeleteSegmentGroup()
+    {
+        if (SegmentGroupToDelete != null)
+        {
+            SegmentGroupManager.GetAllSegmentsGroups().Remove(SegmentGroupToDelete);
+            SegmentGroupToDelete = null;
+            showNotification = true;
+            notificationSegment = "El grupo de segmento ha sido borrado con éxito";
+            showPopUp = false;
+            await Task.Delay(3000);
+            showNotification = false;
+
+            ShowMessage(ToastType.Success);
+        }
+    }
+
+
+
+    /// <summary>
+    /// Manejar la cancelación del segmento
+    /// </summary>
+    private void HandleCancel()
+    {
+        showPopUp = false;
+
+    }
+
+    // método para navegar a la vista de Modificar
+    private void GoModify(int id)
+    {
+        Navigation.NavigateTo($"/modificarGrupoSegmento/{id}");
+    }
+
+}
