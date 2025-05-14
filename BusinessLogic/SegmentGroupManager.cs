@@ -1,4 +1,5 @@
-﻿using Entities.Entidades_Definicion;
+﻿using BusinessLogic.Interfaz;
+using Entities.Entidades_Definicion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class SegmentGroupManager
+    public class SegmentGroupManager:ISegmentGroupManager
     {
         /// <summary>
         /// La clase se encarga de manejejar el segmento y su propiedades.
@@ -15,7 +16,7 @@ namespace BusinessLogic
         /// <param name="position"></param>
         /// <param name="segment"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private readonly List<SegmentGroup> _segmentsGroups;
+        private readonly List<SegmentGroup> _segmentsGroups = new List<SegmentGroup>();
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>
@@ -30,7 +31,7 @@ namespace BusinessLogic
 
         public SegmentGroupManager()
         {
-            _segmentsGroups = new List<SegmentGroup>();
+            
         }
         /// <summary>
         /// Este método agrega un segmento a la lista de segmentos.
@@ -46,7 +47,7 @@ namespace BusinessLogic
         /// Devulve la lista de segmentos
         /// </summary>
         /// <returns></returns>
-        public List<SegmentGroup> GetAllSegmentsGroups()
+        public List<SegmentGroup> GetAllSegmentsGroup()
         {
             return _segmentsGroups;
         }
@@ -65,7 +66,7 @@ namespace BusinessLogic
         /// </summary>
         ///
 
-        public void UpdateComposite(SegmentGroup GrupoSegmento)
+        public void UpdateSegmentGroup(SegmentGroup GrupoSegmento)
         {
             // obtebemos el grupo de segmento existente por id
             var existingElement = GetSegmentGroupById(GrupoSegmento.Id);

@@ -38,7 +38,7 @@ namespace BusinessLogic.Definition
         /// <returns></returns>
         public Message GetMessageByType(MessageTypeEnum message)
         {
-            return _messages.FirstOrDefault(m => m.MessageType == message);
+            return _messages.FirstOrDefault(m => m.Type == message);
         }
         /// <summary>
         /// Obtener la lista de mensajes
@@ -77,41 +77,13 @@ namespace BusinessLogic.Definition
                           .ToList();
         }
 
-        /// <summary>
-        /// Valida el mensaje y lanza una excepción si no cumple con los requisitos.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public void CheckMessage(Message message)
+        /*
+         metodo para obtener un mensaje por id
+         */
+        public  Message GetMessageById(int id)
         {
-            if (string.IsNullOrEmpty(message.MessageType.ToString()))
-            {
-                throw new ArgumentException("El tipo de mensaje no puede ser nulo o vacío.");
-            }
-            else if (message.MessageType == null)
-            {
-                throw new ArgumentException("El tipo de mensaje es obligatorio.");
-            }
-            else if (string.IsNullOrWhiteSpace(message.MessageVersion))
-            {
-                throw new ArgumentException("La versión del mensaje no puede ser nula o vacía.");
-            }
-            else if (message.MessagePositions == null || message.MessagePositions.Count == 0)
-            {
-                throw new ArgumentException("El mensaje debe contener al menos un segmento.");
-            }
-            else if (message.MessagePositions.Any(p => p.Segment == null))
-            {
-                throw new ArgumentException("Todos los segmentos deben estar definidos.");
-            }
-            else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.M && p.Segment == null))
-            {
-                throw new ArgumentException("Los segmentos obligatorios no pueden ser nulos.");
-            }
-            else if (message.MessagePositions.Any(p => p.RequirementIndicator == RequirementIndicatorEnum.C && p.Segment == null))
-            {
-                throw new ArgumentException("Los segmentos condicionales no pueden ser nulos.");
-            }
+            return _messages.FirstOrDefault(m => m.Id == id);
+
         }
     }
 }

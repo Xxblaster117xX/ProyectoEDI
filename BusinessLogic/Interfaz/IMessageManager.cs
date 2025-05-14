@@ -16,8 +16,8 @@ namespace BusinessLogic.Definition
         List<Message> GetAllMessages();
         bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type);
         List<SegmentDefinition> GetSegments(Message message);
-        void CheckMessage(Message message);
-       
+        Message GetMessageById(int id);
+
 
     }
 }
