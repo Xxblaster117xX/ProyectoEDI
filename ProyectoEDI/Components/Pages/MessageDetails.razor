@@ -2,21 +2,29 @@
 @inject MessageManager MessageManager
 @using Entities.Entidades_Definicion
 @using BusinessLogic.Definition
-
-
-    <div class="cw-480">
-        <DxAccordion Data="@Positions"
-                     ShowFilterPanel="true"
-                     RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End"
-                     SubItemExpandButtonIconCssClass="icon-square-plus"
-                     SubItemCollapseButtonIconCssClass="icon-square-minus">
-            <DataMappings>
-                <DxAccordionDataMapping Text="DisplayName"
-                                        Key="Id"
-                                        ParentKey="SegmentGroupId" />
-            </DataMappings>
+@if (DataSource!=null)
+{
+    <div class="cw-480 demo-preventsel">
+        <DxAccordion ExpandMode="ExpandMode"
+                     ExpandCollapseAction="ExpandCollapseAction"
+                     AnimationType="LayoutAnimationType.Slide">
+            <Items>
+                @foreach (MessagePosition message in DataSource.MessagePositions)
+                {
+                    <DxAccordionItem Text=@($"{message.Position} {message.obligatory}")>
+                        <ContentTemplate>
+                            <div class="py-3 px-3" tabindex="0">
+                                @($"{message.Position} {message.obligatory}")
+                                @* <EmployeeCard EmployeeInfo="@message"/> *@
+                            </div>
+                        </ContentTemplate>
+                    </DxAccordionItem>
+                }
+            </Items>
         </DxAccordion>
     </div>
+}
+
 
 
 @code {
@@ -27,10 +35,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var message =  MessageManager.GetMessageById(MessageId);
-        if (message != null && message.MessagePositions != null)
+        DataSource = MessageManager.GetMessageById(MessageId);
+        if (DataSource != null && DataSource.MessagePositions != null)
         {
-            Positions = message.MessagePositions.Select(mp => new MessagePositionFlat
+            Positions = DataSource.MessagePositions.Select(mp => new MessagePositionFlat
                 {
                     Id = mp.id,
                     DisplayName = $"{mp.Position} - {mp.Segment?.Name ?? "Sin segmento"}",
@@ -45,5 +53,9 @@
         public string DisplayName { get; set; }
         public int? SegmentGroupId { get; set; }
     }
-  
+    Message DataSource;
+    IEnumerable<Message> Items;
+    AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
+    AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
+   
 }
