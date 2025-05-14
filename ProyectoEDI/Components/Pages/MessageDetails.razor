@@ -1,0 +1,49 @@
+﻿@page "/Message-details/{MessageId:int}"
+@inject MessageManager MessageManager
+@using Entities.Entidades_Definicion
+@using BusinessLogic.Definition
+
+
+    <div class="cw-480">
+        <DxAccordion Data="@Positions"
+                     ShowFilterPanel="true"
+                     RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End"
+                     SubItemExpandButtonIconCssClass="icon-square-plus"
+                     SubItemCollapseButtonIconCssClass="icon-square-minus">
+            <DataMappings>
+                <DxAccordionDataMapping Text="DisplayName"
+                                        Key="Id"
+                                        ParentKey="SegmentGroupId" />
+            </DataMappings>
+        </DxAccordion>
+    </div>
+
+
+@code {
+    [Parameter]
+    public int MessageId { get; set; }
+
+    public List<MessagePositionFlat> Positions { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var message =  MessageManager.GetMessageById(MessageId);
+        if (message != null && message.MessagePositions != null)
+        {
+            Positions = message.MessagePositions.Select(mp => new MessagePositionFlat
+                {
+                    Id = mp.id,
+                    DisplayName = $"{mp.Position} - {mp.Segment?.Name ?? "Sin segmento"}",
+                    SegmentGroupId = mp.SegmentGroup?.id
+                }).ToList();
+        }
+    }
+
+    public class MessagePositionFlat
+    {
+        public int Id { get; set; }
+        public string DisplayName { get; set; }
+        public int? SegmentGroupId { get; set; }
+    }
+  
+}

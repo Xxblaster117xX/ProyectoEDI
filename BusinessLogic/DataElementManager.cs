@@ -4,36 +4,41 @@ using Entities.Entidades_Definicion;
 public class DataElementManager : IDataElementManager
 {
     /// <summary>
-    /// Dos elementos añadidos para revisar la visualización
+    /// Lista de data Elements
     /// </summary>
     public List<DataElement> dataElements = new List<DataElement>();
 
 
-    // Método de validación
+    /// <summary>
+    /// Método para validar un DataElement.
+    /// </summary>
+    /// <param name="dataElement"></param>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
     private bool ValidateDataElement(DataElement dataElement, out string errorMessage)
     {
         errorMessage = string.Empty;
 
-        if (string.IsNullOrWhiteSpace(dataElement.DataElementName))
+        if (string.IsNullOrWhiteSpace(dataElement.Name))
         {
             errorMessage = "El nombre del DataElement es obligatorio.";
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(dataElement.DataElementDescription))
+        if (string.IsNullOrWhiteSpace(dataElement.Description))
         {
             errorMessage = "La descripción del DataElement es obligatoria.";
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(dataElement.Format))
+        if (string.IsNullOrWhiteSpace(dataElement.ValueFormat))
         {
             errorMessage = "El formato del DataElement es obligatorio.";
             return false;
         }
 
         // Verificar que no exista un DataElement con el mismo nombre (o código, dependiendo de lo que se desee validar)
-        if (dataElements.Any(de => de.DataElementName == dataElement.DataElementName && de.Code != dataElement.Code))
+        if (dataElements.Any(de => de.Name == dataElement.Name && de.Code != dataElement.Code))
         {
             errorMessage = "Ya existe un DataElement con ese nombre.";
             return false;
@@ -42,7 +47,11 @@ public class DataElementManager : IDataElementManager
         return true;
     }
 
-    // Agregar un nuevo DataElement
+    /// <summary>
+    /// Método para agregar un nuevo DataElement a la lista.
+    /// </summary>
+    /// <param name="dataElement"></param>
+    /// <returns></returns>
     public string AddDataElement(DataElement dataElement)
     {
         string errorMessage;
@@ -59,7 +68,11 @@ public class DataElementManager : IDataElementManager
         }
     }
 
-    // Eliminar un DataElement
+    /// <summary>
+    /// Método para eliminar un DataElement por su código.
+    /// </summary>
+    /// <param name="code"></param>
+    /// <returns></returns>
     public string DeleteDataElement(int code)
     {
         var dataElement = GetDataElementByCode(code);
@@ -74,7 +87,12 @@ public class DataElementManager : IDataElementManager
         }
     }
 
-    // Actualizar un DataElement
+    /// <summary>
+    /// Método para actualizar un DataElement existente.
+    /// </summary>
+    /// <param name="updatedDataElement"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void UpdateDataElement(DataElement updatedDataElement)
     {
         if (updatedDataElement == null)
@@ -90,21 +108,28 @@ public class DataElementManager : IDataElementManager
             throw new InvalidOperationException($"No se encontró un elemento de dato con el ID {updatedDataElement.Id}.");
         }
         // Actualizar los campos del elemento de dato existente
-        existingDataElement.DataElementName = updatedDataElement.DataElementName;
-        existingDataElement.DataElementDescription = updatedDataElement.DataElementDescription;
-        existingDataElement.Format = updatedDataElement.Format;
+        existingDataElement.Name = updatedDataElement.Name;
+        existingDataElement.Description = updatedDataElement.Description;
+        existingDataElement.ValueFormat = updatedDataElement.ValueFormat;
 
         Console.WriteLine($"Elemento de dato con ID {updatedDataElement.Id} actualizado correctamente.");
     }
 
 
-    // Obtener todos los DataElements
+    /// <summary>
+    /// Método para obtener la lista de data elements
+    /// </summary>
+    /// <returns></returns>
     public List<DataElement> GetAllDataElements()
     {
         return dataElements;
     }
 
-    // Obtener un DataElement por su código
+    /// <summary>
+    /// Obtener un data element según su código.
+    /// </summary>
+    /// <param name="code"></param>
+    /// <returns></returns>
     public DataElement GetDataElementByCode(int code)
     {
         return dataElements.FirstOrDefault(de => de.Code == code);

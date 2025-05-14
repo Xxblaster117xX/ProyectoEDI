@@ -7,6 +7,9 @@ using Entities.Entidades_Definicion;
 using Entities.Entidades_Representacion;
 namespace Entities.Entidades_Representacion.Abstract
 {
+    /// <summary>
+    /// Clase que representa un grupo de segmentos en un mensaje
+    /// </summary>
     public class SegmentGroup
     {
         /// <summary>

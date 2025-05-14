@@ -6,34 +6,36 @@
 
 <h3>Modificar Elemento de Dato</h3>
 
+<!--Aparece si en la lista no han mensajes-->
 @if (dataElement == null)
 {
-    <p>Cargando elemento de dato...</p>
+    <p>No se han podido cargar los mensajes</p>
 }
 else
 {
+    <!-- Formulario de modificación de un elemento de dato-->
     <EditForm Model="dataElement" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="form-group">
             <label for="dataElementName" class="form-label fw-bold">Nombre</label>
-            <InputText class="form-control" @bind-Value="dataElement.DataElementName" required />
+            <InputText class="form-control" @bind-Value="dataElement.Name" required />
         </div>
         <div class="form-group">
             <label for="dataElementDescription" class="form-label fw-bold">Descripción</label>
-            <InputTextArea class="form-control" @bind-Value="dataElement.DataElementDescription" required />
+            <InputTextArea class="form-control" @bind-Value="dataElement.Description" required />
         </div>
         <div class="form-group">
             <label for="dataElementValueFormat" class="form-label fw-bold">Formato de Valor</label>
-            <InputText class="form-control" @bind-Value="dataElement.Format" required />
+            <InputText class="form-control" @bind-Value="dataElement.ValueFormat" required />
         </div>
         <br />
         <button type="submit" class="btn btn-success" style="background-color:red">Guardar Cambios</button>
         <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
     </EditForm>
 }
-
+<!-- Pop up de confirmación cuando se pulsa para guardar un  mensaje-->
 @if (showSuccessPopup)
 {
     <div class="overlay">
@@ -49,8 +51,17 @@ else
 }
 
 @code {
+    /// <summary>
+    /// Variable id de un dataelement para saber que elemento de dato se va a modificar
+    /// </summary>
     [Parameter] public int DataElementId { get; set; }
+    /// <summary>
+    ///Instanciar un data element
+    /// </summary>
     private DataElement dataElement;
+    /// <summary>
+    /// Variable para manejar el pop up de confirmación
+    /// </summary>
     private bool showSuccessPopup = false;
 
     /// <summary>
@@ -66,7 +77,7 @@ else
         }
         else
         {
-            Console.WriteLine($"Elemento de dato cargado: {dataElement.DataElementName}");
+            Console.WriteLine($"Elemento de dato cargado: {dataElement.Name}");
         }
     }
 

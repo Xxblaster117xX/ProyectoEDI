@@ -1,20 +1,20 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Entities.Entidades_Definicion;
 using Entities.Model.Enum;
-using Segment = Entities.Entidades_Definicion.Segment;
-namespace BusinessLogic.Definition
-{
-    /// <summary>
-    /// La clase MessageManager se encarga de manejar los mensajes y sus propiedades.
-    /// </summary>
-    public class MessageManager : IMessageManager
-    {
 
+namespace AppLayer
+{
+    public class MessageAppService
+    {
         public readonly List<Message> _messages;
         /// <summary>
         /// Constructor de la lista de mensajes
         /// </summary>
-        public MessageManager()
+        public MessageAppService()
         {
             _messages = new List<Message>();
         }
@@ -35,7 +35,7 @@ namespace BusinessLogic.Definition
         /// <param name="message"></param>
         public string AddMessage(Message message)
         {
-          string errorMessage;
+            string errorMessage;
             if (CheckMessage(message, out errorMessage))
             {
 
@@ -66,7 +66,7 @@ namespace BusinessLogic.Definition
         {
             return _messages;
         }
-      
+
         /// <summary>
         /// Obtener los segmentos según el mensaje valorando la posición. Dependiendo de la posición obtiene el segmento en específico 
         /// </summary>
@@ -119,34 +119,36 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="message"></param>
         /// <exception cref="ArgumentException"></exception>
-        public  bool CheckMessage(Message message, out string errorMessage)
+        public bool CheckMessage(Message message, out string errorMessage)
         {
             errorMessage = string.Empty;
             if (string.IsNullOrEmpty(message.MessageType.ToString()))
             {
-             errorMessage="El tipo de mensaje no puede ser nulo o vacío.";
+                errorMessage = "El tipo de mensaje no puede ser nulo o vacío.";
                 return false;
             }
             else if (message.MessageType == null)
             {
-                errorMessage="El tipo de mensaje es obligatorio.";
+                errorMessage = "El tipo de mensaje es obligatorio.";
             }
             else if (string.IsNullOrWhiteSpace(message.Version))
             {
-               errorMessage="La versión del mensaje no puede ser nula o vacía.";
+                errorMessage = "La versión del mensaje no puede ser nula o vacía.";
             }
             else if (message.MessagePositions == null || message.MessagePositions.Count == 0)
             {
-                errorMessage="El mensaje debe contener al menos un segmento.";
+                errorMessage = "El mensaje debe contener al menos un segmento.";
             }
             else if (message.MessagePositions.Any(p => p.Segment == null))
             {
-                errorMessage="Todos los segmentos deben estar definidos.";
+                errorMessage = "Todos los segmentos deben estar definidos.";
             }
-   
+
             return true;
         }
     }
-    }
 
+
+
+}
 

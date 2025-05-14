@@ -7,12 +7,21 @@
 @inject IJSRuntime JS
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Sqlite;
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.AspNetCore.Identity.UI
+@using ProyectoEDI.Backend
+@inject ApplicationDBContext DbContext
 
 <h2>Datos del Mensaje</h2>
 
+<!-- Formulario de creación de un mensaje-->
 <EditForm Model="@this" OnValidSubmit="Create">
     <DataAnnotationsValidator />
-
     <div class="mb-3">
         <label class="form-label">Tipo del mensaje</label>
         <InputSelect class="form-select" @bind-Value="messageTypeValue">
@@ -62,16 +71,46 @@
 }
 
 @code {
+
+    /// <summary>
+    /// Variable para incrementar el ID de los mensajes
+    /// </summary>
     private static int _currentId = 0;
+    /// <summary>
+    /// Variable para asignar el tipo de mensaje
+    /// </summary>
     private string messageTypeValue = string.Empty;
+    /// <summary>
+    /// Variable para asignar la versión del mensaje
+    /// </summary>
     private string messageVersionValue = string.Empty;
+    /// <summary>
+    /// Variable para asignar el nombre del mensaje
+    /// </summary>
     private string messageNameValue = string.Empty;
+    /// <summary>
+    /// Variable para asignar la versión de directorio del mensaje
+    /// </summary>
     private string messageDirectoryVersionValue = string.Empty;
+    /// <summary>
+    /// Variable para asignar la fecha de lanzamiento del mensaje
+    /// </summary>
     private string messageReleaseValue = string.Empty;
+    /// <summary>
+    /// Variable booleana para mostrar el popUp de confirmación
+    /// </summary>
     public bool showPopUpMessage = false;
 
+    /// <summary>
+    /// Función para autoincrementar el ID de los mensajes
+    /// </summary>
+    /// <returns></returns>
     private int AutoIncrementId() => ++_currentId;
 
+    /// <summary>
+    /// Método para crear un nuevo mensaje
+    /// </summary>
+    /// <returns></returns>
     private async Task Create()
     {
         if (string.IsNullOrWhiteSpace(messageTypeValue) ||
@@ -80,16 +119,16 @@
             string.IsNullOrWhiteSpace(messageDirectoryVersionValue) ||
             string.IsNullOrWhiteSpace(messageReleaseValue))
         {
-            await ShowErrorAlert("Por favor, completa todos los campos.");
+			await ShowErrorAlert("Por favor, completa todos los campos.");//Si algún campo está vacío, se muestra un mensaje de error
             return;
         }
 
-        if (IsMessageNameSimilar(messageNameValue))
+		if (IsMessageNameSimilar(messageNameValue))//Si el nombre ya existe, se muestra un mensaje de error
         {
             await ShowErrorAlert($"Ya existe un mensaje con el mismo nombre: {messageNameValue}");
             return;
         }
-
+		// / Si el nombre no existe, se crea el mensaje
         var message = new Message
             {
                 Id = AutoIncrementId(),
@@ -101,29 +140,46 @@
                 Description = "Aquí iría la descripción del mensaje"
             };
 
+            //Se añade el mensaje a la lista para luego mostrar la lista del mensajes con el mensaje
         messageManager.AddMessage(message);
-        Console.WriteLine($"Mensaje creado: {message.Name}");
+        //Se añade el mensaje a la base de datos
+        DbContext.Messages.Add(message);
+        Console.WriteLine($"Mensaje creado: {message.Name}");// Mostrar que el mensaje se ha creado por consola
+		// Enseñar el popUp de confirmación
         showPopUpMessage = true;
     }
-
+    /// <summary>
+    /// Método para confirmar la creación del mensaje mediante el popUp  de confirmación
+    /// </summary>
     private void HandleConfirm()
     {
         showPopUpMessage = false;
-        Navigation.NavigateTo("/MessagesList?success=created");
+		Navigation.NavigateTo("/MessagesList?success=created");// Si se confirma, se redirige a la lista de mensajes
     }
-
+    /// <summary>
+    /// Método para cancelar la creación del mensaje
+    /// </summary>
     private void HandleCancel()
     {
         showPopUpMessage = false;
     }
-
+    /// <summary>
+    /// Método que evalua si el nombre del mensaje ya existe
+    /// </summary>
+    /// <param name="newName"></param>
+    /// <returns></returns>
     private bool IsMessageNameSimilar(string newName)
     {
         return messageManager.GetAllMessages().Any(m =>
             m.Name.Equals(newName, StringComparison.OrdinalIgnoreCase));
     }
 
-    private async Task ShowErrorAlert(string message)
+    /// <summary>
+	/// Método para mostrar un mensaje de error mediante un alert cuando el mensaje ya existe
+	/// </summary>
+	/// <param name="message"></param>
+	/// <returns></returns>
+	private async Task ShowErrorAlert(string message)
     {
         await JS.InvokeVoidAsync("alert", message);
     }

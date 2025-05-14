@@ -9,6 +9,7 @@
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
+<!--Lista de elementos de datos-->
 <table class="table">
     <thead>
         <tr>
@@ -25,9 +26,9 @@
             {
                 <tr>
                     <td>@element.Code</td>
-                    <td>@element.DataElementName</td>
-                    <td>@element.DataElementDescription</td>
-                    <td>@element.Format</td>
+                    <td>@element.Name</td>
+                    <td>@element.Description</td>
+                    <td>@element.ValueFormat</td>
                     <td>
                         <button class="btn btn-warning" @onclick="() => Modify(element.Code)">Modificar</button>
                         <button class="btn btn-info" @onclick="() => OpenEditPopup(element)">ModificarPopUp</button>
@@ -44,6 +45,7 @@
     </tbody>
 </table>
 
+<!--Pop de modificación de un elemento de dato que aparece al pulsar el botón de modificar-->
 @if (showEditPopup)
 {
     <div class="overlay">
@@ -51,15 +53,15 @@
             <h4>Editar DataElement</h4>
             <div class="mb-2">
                 <label>Nombre:</label>
-                <input class="form-control" @bind="EditDataElement.DataElementName" />
+                <input class="form-control" @bind="EditDataElement.Name" />
             </div>
             <div class="mb-2">
                 <label>Descripción:</label>
-                <input class="form-control" @bind="EditDataElement.DataElementDescription" />
+                <input class="form-control" @bind="EditDataElement.Description" />
             </div>
             <div class="mb-2">
                 <label>Formato:</label>
-                <input class="form-control" @bind="EditDataElement.Format" />
+                <input class="form-control" @bind="EditDataElement.ValueFormat" />
             </div>
             <div class="popup-buttons">
                 <button class="btn btn-success" @onclick="SaveEdit">Guardar</button>
@@ -99,8 +101,6 @@
     /// <summary>
     /// Al incializar la página, se obtienen todos los DataElements
     /// </summary>
-
-
     protected override void OnInitialized()
     {
         dataElementList = dataElementManager.GetAllDataElements();
@@ -142,15 +142,15 @@
         EditDataElement = new DataElement
             {
                 Code = dataElement.Code,
-                DataElementName = dataElement.DataElementName,
-                DataElementDescription = dataElement.DataElementDescription,
-                Format = dataElement.Format,
+                Name = dataElement.Name,
+                Description = dataElement.Description,
+                ValueFormat = dataElement.ValueFormat,
             };
         showEditPopup = true;
     }
 
 
-   
+
 
     /// <summary>
     /// Confirmar la eliminación del DataElement
@@ -167,20 +167,26 @@
         ShowDeleteDataElement(ToastType.Danger);
         StateHasChanged();
     }
+    /// <summary>
+    /// Método para cancelar el guardado del elemento de dato(Cierra el pop up sin guardar el elemento de dato)
+    /// </summary>
     private void CancelEdit()
     {
         showEditPopup = false;
     }
 
-    private void SaveEdit()
+    /// <summary>
+	/// Método para guardar los cambios realizados en el DataElement
+	/// </summary>
+	private void SaveEdit()
     {
         // Busca el elemento original por Code (identificador único)
         var original = dataElementList.FirstOrDefault(e => e.Code == EditDataElement.Code);
         if (original != null)
         {
-            original.DataElementName = EditDataElement.DataElementName;
-            original.DataElementDescription = EditDataElement.DataElementDescription;
-            original.Format = EditDataElement.Format;
+            original.Name = EditDataElement.Name;
+            original.Description = EditDataElement.Description;
+            original.ValueFormat = EditDataElement.ValueFormat;
 
             // Actualiza en la base de datos o backend
             dataElementManager.UpdateDataElement(original);
@@ -206,7 +212,9 @@
     [SupplyParameterFromQuery]
     public string success { get; set; }
 
-    //Lista para almacenar los mensajes de notificación
+    /// <summary>
+    /// Lista para los mensajes toast
+    /// </summary>
     List<ToastMessage> messages = new List<ToastMessage>();
 
     /// <summary>
@@ -230,11 +238,17 @@
             Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
         };
 
-    // Método para mostrar el mensaje de notificación
+    /// <summary>
+    /// Método para mostrar el mensaje de modificación en el toast
+    /// </summary>
+    /// <param name="toastType"></param>
     private void ShowModifyDataElement(ToastType toastType) => messages.Add(CreateModifyToastDataElement(toastType));
 
-    //
-    // Método para crear un mensaje de notificación
+    /// <summary>
+    /// Método para crear el mensaje de modificación en el toast
+    /// </summary>
+    /// <param name="toastType"></param>
+    /// <returns></returns>
     private ToastMessage CreateModifyToastDataElement(ToastType toastType)
     => new ToastMessage
         {

@@ -8,6 +8,9 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<DxButton Text="Click me"
+		  Click="@IncrementCount"
+		  RenderStyle="ButtonRenderStyle.Primary"/>
 
 @code {
     private int currentCount = 0;

@@ -8,12 +8,14 @@
 
 <h3>Modificar Mensaje</h3>
 
+<!-- Si no almacena ningún mensaje aparece que los está cargando-->
 @if (message == null)
 {
-    <p>Cargando mensaje...</p>
+    <p>Los mensajes no han podido ser cargados </p>
 }
 else
 {
+    <!--Formulario de modificación de un mensaje -->
     <EditForm Model="message" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -52,7 +54,7 @@ else
         <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
     </EditForm>
 }
-
+<!-- Pop up de confirmación de modificación del mensaje -->
 @if (showSuccessPopup)
 {
     <div class="overlay">
@@ -68,8 +70,17 @@ else
 }
 
 @code {
+    /// <summary>
+    /// Variable para almacenar el mensaje a modificar.
+    /// </summary>
     [Parameter] public int MessageId { get; set; }
+    /// <summary>
+    /// Variable para instanciar un mensaje
+    /// </summary>
     private Message message;
+    /// <summary>
+    /// Variable para manejar el pop up de confirmación
+    /// </summary>
     private bool showSuccessPopup = false;
 
     /// <summary>

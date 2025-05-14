@@ -1,16 +1,14 @@
-﻿using Entities.Entidades_Definicion;
-using BusinessLogic.Definition;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Entities.Entidades_Representacion.Abstract;
-using Segment = Entities.Entidades_Definicion.Segment;
-namespace BusinessLogic
+
+namespace AppLayer
 {
-
-    /// <summary>
-    /// Clase que representa un gestor de segmentos que implementa su interfaz
-    /// </summary>
-    public class SegmentManager : ISegmentManager
+    public class SergmentAppService
     {
-
         /// <summary>
         /// La clase se encarga de manejejar el segmento y su propiedades.
         /// </summary>
@@ -21,7 +19,7 @@ namespace BusinessLogic
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>
- 
+
 
         public List<Segment> GetAllSegments()
         {
@@ -43,11 +41,11 @@ namespace BusinessLogic
         /// <returns></returns>
         public Segment GetSegmentByCode(int code)
         {
-            return _segments.FirstOrDefault(s => s.SegmentCode == code);
+            return _segments.FirstOrDefault(s => s.Code == code);
         }
 
 
-       
+
 
         /// <summary>
         /// Este método verifica si un segmento tiene elementos compuestos.
@@ -70,4 +68,7 @@ namespace BusinessLogic
             throw new NotImplementedException();
         }
     }
+
+
 }
+

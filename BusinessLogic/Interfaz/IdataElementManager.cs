@@ -3,6 +3,10 @@ using Entities.Entidades_Definicion;
 
 namespace BusinessLogic.Definition
 {
+
+    /// <summary>
+    /// Interfaz que define los métodos para manejar elementos de datos.
+    /// </summary>
     public interface IDataElementManager
     {
         // Obtener todos los DataElements

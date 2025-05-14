@@ -36,7 +36,7 @@
                     <td>@message.DirectoryVersion</td>
                     <td>@message.Description</td>
                     <td>
-                        <button class="btn btn-primary btn-sm" @onclick="() => ViewMessage(message)">Ver</button>
+                        <button class="btn btn-primary btn-sm" @onclick="() => GoViewMessage(message)">Ver</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(message)">Eliminar</button>
                         <button class="btn btn-warning btn-sm" @onclick="() => GoEditMessage(message)">Modificar</button>
                         <button class="btn btn-info btn-sm" @onclick="() => OpenEditPopup(message)">Modificar (popup)</button>
@@ -113,26 +113,53 @@
 }
 
 @code {
-    private bool showPopUp = false;
+
+
+    /// </summary> 
+    /// Variable para el pop up de confirmación
+    /// <summary>
+ private bool showPopUp = false;
+
+    /// <summary>
+    /// Variable 
+    /// </summary>
     private Message messageToDelete;
     private string notificationMessage;
 
-    // Variable para el popUp de edición
+
+    ///</summary>
+    /// variable para el popUp de edición 
+    ///<summary>
     private bool showEditPopup = false;
+
+    /// <summary>
+    /// Variable utilizada para cargar el mensaje de
+    /// </summary>
     private Message editMessage = new Message();
 
+    /// <summary>
+    /// Método para navegar a la página de detalles del mensaje(Aún sin realizar).
+    /// </summary>
+    /// <param name="message"></param>
     public void ViewMessage(Message message)
     {
         Navigation.NavigateTo($"/MessageDetails/{message.Id}");
     }
-
+    /// <summary>
+    /// Método para borrar un mensaje.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
     private Task DeleteMessage(Message message)
     {
         messageToDelete = message;
         showPopUp = true;
         return Task.CompletedTask;
     }
-
+    /// <summary>
+    /// Método para confirmar la eliminación de un mensaje. cuando saque el popUp de eliminación.
+    /// </summary>
+    /// <returns></returns>
     private async Task ConfirmDeleteMessage()
     {
         if (messageToDelete != null)
@@ -150,22 +177,31 @@
             StateHasChanged();
         }
     }
-
+    /// <summary>
+    /// Botón para cancelar la eliminación de un mensaje.
+    /// </summary>
     private void HandleCancel()
     {
         showPopUp = false;
         messageToDelete = null;
     }
 
+    /// <summary>
+    /// Método para navegar a la página de modificación de un mensaje.
+    /// </summary>
+    /// <param name="message"></param>
     private void GoEditMessage(Message message)
     {
         Navigation.NavigateTo($"/ModifyMessageList/{message.Id}");
     }
 
-    // Abrir popup de edición
+    /// <summary>
+    /// Método para abrir el popup de edición de un mensaje.
+    /// </summary>
+    /// <param name="message"></param>
     private void OpenEditPopup(Message message)
     {
-       
+
         editMessage = new Message
             {
                 Id = message.Id,
@@ -180,11 +216,16 @@
         showEditPopup = true;
     }
 
+    /// <summary>
+    /// Método para cancelar la edición de un mensaje.
+    /// </summary>
     private void CancelEditPopup()
     {
         showEditPopup = false;
     }
-
+    /// <summary>
+    /// Método para guardar los cambios realizados en el mensaje en el PopUp de edición
+    /// </summary>
     private void SaveEditMessage()
     {
         // Buscar el mensaje original y actualizar sus campos
@@ -202,12 +243,19 @@
         ShowModifyMessage(ToastType.Success);
         StateHasChanged();
     }
-
+    /// <summary>
+    /// Método para abrir la modificación de un mensaje en una nueva pestaña(Aún sin hacer)
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
     private async Task OpenInNewTab(string url)
     {
         await JS.InvokeVoidAsync("openInNewTab", url);
     }
 
+    /// <summary>
+    /// Método para que al cargar la`página se muestre el toast de confirmación de modificación.
+    /// </summary>
     protected override void OnInitialized()
     {
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
@@ -219,7 +267,15 @@
             }
         }
     }
+    private void GoViewMessage(Message message)
+    {
+        Navigation.NavigateTo($"/Message-details/{message.Id}");
+    }
 
+    /// <summary>
+    /// Ahora se muestra el mensaje de notificación y se oculta después de un retraso.(Ahora no se utiliza)
+    /// </summary>
+    /// <returns></returns>
     private async Task HideNotificationAfterDelay()
     {
         StateHasChanged();
@@ -231,8 +287,19 @@
     //Lista para almacenar los mensajes de notificación
     List<ToastMessage> messages = new List<ToastMessage>();
 
+
+    /// <summary>
+    /// Este método se encarga de mostrar el mensaje de eliminación en la lista de mensajes.
+    /// </summary>
+    /// <param name="toastType"></param>
     private void ShowDeleteMessage(ToastType toastType) => messages.Add(CreateDeleteToastMessage(toastType));
 
+
+    /// <summary>
+    /// Método para crear un toast de eliminación.
+    /// </summary>
+    /// <param name="toastType"></param>
+    /// <returns></returns>
     private ToastMessage CreateDeleteToastMessage(ToastType toastType)
     => new ToastMessage
         {
@@ -242,9 +309,20 @@
             Message = $"El mensaje ha sido borrado con éxito {DateTime.Now}",
         };
 
+
+
+    /// <summary>
+    /// Este método se encarga de mostrar el mensaje de modificación en la lista de mensajes.
+    /// </summary>
+    /// <param name="toastType"></param>
     private void ShowModifyMessage(ToastType toastType) => messages.Add(CreateModifyToastMessage(toastType));
 
-    private ToastMessage CreateModifyToastMessage(ToastType toastType)
+    /// <summary>
+	/// Método para crear un toast de modificación.
+	/// </summary>
+	/// <param name="toastType"></param>
+	/// <returns></returns>
+	private ToastMessage CreateModifyToastMessage(ToastType toastType)
     => new ToastMessage
         {
             Type = toastType,
