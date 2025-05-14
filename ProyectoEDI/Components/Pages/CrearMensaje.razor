@@ -10,7 +10,7 @@
         <form @onsubmit="CreateMessage">
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Mensaje</label>
-                <select class="form-select" id="tipo" @bind = "mensaje.MessageType">
+                <select class="form-select" id="tipo" @bind = "mensaje.Type">
                     <option value="" disabled selected>Seleccione un tipo...</option>
                     @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
                     {
@@ -21,28 +21,28 @@
 
             <div class="mb-3">
                 <label for="version" class="form-label">Versión:</label>
-                <input type="text" class="form-control" id="version" name="version"  @bind="mensaje.MessageVersion">
+                <input type="text" class="form-control" id="version" name="version"  @bind="mensaje.Version">
                 
             </div>
 
             <div class="mb-3">
                 <label for="release" class="form-label">Release:</label>
-                <input type="text" class="form-control" id="release" name="release" @bind="mensaje.MessageRelease">
+                <input type="text" class="form-control" id="release" name="release" @bind="mensaje.Release">
             </div>
 
             <div class="mb-3">
                 <label for="directoryVersion" class="form-label">Directory Version:</label>
-                <input type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind="mensaje.MessageDirectoryVersion">
+                <input type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind="mensaje.DirectoryVersion">
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" @bind="mensaje.MessageName">
+                <input type="text" class="form-control" id="nombre" name="nombre" @bind="mensaje.Name">
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripcion:</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" @bind="mensaje.MessageDescription"></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" @bind="mensaje.Description"></textarea>
             </div>
 
             

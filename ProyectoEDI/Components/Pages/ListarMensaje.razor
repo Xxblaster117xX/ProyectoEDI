@@ -23,12 +23,12 @@
                 @foreach (var message in MessageService.GetMessages())
                 {
                     <tr>
-                        <td class="text-center">@message.MessageType</td>
-                        <td class="text-center">@message.MessageVersion</td>
-                        <td class="text-center">@message.MessageRelease</td>
-                        <td class="text-center">@message.MessageDirectoryVersion</td>
-                        <td class="text-center">@message.MessageName</td>
-                        <td class="text-center">@message.MessageDescription</td>
+                        <td class="text-center">@message.Type</td>
+                        <td class="text-center">@message.Version</td>
+                        <td class="text-center">@message.Release</td>
+                        <td class="text-center">@message.DirectoryVersion</td>
+                        <td class="text-center">@message.Name</td>
+                        <td class="text-center">@message.Description</td>
                         <td class="text-center">
                             <button class="btn btn-success">Ver Mensaje</button>
                             <button class="btn btn-warning">Modificar</button>
