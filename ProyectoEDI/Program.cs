@@ -12,6 +12,9 @@ builder.Services.AddSingleton<MessageService>();
 builder.Services.AddScoped<SegmentManager>();
 builder.Services.AddScoped<CompositeManager>();
 builder.Services.AddScoped<SegmentGroupManager>();
+
+
+builder.Services.AddDevExpressBlazor();
 // blazor bootstrap
 builder.Services.AddBlazorBootstrap();
 
