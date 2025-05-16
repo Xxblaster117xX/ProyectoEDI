@@ -38,7 +38,7 @@
             <label for="segmento" class="form-label">Grupo de Segmentos:</label>
             <select id="segmento" class="form-select" @onchange="OnGroupSegmentSelected">
                 <option value="" disabled selected>Seleccione un Grupo de Segmentos...</option>
-                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroups())
+                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroup())
                 {
                     <option value="@GrupoSegmento.Id">GrupoSegmento @GrupoSegmento.Id</option>
                 }
@@ -134,7 +134,7 @@
         {
 
             // Buscamos el DataElement seleccionado usando el código
-            var GrupoSegmento = SegmentGroupManager.GetAllSegmentsGroups().FirstOrDefault(gs => gs.Id== IdSeleccionado);
+            var GrupoSegmento = SegmentGroupManager.GetAllSegmentsGroup().FirstOrDefault(gs => gs.Id== IdSeleccionado);
             if (GrupoSegmento != null)
             {
                 // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado

@@ -27,9 +27,9 @@
             solo mostramos la informacion comun a todos los tipos de segmentos
 
             -->
-            @if (SegmentGroupManager.GetAllSegmentsGroups() != null && SegmentGroupManager.GetAllSegmentsGroups().Count > 0)
+            @if (SegmentGroupManager.GetAllSegmentsGroup() != null && SegmentGroupManager.GetAllSegmentsGroup().Count > 0)
             {
-                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroups())
+                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroup())
                 {
                     <tr>
                         <td class="text-center">@GrupoSegmento.Id</td>
@@ -130,7 +130,7 @@
     {
         if (SegmentGroupToDelete != null)
         {
-            SegmentGroupManager.GetAllSegmentsGroups().Remove(SegmentGroupToDelete);
+            SegmentGroupManager.GetAllSegmentsGroup().Remove(SegmentGroupToDelete);
             SegmentGroupToDelete = null;
             showNotification = true;
             notificationSegment = "El grupo de segmento ha sido borrado con éxito";

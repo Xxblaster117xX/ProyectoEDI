@@ -4,7 +4,8 @@ using Entities.Entidades_Definicion;
 using Entities.Enum;
 using Entities.Model.Enum;
 using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
-namespace BusinessLogic.Definition
+
+namespace BusinessLogic
 {
     /// <summary>
     /// La interfaz IMessageManager define los métodos para manejar mensajes.

@@ -1,0 +1,61 @@
+﻿@page "/mensajeDetails/{Id:int}"
+@using ProyectoEDI.Components.Services
+@using BusinessLogic
+@using DevExpress.Blazor
+@inject MessageManager MessageManager
+<PageTitle>Crear Mensaje</PageTitle>
+
+<h3>Detalle Mensaje</h3>
+
+@if (message == null)
+{
+    <div class="alert alert-warning">No se encontró el mensaje solicitado.</div>
+}
+else
+{
+<DxAccordion ExpandMode="AccordionExpandMode.Multiple" RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End" AnimationType="LayoutAnimationType.Slide">
+    <Items>
+        <DxAccordionItem Text="Detalles" Expanded="true">
+            <ContentTemplate>
+                 <DxFormLayout Data="@message" ReadOnly="true" CssClass="p-3">
+                    <DxFormLayoutItem Field="@nameof(Message.Type)" Caption="Tipo mensaje:" Text="@message.Type.ToString()" ColSpanMd="4" >
+
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Field="@nameof(Message.Name)" Caption="Nombre:" Text="@message.Name" ColSpanMd="4" >
+
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Field="@nameof(Message.Description)" Caption="Descripción:" Text="@message.Description" ColSpanMd="4">
+
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CaptionCssClass="negrita" Caption="Versión:" ColSpanMd="4">
+                                    <Template Context="contexto">
+                                        <DxTextBox ReadOnly="true"/>
+                                    </Template>
+                     </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CaptionCssClass="negrita" Caption="Directorio:" ColSpanMd="4">
+                                    <Template Context="contexto">
+                                        <DxTextBox ReadOnly="true" />
+                                    </Template>
+                     </DxFormLayoutItem>
+                </DxFormLayout>
+             </ContentTemplate>
+        </DxAccordionItem>
+    </Items>
+</DxAccordion>
+}
+@code {
+    //Un ID para identificar el elemento de dato compuesto a modificar
+    [Parameter] public int Id { get; set; }
+    private Message message = new Message();
+
+
+    protected override void OnInitialized()
+    {
+        // Buscar el CompositeDataElement por su ID
+        message = MessageManager.GetAllMessages().FirstOrDefault(m => m.Id == Id);
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@page "/crearMensaje"
 @using ProyectoEDI.Components.Services
-@inject MessageService MessageService
+@using BusinessLogic
+@inject MessageManager MessageManager
 <PageTitle>Crear Mensaje</PageTitle>
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -22,7 +23,7 @@
             <div class="mb-3">
                 <label for="version" class="form-label">Versión:</label>
                 <input type="text" class="form-control" id="version" name="version"  @bind="mensaje.Version">
-                
+
             </div>
 
             <div class="mb-3">
@@ -45,7 +46,7 @@
                 <textarea class="form-control" id="descripcion" name="descripcion" rows="3" @bind="mensaje.Description"></textarea>
             </div>
 
-            
+
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-danger w-50">Enviar</button>
             </div>
@@ -56,17 +57,15 @@
 @code {
 
     Message mensaje = new Message();
-  
+
 
     public void CreateMessage()
     {
-        MessageService.AddMessage(mensaje);
+        mensaje.Id = MessageManager.AutoIncrement();
+        MessageManager.AddMessage(mensaje);
         mensaje = new Message(); // Reiniciar el formulario
          
     }
 
-   
-    
-    
 
 }

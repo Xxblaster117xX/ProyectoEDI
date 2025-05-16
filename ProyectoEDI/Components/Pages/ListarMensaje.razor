@@ -1,12 +1,14 @@
 ﻿@page "/listarMensaje"
-@using ProyectoEDI.Components.Services
-@inject MessageService MessageService
+@using BusinessLogic
+@inject MessageManager MessageManager
+@inject NavigationManager Navigation
 <PageTitle>Listar Mensaje</PageTitle>
 <h3 class="text-center">Listado de Mensajes:</h3>
 <div class="container">
     <table class="table table-striped table-bordered">
         <thead class="table-primary">
             <tr >
+                <th class="text-center">Id</th>
                 <th class="text-center">Tipo de Mensaje</th>
                 <th class="text-center">Versión</th>
                 <th class="text-center">Release</th>
@@ -18,11 +20,12 @@
             </tr>
         </thead>
         <tbody>
-            @if (MessageService.GetMessages()!= null && MessageService.GetMessages().Count>0)
+            @if (MessageManager.GetAllMessages() != null && MessageManager.GetAllMessages().Count > 0)
             {
-                @foreach (var message in MessageService.GetMessages())
+                @foreach (var message in MessageManager.GetAllMessages())
                 {
                     <tr>
+                        <td class="text-center">@message.Id</td>
                         <td class="text-center">@message.Type</td>
                         <td class="text-center">@message.Version</td>
                         <td class="text-center">@message.Release</td>
@@ -30,7 +33,7 @@
                         <td class="text-center">@message.Name</td>
                         <td class="text-center">@message.Description</td>
                         <td class="text-center">
-                            <button class="btn btn-success">Ver Mensaje</button>
+                            <button class="btn btn-success" @onclick="() => GoToMessageDetails(message.Id)" >Ver Mensaje</button>
                             <button class="btn btn-warning">Modificar</button>
                         </td>
                     </tr>
@@ -48,6 +51,11 @@
     
 </div>
 @code {
+
+    public void GoToMessageDetails(int id)
+    {
+        Navigation.NavigateTo($"/mensajeDetails/{id}");
+    }
 
 
 }

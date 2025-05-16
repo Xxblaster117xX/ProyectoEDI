@@ -3,7 +3,7 @@ using Entities.Entidades_Definicion;
 using Entities.Enum;
 using Entities.Model.Enum;
 using SegmentDefinition = Entities.Entidades_Definicion.SegmentDefinition;
-namespace BusinessLogic.Definition
+namespace BusinessLogic
 {
 
 
@@ -14,6 +14,14 @@ namespace BusinessLogic.Definition
     {
 
         private readonly List<Message> _messages;
+
+        private int contador = 0;
+
+        public int AutoIncrement()
+        {
+            return ++contador;
+        }
+
         /// <summary>
         /// Constructor de la lista de mensajes
         /// </summary>

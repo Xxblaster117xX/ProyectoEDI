@@ -1,6 +1,5 @@
 using BusinessLogic;
 using ProyectoEDI.Components;
-using ProyectoEDI.Components.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<MessageService>();
+builder.Services.AddScoped<MessageManager>();
 builder.Services.AddScoped<SegmentManager>();
 builder.Services.AddScoped<CompositeManager>();
 builder.Services.AddScoped<SegmentGroupManager>();
