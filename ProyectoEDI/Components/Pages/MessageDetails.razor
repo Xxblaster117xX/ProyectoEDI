@@ -14,8 +14,9 @@
 <div class="cw-480 demo-preventsel">
     <DxAccordion ExpandMode="@ExpandMode"
     ExpandCollapseAction="@ExpandCollapseAction"
-    AnimationType="LayoutAnimationType.Slide">
-
+    AnimationType="LayoutAnimationType.Slide"
+    RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
+    
         <Items>
             @if (messageAppService.GetAllMessages!= null && messageAppService.GetAllMessages().Any())
             {
@@ -36,7 +37,7 @@
                                     </DxComboBox>
                                 </div>
 
-                                <strong>Nombre del mensaje:</strong>
+                                <strong>Nombre:</strong>
 
                                 <div class="py-3 px-3" tabindex="0">
                                     <DxTextBox @bind-Text="message.Name"
@@ -71,7 +72,8 @@
                             </div>
                             
                         <!--TreeView para ver las partes del mensaje(encabezado, elementos de datos...)-->
-                           
+                                
+
 
 
 
