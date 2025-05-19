@@ -1,0 +1,111 @@
+﻿@page "/prueba-vista-mensaje"
+
+@using Entities.Entidades_Definicion
+@using Entities.Model.Enum
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+<h3>Mensaje @Mensaje.MessageType.ToString()</h3>
+
+<div style="padding:10px; width:90%; background-color:lightgray; border-radius:5px;">
+    <button class="btn btn-light">Modificar</button>
+    <br />
+    <br />
+
+    <DxAccordion @ref="Acordeon"
+        ExpandMode="AccordionExpandMode.SingleOrNone"
+        ExpandCollapseAction="AccordionExpandCollapseAction.HeaderClick"
+        AnimationType="LayoutAnimationType.Slide"
+        RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
+        <Items>
+            <DxAccordionItem Text="Detalles">
+                <ContentTemplate>
+                    <div class="py-3 px-3">
+                        <div class="mb-3">
+                            <label>Tipo mensaje:</label> <input style="margin-left:5px;" value="@Mensaje.MessageType.ToString()" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Nombre:</label> <input style="margin-left:39px;" value="@Mensaje.Name" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Descripción:</label> <textarea style="margin-left:17px; width:50%;" value="@Mensaje.Description" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Versión:</label> <input class="" style="margin-left:44px" value="@Mensaje.Version" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Directorio:</label> <input style="margin-left:30px;" value="@Mensaje.Directory" readonly />
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </DxAccordionItem>
+        </Items>
+    </DxAccordion>
+
+    <!--
+    <Accordion @ref="Acordeon" OnShowing="OnShowingAsync"
+    OnShown="OnShownAsync"
+    OnHiding="OnHidingAsync"
+    OnHidden="OnHiddenAsync">
+    <AccordionItem Title="Detalles" Name="Details">
+    <Content>
+    <div class="flex-column">
+    <div class="mb-3">
+    <label>Tipo mensaje:</label> <input style="margin-left:5px; margin-right:5px; width:120px;" value="@Mensaje.MessageType.ToString()" readonly />
+    <label>Nombre:</label> <input style="margin-left:17px; margin-right:5px; width:140px;" value="@Mensaje.Name" readonly />
+    <label>Descripción:</label> <input style="margin-left:5px; margin-right:5px; width:370px;" value="@Mensaje.Description" readonly />
+    </div>
+    <div class="mb-3">
+    <label>Versión:</label> <input class="" style="margin-left:48px; margin-right:5px; width:120px;" value="@Mensaje.Version" readonly />
+    <label>Directorio:</label> <input style="margin-left:5px; margin-right:5px; width:120px;" value="@Mensaje.Directory" readonly />
+    </div>
+    </div>
+    </Content>
+    </AccordionItem>
+    </Accordion>
+    -->
+
+</div>
+
+@code {
+    private Message Mensaje = new Message();
+
+    private DxAccordion Acordeon;
+
+    protected override void OnInitialized()
+    {
+        Mensaje.MessageType = TipoDocumento.GENRAL;
+        Mensaje.Version = "D96A";
+        Mensaje.Name = "Mensaje Genral";
+        Mensaje.Directory = "UN EAN005";
+        Mensaje.Description = "Mensaje genérico sin especificación concreta";
+    }
+
+    private void OnShowingAsync(AccordionEventArgs args)
+    {
+        new ToastMessage(
+            type: ToastType.Primary,
+            message: $"Event Name: Showing, AccordionItemName: {args.Name}, AccordionItemTitle: {args.Title}");
+    }
+
+    private void OnShownAsync(AccordionEventArgs args)
+    {
+        new ToastMessage(
+            type: ToastType.Primary,
+            message: $"Event Name: OnShown, AccordionItemName: {args.Name}, AccordionItemTitle: {args.Title}");
+    }
+
+    private void OnHidingAsync(AccordionEventArgs args)
+    {
+        new ToastMessage(
+            type: ToastType.Primary,
+            message: $"Event Name: OnHiding, AccordionItemName: {args.Name}, AccordionItemTitle: {args.Title}");
+    }
+
+    private void OnHiddenAsync(AccordionEventArgs args)
+    {
+        new ToastMessage(
+            type: ToastType.Primary,
+            message: $"Event Name: OnHidden, AccordionItemName: {args.Name}, AccordionItemTitle: {args.Title}");
+    }
+	
+}

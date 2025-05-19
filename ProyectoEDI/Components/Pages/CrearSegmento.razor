@@ -4,51 +4,56 @@
 @using Entities.Entidades_Representacion.Segments
 @using Entities.Enum
 @inject SegmentService SegmentService
+@rendermode InteractiveServer
 
 <PageTitle>Crear Segmento</PageTitle>
+
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4" style="width: 30rem;">
         <h2 class="text-center mb-4">Crear Segmento</h2>
 
-        <form @onsubmit="CrearSegment">
-            <!-- Selección del tipo de segmento -->
-            <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo de Segmento</label>
-                <select class="form-select" id="tipo" @onchange="OnSegmentTypeChanged">
-                    <option value="" disabled selected>Seleccione un tipo...</option>
-                    @foreach (var tipo in Enum.GetValues(typeof(SegmentTypeEnum)))
-                    {
-                        <option value="@tipo">@tipo</option>
-                    }
-                </select>
-            </div>
 
-            <!-- Campos comunes a todos los segmentos -->
-            @if (segmento != null)
-            {
+        <!-- Selección del tipo de segmento -->
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de Segmento</label>
+            <select class="form-select" id="tipo" @onchange="OnSegmentTypeChanged">
+                <option value="" disabled selected>Seleccione un tipo...</option>
+                @foreach (var tipo in Enum.GetValues(typeof(SegmentTypeEnum)))
+                {
+                    <option value="@tipo.ToString">@tipo</option>
+                }
+            </select>
+        </div>
+
+        <!-- Campos comunes a todos los segmentos -->
+        @if (Segmento!=null)
+        {
+            <EditForm Model="Segmento" OnValidsubmit="CrearSegment">
+                <DataAnnotationsValidator />
                 <div class="mb-3">
                     <label for="codigo" class="form-label">Código:</label>
-                    <input type="number" class="form-control" id="codigo" @bind="segmento.SegmentCode">
+                    <InputText type="number" class="form-control" id="codigo" @bind-value="Segmento.Codigo"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" @bind="segmento.SegmentName">
+                    <InputText type="text" class="form-control" id="nombre" @bind-value="Segmento.Nombre"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" rows="3" @bind="segmento.SegmentDescription"></textarea>
+                    <InputTextArea class="form-control" id="descripcion" rows="3" @bind-value="Segmento.Descripcion"/>
                 </div>
 
                 <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="obligatorio" @bind="segmento.Obligatory">
+                    <InputCheckbox type="checkbox" class="form-check-input" id="obligatorio" @bind-value="Segmento.Obligatorio"/>
                     <label class="form-check-label" for="obligatorio">Obligatorio</label>
                 </div>
 
                 <!-- Campos específicos según el tipo de segmento -->
-                @if (segmento is DtmSegment dtmSegment)
+                @if (Segmento is DtmSegment dtmSegment)
                 {
                     <div class="mb-3">
                         <label for="dateQualifier" class="form-label">Date Time Qualifier:</label>
@@ -60,56 +65,267 @@
                     </div>
                 }
 
-                else if (segmento is UnhSegment unhSegment)
+                else if (Segmento is UnhSegment unhSegment)
                 {
                     <div class="mb-3">
                         <label for="ReferenceNumber" class="form-label">Message Reference Number:</label>
                         <input type="text" class="form-control" id="ReferenceNumber" @bind="unhSegment.ReferenceNumber">
                     </div>
                 }
-            }
+                <!-- Botón de envío -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-danger w-50" disabled="@(Segmento == null)">Enviar</button>
+                </div>
+            </EditForm>
+        }
 
-            <!-- Botón de envío -->
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-danger w-50" disabled="@(segmento == null)">Enviar</button>
-            </div>
-        </form>
+
+
     </div>
 </div>
 
 @code {
     private SegmentTypeEnum tipoSegmento;
-    private Segment segmento;
+    private Segment Segmento;
+
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+    private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    private ToastMessage CreateToastMessage(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Segmento agregado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"Se añadio un Segmento con exito: {DateTime.Now}.",
+        };
 
     private void OnSegmentTypeChanged(ChangeEventArgs e)
     {
-        if (Enum.TryParse<SegmentTypeEnum>(e.Value.ToString(), out var segmentType))
+        var value = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(value) && Enum.TryParse<SegmentTypeEnum>(value, out var segmentType))
         {
             tipoSegmento = segmentType;
 
-            // Crear una instancia del segmento dinámicamente
-            var segmentTypeName = $"Entities.Entidades_Representacion.Segments.{segmentType}Segment";
-            var type = Type.GetType(segmentTypeName);
-            if (type != null)
+            // Mapeo manual de tipos especiales
+            switch (segmentType)
             {
-               segmento  = (Segment)Activator.CreateInstance(type);
+                case SegmentTypeEnum.AJT:
+                    Segmento = new AjtSegment();
+                    break;
+                case SegmentTypeEnum.ALC:
+                    Segmento = new AlcSegment();
+                    break;
+                case SegmentTypeEnum.ALI:
+                    Segmento = new AliSegment();
+                    break;
+                case SegmentTypeEnum.APR:
+                    Segmento = new AprSegment();
+                    break;
+                case SegmentTypeEnum.BGM:
+                    Segmento = new BgmSegment();
+                    break;
+                case SegmentTypeEnum.CAV:
+                    Segmento = new CavSegment();
+                    break;
+                case SegmentTypeEnum.CCI:
+                    Segmento = new CciSegment();
+                    break;
+                case SegmentTypeEnum.CDI:
+                    Segmento = new CdiSegment();
+                    break;
+                case SegmentTypeEnum.CNT:
+                    Segmento = new CntSegment();
+                    break;
+                case SegmentTypeEnum.COM:
+                    Segmento = new ComSegment();
+                    break;
+                case SegmentTypeEnum.CPI:
+                    Segmento = new CpiSegment();
+                    break;
+                case SegmentTypeEnum.CPS:
+                    Segmento = new CpsSegment();
+                    break;
+                case SegmentTypeEnum.CTA:
+                    Segmento = new CtaSegment();
+                    break;
+                case SegmentTypeEnum.CUX:
+                    Segmento = new CuxSegment();
+                    break;
+                case SegmentTypeEnum.DGS:
+                    Segmento = new DgsSegment();
+                    break;
+                case SegmentTypeEnum.DIM:
+                    Segmento = new DimSegment();
+                    break;
+                case SegmentTypeEnum.DLM:
+                    Segmento = new DlmSegment();
+                    break;
+                case SegmentTypeEnum.DOC:
+                    Segmento = new DocSegment();
+                    break;
+                case SegmentTypeEnum.DTM:
+                    Segmento = new DtmSegment();
+                    break;
+                case SegmentTypeEnum.EQA:
+                    Segmento = new EqaSegment();
+                    break;
+                case SegmentTypeEnum.EQD:
+                    Segmento = new EqdSegment();
+                    break;
+                case SegmentTypeEnum.EQN:
+                    Segmento = new EqnSegment();
+                    break;
+                case SegmentTypeEnum.ERC:
+                    Segmento = new ErcSegment();
+                    break;
+                case SegmentTypeEnum.FII:
+                    Segmento = new FiiSegment();
+                    break;
+                case SegmentTypeEnum.FTX:
+                    Segmento = new FtxSegment();
+                    break;
+                case SegmentTypeEnum.GDS:
+                    Segmento = new GdsSegment();
+                    break;
+                case SegmentTypeEnum.GID:
+                    Segmento = new GidSegment();
+                    break;
+                case SegmentTypeEnum.GIN:
+                    Segmento = new GinSegment();
+                    break;
+                case SegmentTypeEnum.GOR:
+                    Segmento = new GorSegment();
+                    break;
+                case SegmentTypeEnum.HAN:
+                    Segmento = new HanSegment();
+                    break;
+                case SegmentTypeEnum.IMD:
+                    Segmento = new ImdSegment();
+                    break;
+                case SegmentTypeEnum.INP:
+                    Segmento = new InpSegment();
+                    break;
+                case SegmentTypeEnum.LIN:
+                    Segmento = new LinSegment();
+                    break;
+                case SegmentTypeEnum.LOC:
+                    Segmento = new LocSegment();
+                    break;
+                case SegmentTypeEnum.MEA:
+                    Segmento = new MeaSegment();
+                    break;
+                case SegmentTypeEnum.MOA:
+                    Segmento = new MoaSegment();
+                    break;
+                case SegmentTypeEnum.NAD:
+                    Segmento = new NadSegment();
+                    break;
+                case SegmentTypeEnum.PAC:
+                    Segmento = new PacSegment();
+                    break;
+                case SegmentTypeEnum.PAI:
+                    Segmento = new PaiSegment();
+                    break;
+                case SegmentTypeEnum.PAT:
+                    Segmento = new PatSegment();
+                    break;
+                case SegmentTypeEnum.PCD:
+                    Segmento = new PcdSegment();
+                    break;
+                case SegmentTypeEnum.PCI:
+                    Segmento = new PciSegment();
+                    break;
+                case SegmentTypeEnum.PIA:
+                    Segmento = new PiaSegment();
+                    break;
+                case SegmentTypeEnum.PRI:
+                    Segmento = new PriSegment();
+                    break;
+                case SegmentTypeEnum.QTY:
+                    Segmento = new QtySegment();
+                    break;
+                case SegmentTypeEnum.QVR:
+                    Segmento = new QvrSegment();
+                    break;
+                case SegmentTypeEnum.RCS:
+                    Segmento = new RcsSegment();
+                    break;
+                case SegmentTypeEnum.RFF:
+                    Segmento = new RffSegment();
+                    break;
+                case SegmentTypeEnum.RNG:
+                    Segmento = new RngSegment();
+                    break;
+                case SegmentTypeEnum.RTE:
+                    Segmento = new RteSegment();
+                    break;
+                case SegmentTypeEnum.SCC:
+                    Segmento = new SccSegment();
+                    break;
+                case SegmentTypeEnum.SEL:
+                    Segmento = new SelSegment();
+                    break;
+                case SegmentTypeEnum.SGP:
+                    Segmento = new SgpSegment();
+                    break;
+                case SegmentTypeEnum.STG:
+                    Segmento = new StgSegment();
+                    break;
+                case SegmentTypeEnum.TAX:
+                    Segmento = new TaxSegment();
+                    break;
+                case SegmentTypeEnum.TCC:
+                    Segmento = new TccSegment();
+                    break;
+                case SegmentTypeEnum.TDT:
+                    Segmento = new TdtSegment();
+                    break;
+                case SegmentTypeEnum.TLP:
+                    Segmento = new TlpSegment();
+                    break;
+                case SegmentTypeEnum.TMD:
+                    Segmento = new TmpSegment();
+                    break;
+                case SegmentTypeEnum.TMP:
+                    Segmento = new TmpSegment();
+                    break;
+                case SegmentTypeEnum.TOD:
+                    Segmento = new TodSegment();
+                    break;
+                case SegmentTypeEnum.TPL:
+                    Segmento = new TplSegment();
+                    break;
+                case SegmentTypeEnum.TSR:
+                    Segmento = new TsrSegment();
+                    break;
+                case SegmentTypeEnum.UNH:
+                    Segmento = new UnhSegment();
+                    break;
+                case SegmentTypeEnum.UNS:
+                    Segmento = new UnsSegment();
+                    break;
+                case SegmentTypeEnum.UNT:
+                    Segmento = new UntSegment();
+                    break;
             }
-            else
-            {
-                Console.WriteLine($"No se pudo encontrar el tipo: {segmentTypeName}");
-            }
+        }
+        else
+        {
+            Segmento = null;
         }
     }
 
     private void CrearSegment()
     {
-        if (segmento != null)
+        if (Segmento != null)
         {
             // Guardar el segmento en el servicio
-            SegmentService.AddSegment(segmento);
+            ListadoSegmentos.Segments.Add(Segmento);
+            ShowMessage(ToastType.Success);
 
             // Reiniciar el formulario
-            segmento = null;
             tipoSegmento = default;
         }
     }

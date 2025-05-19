@@ -13,7 +13,7 @@ namespace BusinessLogic.Definition
     public interface IMessageManager
     {
         void AddMessage(Message message); 
-        Message GetMessageByType(MessageTypeEnum message);
+        Message GetMessageByType(TipoDocumento message);
         List<Message> GetAllMessages();
         bool GetRequirementIndicator(Message message, RequirementIndicatorEnum type);
         List<SegmentDefinition> GetSegments(Message message);

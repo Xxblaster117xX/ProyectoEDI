@@ -8,11 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddBlazorBootstrap();
+
 builder.Services.AddSingleton<MessageService>();
 builder.Services.AddScoped<SegmentService>();
 builder.Services.AddAntiforgery();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDevExpressBlazor();
 
 var app = builder.Build();
 

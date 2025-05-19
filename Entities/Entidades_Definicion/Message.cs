@@ -11,21 +11,21 @@ namespace Entities.Entidades_Definicion
     public class Message
     {
 
-        public int MessageId { get; set; }
-
+        public int Id { get; set; }
         [Required]
-        public MessageTypeEnum MessageType { get; set; }
+        public TipoDocumento MessageType { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string MessageVersion { get; set; }
+        public string? Version { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string MessageRelease { get; set; }
+        public string? Release { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string MessageDirectoryVersion { get; set; }
+        public string? Directory { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string MessageName { get; set; }
+        public string? DirectoryVersion { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string MessageDescription { get; set; }
+        public string? Name { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string? Description { get; set; }
         public List<MessagePosition> MessagePositions { get; set; }
-        public static List<Message> MessagesList { get; } = new List<Message>();
     }
 }

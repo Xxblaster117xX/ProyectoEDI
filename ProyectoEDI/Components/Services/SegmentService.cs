@@ -18,7 +18,7 @@ namespace ProyectoEDI.Components.Services
             if (segment != null)
             {
                 _segments.Add(segment);
-                Console.WriteLine($"Segmento agregado: {segment.SegmentName}");
+                Console.WriteLine($"Segmento agregado: {segment.Nombre}");
             }
             else
             {
@@ -29,18 +29,19 @@ namespace ProyectoEDI.Components.Services
         // Método para actualizar un segmento en la lista de segmentos
         public void UpdateSegment(Segment segment)
         {
-            var existingSegment = _segments.FirstOrDefault(s => s.SegmentId == segment.SegmentId);
+            var existingSegment = _segments.FirstOrDefault(s => s.Id == segment.Id);
             if (existingSegment != null)
             {
                 // Aquí actualizamos las propiedades del segmento encontrado
-                existingSegment.SegmentCode = segment.SegmentCode;
-                existingSegment.SegmentName = segment.SegmentName;
-                existingSegment.SegmentDescription = segment.SegmentDescription;
-                existingSegment.Obligatory = segment.Obligatory;
+                existingSegment.Codigo = segment.Codigo;
+                existingSegment.Nombre = segment.Nombre;
+                existingSegment.Descripcion = segment.Descripcion;
+                existingSegment.Obligatorio = segment.Obligatorio;
+                
 
 
 
-                Console.WriteLine($"Segmento con ID {segment.SegmentId} actualizado.");
+                Console.WriteLine($"Segmento con ID {segment.Id} actualizado.");
             }
             else
             {

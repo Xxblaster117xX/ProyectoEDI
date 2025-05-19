@@ -9,11 +9,11 @@ namespace Entities.Interfaces
 {
     public interface ISegment
     {
-        int SegmentId { get; set; }
-        string SegmentCode { get; set; }
-        string SegmentName { get; set; }
-        string SegmentDescription { get; set; }
-        List<SegmentPosition> SegmentPositions { get; set; }
-        bool Obligatory { get; set; }
+        public int Id { get; set; }
+        public string? Codigo { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
+        public bool Obligatorio { get; set; }
+        public List<SegmentPosition> SegmentPositions { get; set; }
     }
 }

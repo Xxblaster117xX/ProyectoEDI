@@ -5,6 +5,8 @@
 @rendermode InteractiveServer
 <PageTitle>Crear Mensaje</PageTitle>
 
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
 <div class="container d-flex justify-content-center align-items-center vh-100" style="margin-top:-80px">
     <div class="card p-4 navbar-nav-scroll" style="width: 40rem;">
         <h2 class="text-center mb-4">Crear Mensaje</h2>
@@ -15,7 +17,7 @@
                 <label for="tipo" class="form-label">Tipo de Mensaje</label>
                 <InputSelect @bind-Value="Mensaje.MessageType" class="form-select">
                     <option value="" disabled selected>Seleccione un tipo...</option>
-                    @foreach (var tipo in Enum.GetValues(typeof(MessageTypeEnum)))
+                    @foreach (var tipo in Enum.GetValues(typeof(TipoDocumento)))
                     {
                         <option value="@tipo">@tipo</option>
                     }
@@ -34,33 +36,39 @@
 
             <div class="mb-3">
                 <label for="version" class="form-label">Versión:</label>
-                <InputText type="text" class="form-control" id="version" name="version"  @bind-value="Mensaje.MessageVersion" />
-				<ValidationMessage For="@(() => Mensaje.MessageVersion)" />
+                <InputText type="text" class="form-control" id="version" name="version"  @bind-value="Mensaje.Version" />
+				<ValidationMessage For="@(() => Mensaje.Version)" />
 
             </div>
 
             <div class="mb-3">
                 <label for="release" class="form-label">Release:</label>
-                <InputText type="text" class="form-control" id="release" name="release" @bind-value="Mensaje.MessageRelease" />
-				<ValidationMessage For="@(() => Mensaje.MessageRelease)" />
+                <InputText type="text" class="form-control" id="release" name="release" @bind-value="Mensaje.Release" />
+				<ValidationMessage For="@(() => Mensaje.Release)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="directoryVersion" class="form-label">Directory:</label>
+                <InputText type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind-value="Mensaje.DirectoryVersion" />
+                <ValidationMessage For="@(() => Mensaje.Directory)" />
             </div>
 
             <div class="mb-3">
                 <label for="directoryVersion" class="form-label">Directory Version:</label>
-                <InputText type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind-value="Mensaje.MessageDirectoryVersion" />
-				<ValidationMessage For="@(() => Mensaje.MessageDirectoryVersion)" />
+                <InputText type="text" class="form-control" id="directoryVersion" name="directoryVersion" @bind-value="Mensaje.DirectoryVersion" />
+				<ValidationMessage For="@(() => Mensaje.DirectoryVersion)" />
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <InputText type="text" class="form-control" id="nombre" name="nombre" @bind-value="Mensaje.MessageName" />
-                <ValidationMessage For="@(() => Mensaje.MessageName)" />
+                <InputText type="text" class="form-control" id="nombre" name="nombre" @bind-value="Mensaje.Name" />
+                <ValidationMessage For="@(() => Mensaje.Name)" />
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripcion:</label>
-                <InputTextArea class="form-control" id="descripcion" name="descripcion" rows="3" style="max-height:200px" @bind-value="Mensaje.MessageDescription" />
-                <ValidationMessage For="@(() => Mensaje.MessageDescription)" />
+                <InputTextArea class="form-control" id="descripcion" name="descripcion" rows="3" style="max-height:200px" @bind-value="Mensaje.Description" />
+                <ValidationMessage For="@(() => Mensaje.Description)" />
             </div>
 
 
@@ -72,71 +80,29 @@
     </div>
 </div>
 
-<!-- Toast Container -->
-<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11;">
-    @foreach (var toast in Toasts)
-    {
-        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:white; border-color:lightgray;">
-            <div class="toast-header" style="background-color:lightgray;">
-                <strong class="me-auto">Notificación</strong>
-                <button type="button" class="btn-close" @onclick="() => CerrarToast(toast.Id)"></button>
-            </div>
-            <div class="toast-body">
-                @toast.Message
-            </div>
-        </div>
-    }
-</div>
-
 @code {
     private Message Mensaje = new Message();
-    private List<ToastMessage> Toasts = new List<ToastMessage>();
+    List<ToastMessage> messages = new List<ToastMessage>();
+
+    private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    private ToastMessage CreateToastMessage(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Mensaje agregado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"Se añadio un Mensaje con exito: {DateTime.Now}",
+        };
 
     private void CrearMensaj()
     {
-        Console.WriteLine($"Mensaje creado: {Mensaje.MessageName}"); // Depuración
-        Console.WriteLine($"Tipo: {Mensaje.MessageType}, Versión: {Mensaje.MessageVersion}, Release: {Mensaje.MessageRelease}");
+        Console.WriteLine($"Mensaje creado: {Mensaje.Name}"); // Depuración
+        Console.WriteLine($"Tipo: {Mensaje.MessageType}, Versión: {Mensaje.Version}, Release: {Mensaje.Release}");
         ListarMensaje.Messages.Add(Mensaje);// Añadir el mensaje
         Mensaje = new Message(); // Reiniciar el formulario
 
         //Mostrar un Toast
-        AgregarToast("Nuevo mensaje creado");
-    }
-
-    private void AgregarToast(string message)
-    {
-        var toast = new ToastMessage
-            {
-                Id = Guid.NewGuid(),
-                Message = message
-            };
-
-        Toasts.Add(toast);
-        StateHasChanged();
-
-        // Configurar el temporizador para eliminar el Toast después de 5 segundos
-        _ = RemoverToastDespuesDeTiempo(toast.Id, 5000);
-    }
-
-    private async Task RemoverToastDespuesDeTiempo(Guid toastId, int delay)
-    {
-        await Task.Delay(delay);
-        CerrarToast(toastId);
-    }
-
-    private void CerrarToast(Guid toastId)
-    {
-        var toast = Toasts.FirstOrDefault(t => t.Id == toastId);
-        if (toast != null)
-        {
-            Toasts.Remove(toast);
-            StateHasChanged();
-        }
-    }
-
-    private class ToastMessage
-    {
-        public Guid Id { get; set; }
-        public string Message { get; set; }
+        ShowMessage(ToastType.Success);
     }
 }

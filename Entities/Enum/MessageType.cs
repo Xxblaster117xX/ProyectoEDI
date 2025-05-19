@@ -1,6 +1,6 @@
 ﻿namespace Entities.Model.Enum
 {
-    public enum MessageTypeEnum
+    public enum TipoDocumento
     {
         INVOIC,
         ORDERS,

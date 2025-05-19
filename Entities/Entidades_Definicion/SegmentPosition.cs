@@ -8,6 +8,7 @@ namespace Entities.Entidades_Definicion
 {
     public class SegmentPosition
     {
+        public int Id { get; set; }
         public int Position { get; set; }
         public DataElement DataElement{ get; set; }
         public CompositeDataElement CompositeDataElement { get; set; }

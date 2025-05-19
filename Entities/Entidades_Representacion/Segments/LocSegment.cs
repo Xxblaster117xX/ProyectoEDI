@@ -1,4 +1,4 @@
-﻿using Entities.Entidades_Definicion;
+﻿using Entities.Entidades_Representacion.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entidades_Representacion.Segments
 {
-    public class LocSegment : SegmentDefinition
+    public class LocSegment : Segment
     {
         /*
          Indica el tipo de localización puede ser 11, 22,92 etc...  

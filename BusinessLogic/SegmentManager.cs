@@ -40,7 +40,7 @@ namespace BusinessLogic
         /// <returns></returns>
         public SegmentDefinition GetSegmentByCode(string code)
         {
-            return _segments.FirstOrDefault(s => s.SegmentCode == code);
+            return _segments.FirstOrDefault(s => s.Code == code);
         }
 
 

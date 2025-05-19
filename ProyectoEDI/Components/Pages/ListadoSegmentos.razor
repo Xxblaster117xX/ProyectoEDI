@@ -6,6 +6,11 @@
 @inject SegmentService SegmentService
 @rendermode InteractiveServer
 <PageTitle>Listar Mensaje</PageTitle>
+
+<ConfirmDialog @ref="Dialogo" />
+
+<Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
 <h3 class="text-center">Listado de Segmentos:</h3>
 
 <div class="container">
@@ -21,21 +26,19 @@
             </tr>
         </thead>
         <tbody>
-            @if (SegmentService.GetSegments().Count!=0)
+            @if (Segments != null && Segments.Any())
             {
                 Console.WriteLine("Segmentos encontrados: " + SegmentService.GetSegments().Count);
-                @foreach (var s in SegmentService.GetSegments())
+                @foreach (var s in Segments)
                 {
                     <tr>
-                        <td>@s.SegmentCode</td>
-                        <td>@s.SegmentName</td>
-                        <td>@s.SegmentDescription</td>
-                        <td>@s.Obligatory</td>
-
-
+                        <td>@s.Codigo</td>
+                        <td>@s.Nombre</td>
+                        <td>@s.Descripcion</td>
+                        <td>@s.Obligatorio</td>
                         <td>
-                            <button class="btn btn-success">Ver segmento</button>
-                            <button class="btn btn-warning" @onclick="() => Modificar(s)">Modificar</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => Modificar(s.Id)">Editar</button>
+                            <button class="btn btn-danger btn-sm" @onclick="() => ShowConfirmationAsync(s.Id)">Eliminar</button>
                         </td>
                     </tr>
                 }
@@ -43,7 +46,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="text-center">No hay mensajes disponibles</td>
+                    <td colspan="5" class="text-center">No hay segmentos disponibles</td>
                 </tr>
             }
         </tbody>
@@ -52,15 +55,58 @@
 @code {
 
     public static List<Segment> Segments = new List<Segment>();
+    List<ToastMessage> messages = new List<ToastMessage>();
 
-    private void Modificar(Segment segment)
+    private ConfirmDialog Dialogo = default!;
+
+    private async Task ShowConfirmationAsync(int Id)
+    {
+        var confirmation = await Dialogo.ShowAsync(
+            title: "¿Quieres eliminar el segmento?",
+            message1: "Una vez hecho esto, no se podra deshacer.",
+            new ConfirmDialogOptions
+                {
+                    YesButtonText = "Si",
+                    YesButtonColor = ButtonColor.Danger,
+                    NoButtonText = "No",
+                    NoButtonColor = ButtonColor.Primary
+                });
+
+
+        if (confirmation)
+        {
+            // do something
+            Console.WriteLine("Segmento eliminado");
+            EliminarSegmento(Id);
+        }
+    }
+
+    private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    private ToastMessage CreateToastMessage(ToastType toastType)
+    => new ToastMessage
+        {
+            Type = toastType,
+            Title = "Segmento eliminado",
+            HelpText = $"{DateTime.Now}",
+            Message = $"Segmento eliminado con exito: {DateTime.Now}",
+        };
+
+    private void Modificar(int Id)
     {
         Console.WriteLine("Entra al metodo Modificar");
-        Navigation.NavigateTo($"/modificar-segmento/{segment.SegmentId}");
+        Navigation.NavigateTo($"/modificar-segmento/{Id}");
     }
-
-    private void TestClick()
-    {
-        Console.WriteLine("boton pulsado");
-    }
+	private void EliminarSegmento(int Id)
+	{
+		Console.WriteLine("Entra al metodo Eliminar");
+        Console.WriteLine($"Eliminar segmento con ID: {Id}");
+        Segment S = Segments.FirstOrDefault(c => c.Id == Id);
+        if (S != null)
+        {
+            Segments.Remove(S);
+            Console.WriteLine($"Lista de códigos eliminada: {S.Nombre}");
+        }
+        ShowMessage(ToastType.Success);
+	}
 }

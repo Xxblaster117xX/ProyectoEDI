@@ -8,15 +8,11 @@ namespace Entities.Entidades_Definicion
 {
     public class Segment
     { 
-        public int SegmentId { get; set; }
-        public string SegmentCode { get; set; }
-        public string SegmentName { get; set; }
-        public string SegmentDescription { get; set; }
-        public List<SegmentPosition>  SegmentPositions { get; set; }
+        public int Id { get; set; }
+        public string? Code { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public bool Obligatory { get; set; }
-
-
-
-
+        public List<SegmentPosition>  SegmentPositions { get; set; }
     }
 }

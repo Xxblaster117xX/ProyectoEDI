@@ -8,9 +8,9 @@ namespace Entities.Entidades_Definicion
 {
     public class SegmentDefinition
     {
-        public string SegmentCode { get; set; }
-        public string SegmentName { get; set; }
-        public string SegmentDescription { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public List<SegmentPosition> SegmentPositions { get; set; }
 
 

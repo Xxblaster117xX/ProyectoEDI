@@ -20,19 +20,19 @@
                 <ValidationSummary />
                 <div class="form-group mb-3">
                     <label for="segmentCode">Código del Segmento:</label>
-                    <InputText id="segmentCode" class="form-control" @bind-Value="@Segmento.SegmentCode" />
+                    <InputText id="segmentCode" class="form-control" @bind-Value="@Segmento.Codigo" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="segmentName">Nombre del Segmento:</label>
-                    <InputText id="segmentName" class="form-control" @bind-Value="@Segmento.SegmentName" />
+                    <InputText id="segmentName" class="form-control" @bind-Value="@Segmento.Nombre" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="segmentDescription">Descripción:</label>
-                    <InputTextArea id="segmentDescription" class="form-control" @bind-Value="@Segmento.SegmentDescription" />
+                    <InputTextArea id="segmentDescription" class="form-control" @bind-Value="@Segmento.Descripcion" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="obligatorio">Obligatorio:</label>
-                    <InputCheckbox id="obligatorio" @bind-Value="@Segmento.Obligatory" />
+                    <InputCheckbox id="obligatorio" @bind-Value="@Segmento.Obligatorio" />
                 </div>
 
                 <div class="d-flex justify-content-center">
@@ -52,17 +52,8 @@
     //Metodo que se ejecuta al iniciar la pagina
     protected override async Task OnInitializedAsync()
     {
-        var segments = SegmentService.GetSegments();
 
-        if (!segments.Any())
-        {
-            SegmentService.AddSegment(new UnhSegment
-                {
-                    SegmentId = Id,
-                });
-        }
-
-        Segmento = SegmentService.GetSegments().FirstOrDefault(s => s.SegmentId == Id);
+        Segmento = ListadoSegmentos.Segments.FirstOrDefault(s => s.Id == Id);
 
         if (Segmento == null)
         {
@@ -75,8 +66,8 @@
     private async Task GuardarCambios()
     {
         // Simulación de guardado de datos, reemplazar con lógica real
-        Console.WriteLine($"Guardando segmento con ID {Segmento.SegmentId}...");
-        Console.WriteLine($"Código: {Segmento.SegmentCode}, Nombre: {Segmento.SegmentName}, Descripción: {Segmento.SegmentDescription}, Obligatorio: {Segmento.Obligatory}");
+        Console.WriteLine($"Guardando segmento con ID {Segmento.Id}...");
+        Console.WriteLine($"Código: {Segmento.Codigo}, Nombre: {Segmento.Nombre}, Descripción: {Segmento.Descripcion}, Obligatorio: {Segmento.Obligatorio}");
 
         // Llamar al servicio para actualizar el segmento (esto debe implementarse en SegmentService)
         SegmentService.UpdateSegment(Segmento);

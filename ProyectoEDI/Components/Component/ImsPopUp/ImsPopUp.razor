@@ -1,0 +1,144 @@
+﻿<ImsPopup HeaderText="@HeaderText"
+@ref="Popup" MinWidth="@MinWidth" MaxWidth="@MaxWidth" ShowCloseButton="false">
+	<HeaderContentTemplate>
+
+		<div class="d-flex justify-content-between align-items-center">
+			<span>@HeaderText</span>
+			@if (OnClickHelp.HasDelegate)
+			{
+				<button type="button" class="btn" @onclick="HelpClick">
+					<img src="/images/iconos/information.svg" width="23" alt="Ayuda" />
+				</button>
+			}
+		</div>
+
+	</HeaderContentTemplate>
+	<BodyContentTemplate>
+		@ChildContent
+	</BodyContentTemplate>
+	<FooterContentTemplate>
+		@switch (DialogType)
+		{
+			case ModalDialogType.Confirm:
+				<button type="button" class="btn btn-primary" @onclick="@ConfirmClick">
+					<img src="/images/iconos/check-lg.svg" class="mr-2"/>@AceptarText
+				</button>
+				break;
+			case ModalDialogType.Cancel:
+				<button type="button" class="btn" @onclick="@CloseClick">
+					<img src="/images/iconos/x-lg.svg" class="mr-2" />Cancelar
+				</button>
+				break;
+			case ModalDialogType.ConfirmCancel:
+				<button type="button" class="btn" @onclick="@CloseClick">
+					<img src="/images/iconos/x-lg.svg" class="mr-2" />Cancelar
+				</button>
+				break;
+			case ModalDialogType.DeleteCancel:
+				<button type="button" class="btn btn-danger" @onclick="@CloseClick">
+					<img src="/images/iconos/eraser.svg" class="mr-2" />Cancelar
+				</button>
+				break;
+			case ModalDialogType.None:
+			default:
+				break;
+		}
+	</FooterContentTemplate>
+</ImsPopup>
+
+@code {
+	/// <summary>
+	/// el texto de la cabecera del popup
+	/// </summary>
+	[Parameter]
+	public string HeaderText { get; set; }
+	/// <summary>
+	/// El texto del boton de aceptar
+	/// </summary>
+	[Parameter]
+	public string AceptarText { get; set; } = "Aceptar";
+
+	/// <summary>
+	/// La aptitud maxima del popup
+	/// </summary>
+	[Parameter]
+	public string MaxWidth { get; set; }
+	/// <summary>
+	/// La aptitud minima del popup
+	/// </summary>
+	[Parameter]
+	public string MinWidth { get; set; }
+	/// <summary>
+	/// El contenido del popup
+	/// </summary>
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+	[Parameter]
+	public EventCallback Accept { get; set; }
+	[Parameter]
+	public EventCallback Refuse { get; set; }
+	/// <summary>
+	/// El tipo de popup que estamos mostrando
+	/// </summary>
+	[Parameter]
+	public ModalDialogType DialogType { get; set; }
+	/// <summary>
+	/// Determina si al aceptar debe cerrarse el popup pase lo que pase
+	/// </summary>
+	[Parameter]
+	public bool MustClose { get; set; } = false;
+
+	DxPopup Popup;
+
+	[Parameter]
+	public EventCallback OnClickHelp { get; set; }
+
+	private async Task HelpClick()
+	{
+		if (OnClickHelp.HasDelegate)
+		{
+			await OnClickHelp.InvokeAsync();
+		}
+	}
+	/// <summary>
+	/// Muestra el popup
+	/// </summary>
+	/// <returns></returns>
+	public async Task Close()
+	{
+		await Popup.CloseAsync();
+		//await OnClose.InvokeAsync(false);
+		// await Refuse.InvokeAsync();
+	}
+	/// <summary>
+	/// Evento cuando se pulsa el boton de cierre
+	/// </summary>
+	/// <returns>></returns>
+	protected async Task CloseClick()
+	{
+		await Popup.CloseAsync();
+		//await OnClose.InvokeAsync(false);
+		await Refuse.InvokeAsync();
+	}
+
+	/// <summary>
+	/// Evento cuando se pulsa el boton de aceptar
+	/// </summary>
+	/// <returns></returns>
+	protected async Task ConfirmClick()
+	{
+		//await Close();
+		if (MustClose) await Close();
+		// await OnClose.InvokeAsync(true);
+		await Accept.InvokeAsync();
+	}
+
+	public enum ModalDialogType
+	{
+		Confirm,
+		Cancel,
+		ConfirmCancel,
+		DeleteCancel,
+		None
+	}
+}

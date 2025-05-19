@@ -16,7 +16,7 @@ namespace ProyectoEDI.Components.Services
             if (message != null)
             {
                 _messages.Add(message);
-                Console.WriteLine($"Mensaje agregado: {message.MessageName}");
+                Console.WriteLine($"Mensaje agregado: {message.Name}");
             }
             else
             {

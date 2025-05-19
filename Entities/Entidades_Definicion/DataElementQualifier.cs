@@ -8,6 +8,8 @@ namespace Entities.Entidades_Definicion
 {
     public class DataElementQualifier
     {
+        public int Id { get; set; }
+        public int? IdCodeList { get; set; }
         public int Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

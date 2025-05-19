@@ -13,13 +13,12 @@ namespace Entities.Entidades_Representacion.Abstract
 {
     public abstract class Segment : ISegment
     {
-        public int SegmentId { get; set; }
-        public string SegmentCode { get; set; }
-        public string SegmentName { get; set; }
-        public string SegmentDescription { get; set; }
+        public int Id { get; set; }
+        public string? Codigo { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
+        public bool Obligatorio { get; set; }
         public List<SegmentPosition> SegmentPositions { get; set; }
 
-        public bool Obligatory { get; set; }
-       
     }
 }

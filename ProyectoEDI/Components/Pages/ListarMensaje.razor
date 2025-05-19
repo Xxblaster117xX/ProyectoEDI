@@ -2,7 +2,11 @@
 @using Entities.Entidades_Definicion
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
+
 <PageTitle>Listar Mensaje</PageTitle>
+
+<ConfirmDialog @ref="Dialogo" />
+
 <h3 class="text-center">Listado de Mensajes:</h3>
 <div class="container">
     <table class="table table-striped table-hover">
@@ -22,18 +26,19 @@
             @if (Messages != null && Messages.Any())
             {
                 @foreach (var message in Messages)
-                {
-                    <tr class="table-bordered" @onmousedown="(e) => AccionesMouseTr(e, message.MessageId)">
+                { 
+                    <tr class="table-bordered" @onmousedown="(e) => AccionesMouseTr(e, message.Id)">
                         <td>@message.MessageType</td>
-                        <td>@message.MessageVersion</td>
-                        <td>@message.MessageRelease</td>
-                        <td>@message.MessageDirectoryVersion</td>
-                        <td>@message.MessageName</td>
-                        <td>@message.MessageDescription</td>
+                        <td>@message.Version</td>
+                        <td>@message.Release</td>
+                        <td>@message.Directory</td>
+                        <td>@message.DirectoryVersion</td>
+                        <td>@message.Name</td>
+                        <td>@message.Description</td>
                         <td>
-                            <button class="btn btn-info btn-sm" @onclick="() => VerMensaje(message.MessageId)">Ver</button>
-                            <button class="btn btn-warning btn-sm" @onclick="() => EditarMensaje(message.MessageId)">Modificar</button>
-                            <button class="btn btn-danger btn-sm" @onclick="() => EliminarMensaje(message.MessageId)">Eliminar</button>
+                            <button class="btn btn-info btn-sm" @onclick="() => VerMensaje(message.Id)">Ver</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditarMensaje(message.Id)">Modificar</button>
+                            <button class="btn btn-danger btn-sm" @onclick="() => EditarMensaje(message.Id)">Eliminar</button>
                         </td>
                     </tr>
                 }
@@ -49,6 +54,29 @@
 </div>
 @code {
     public static List<Message> Messages = new List<Message>();
+    private ConfirmDialog Dialogo = default!;
+
+    private async Task ShowConfirmationAsync(int Id)
+    {
+        var confirmation = await Dialogo.ShowAsync(
+            title: "¿Quieres eliminar el mensaje?",
+            message1: "Una vez hecho esto, no se podra deshacer.",
+            new ConfirmDialogOptions
+                {
+                    YesButtonText = "Si",
+                    YesButtonColor = ButtonColor.Danger,
+                    NoButtonText = "No",
+                    NoButtonColor = ButtonColor.Primary
+                });
+
+
+        if (confirmation)
+        {
+            // do something
+            Console.WriteLine("Mensaje eliminado");
+            EliminarMensaje(Id);
+        }
+    }
 
     private void AnyadirCodeList()
     {
@@ -70,12 +98,13 @@
 
     private void EliminarMensaje(int Id)
     {
+
         Console.WriteLine($"Eliminar mensaje con ID: {Id}");
-        Message M = Messages.FirstOrDefault(c => c.MessageId == Id);
+        Message M = Messages.FirstOrDefault(c => c.Id == Id);
         if (M != null)
         {
             Messages.Remove(M);
-            Console.WriteLine($"mensaje eliminado: {M.MessageName}");
+            Console.WriteLine($"mensaje eliminado: {M.Name}");
         }
     }
 
@@ -84,7 +113,7 @@
         if (e.Button == 1) // Click central (Rueda del mouse)
         {
             Console.WriteLine($"Botón central presionado en el mensaje con ID: {Id}");
-            EliminarMensaje(Id);
+            ShowConfirmationAsync(Id);
         }
         if (e.Button == 0 && e.CtrlKey == true) // Click izquierdo y Control a la vez
         {
@@ -97,4 +126,10 @@
             EditarMensaje(Id);
         }
     }
+
+	private void MostrarPopUp(int Id)
+	{
+		Console.WriteLine("Mostrar PopUp");
+		
+	}
 }

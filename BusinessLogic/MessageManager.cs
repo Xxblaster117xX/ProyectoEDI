@@ -39,7 +39,7 @@ namespace BusinessLogic.Definition
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public Message GetMessageByType(MessageTypeEnum message)
+        public Message GetMessageByType(TipoDocumento message)
         {
             return _messages.FirstOrDefault(m => m.MessageType == message);
         }
@@ -95,7 +95,7 @@ namespace BusinessLogic.Definition
             {
                 throw new ArgumentException("El tipo de mensaje es obligatorio.");
             }
-            else if (string.IsNullOrWhiteSpace(message.MessageVersion))
+            else if (string.IsNullOrWhiteSpace(message.Version))
             {
                 throw new ArgumentException("La versión del mensaje no puede ser nula o vacía.");
             }
