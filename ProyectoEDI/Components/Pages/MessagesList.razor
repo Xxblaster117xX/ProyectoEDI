@@ -7,6 +7,8 @@
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
 @inject IJSRuntime JS
+@using AppLayer;
+@inject MessageAppService messageAppService;
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
@@ -25,9 +27,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (messageManager.GetAllMessages != null && messageManager.GetAllMessages().Any())
+        @if (messageAppService.GetAllMessages != null && messageAppService.GetAllMessages().Any())
         {
-            @foreach (var message in messageManager.GetAllMessages())
+            @foreach (var message in messageAppService.GetAllMessages())
             {
                 <tr>
                     <td>@message.MessageType</td>
@@ -71,11 +73,11 @@
 <!-- Popup de edición -->
 @if (showEditPopup)
 {
-    <div class="overlay" style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 9999;">
-        <div class="popup" style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
+    <div class="overlayModification" style=" position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 9999;">
+        <div class="popupModification" style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
             <h4>Modificar Mensaje</h4>
             <div class="mb-2">
-                <label>Tipo:</label>
+                <label >Tipo:</label>
                 <select class="form-control text-center" @bind="editMessage.MessageType">
                     @foreach (var tipo in Enum.GetValues<MessageTypeEnum>())
                     {
@@ -83,7 +85,7 @@
                     }
                 </select>
             </div>
-            <div class="mb-2">
+            <div class="mb-2" >
                 <label>Versión:</label>
                 <input class="form-control text-center" @bind="editMessage.Version" />
             </div>
@@ -137,14 +139,7 @@
     /// </summary>
     private Message editMessage = new Message();
 
-    /// <summary>
-    /// Método para navegar a la página de detalles del mensaje(Aún sin realizar).
-    /// </summary>
-    /// <param name="message"></param>
-    public void ViewMessage(Message message)
-    {
-        Navigation.NavigateTo($"/MessageDetails/{message.Id}");
-    }
+   
     /// <summary>
     /// Método para borrar un mensaje.
     /// </summary>

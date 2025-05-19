@@ -94,3 +94,10 @@ textarea.form-control {
     .btn-secondary:hover {
         background-color: #5a6268;
     }
+
+
+.mb-2{
+    display:flex;
+    justify-content:start;
+
+}

@@ -1,61 +1,113 @@
-﻿@page "/Message-details/{MessageId:int}"
-@inject MessageManager MessageManager
+﻿@page "/Message-details"
+@rendermode InteractiveServer
+@using DevExpress.Blazor
 @using Entities.Entidades_Definicion
-@using BusinessLogic.Definition
-@if (DataSource!=null)
-{
-    <div class="cw-480 demo-preventsel">
-        <DxAccordion ExpandMode="ExpandMode"
-                     ExpandCollapseAction="ExpandCollapseAction"
-                     AnimationType="LayoutAnimationType.Slide">
-            <Items>
-                @foreach (MessagePosition message in DataSource.MessagePositions)
+@using Entities.Model.Enum
+@using AppLayer;
+@inject MessageAppService messageAppService;
+@using BusinessLogic.Definition;
+@inject MessageManager messageManager;
+
+<!-- Detalles de las especificaciones de un mensaje-->
+<h1>Especificaciones de un mensaje</h1>
+
+<div class="cw-480 demo-preventsel">
+    <DxAccordion ExpandMode="@ExpandMode"
+    ExpandCollapseAction="@ExpandCollapseAction"
+    AnimationType="LayoutAnimationType.Slide">
+
+        <Items>
+            @if (messageAppService.GetAllMessages!= null && messageAppService.GetAllMessages().Any())
+            {
+                @foreach (var message in messageAppService.GetAllMessages())
                 {
-                    <DxAccordionItem Text=@($"{message.Position} {message.obligatory}")>
+                    <DxAccordionItem Text=@("Detalles")>
                         <ContentTemplate>
-                            <div class="py-3 px-3" tabindex="0">
-                                @($"{message.Position} {message.obligatory}")
-                                @* <EmployeeCard EmployeeInfo="@message"/> *@
+                            <div class="accordeon-inline">
+                                <div class="py-3 px-3" tabindex="0">
+
+                                    <strong>Tipo de mensaje: </strong>
+
+                                    <DxComboBox @bind-Value="message.MessageType"
+                                    Data="@messageTypes"
+                                    LabelText="Tipo de mensaje"
+                                    TextField="@((MessageTypeEnum t) => t.ToString())"
+                                    ValueField="@((MessageTypeEnum t) => t)">
+                                    </DxComboBox>
+                                </div>
+
+                                <strong>Nombre del mensaje:</strong>
+
+                                <div class="py-3 px-3" tabindex="0">
+                                    <DxTextBox @bind-Text="message.Name"
+                                    LabelText="ID del mensaje"
+                                    ShowClearButton="true" />
+                                </div>
+
+                                <strong>Descripción:</strong>
+
+                                <div class="py-3 px-3" tabindex="0">
+                                    <DxTextBox @bind-Text="message.Description"
+                                    LabelText="Descripción del mensaje"
+                                    ShowClearButton="true" />
+                                </div>
                             </div>
+                            <div class="accordeon-inline">
+                                <strong>Versión </strong>
+
+                                <div class="py-3 px-3" tabindex="0">
+                                    <DxTextBox @bind-Text="message.Version"
+                                    LabelText="Versión del mensaje"
+                                    ShowClearButton="true" />
+                                </div>
+
+                                <strong>Directorio</strong>
+
+                                <div class="py-3 px-3" tabindex="0">
+                                    <DxTextBox @bind-Text="message.Directory"
+                                    LabelText="Directorio del mensaje"
+                                    ShowClearButton="true" />
+                                </div>
+                            </div>
+                            
+                        <!--TreeView para ver las partes del mensaje(encabezado, elementos de datos...)-->
+                           
+
+
+
+
                         </ContentTemplate>
                     </DxAccordionItem>
                 }
-            </Items>
-        </DxAccordion>
-    </div>
-}
+            }
+            else
+            {
+                <p>No hay mensajes disponibles</p>
+            }
+        </Items>
+    </DxAccordion>
+</div>
 
 
 
 @code {
-    [Parameter]
-    public int MessageId { get; set; }
 
-    public List<MessagePositionFlat> Positions { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        DataSource = MessageManager.GetMessageById(MessageId);
-        if (DataSource != null && DataSource.MessagePositions != null)
-        {
-            Positions = DataSource.MessagePositions.Select(mp => new MessagePositionFlat
-                {
-                    Id = mp.id,
-                    DisplayName = $"{mp.Position} - {mp.Segment?.Name ?? "Sin segmento"}",
-                    SegmentGroupId = mp.SegmentGroup?.id
-                }).ToList();
-        }
-    }
-
-    public class MessagePositionFlat
-    {
-        public int Id { get; set; }
-        public string DisplayName { get; set; }
-        public int? SegmentGroupId { get; set; }
-    }
-    Message DataSource;
-    IEnumerable<Message> Items;
+    /// <summary>
+    /// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
+    /// </summary>
     AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
     AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
-   
+
+
+    /// <summary>
+    /// Instanciar un mensaje
+    /// </summary>
+    static Message message = new Message();
+    /// <summary>
+    /// Para definir los tipos de mensajes en el DxComboBox
+    /// </summary>
+    MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
+
+    
+ 
 }

@@ -1,0 +1,26 @@
+﻿body {
+
+}
+
+
+.py-3.px-3 {
+    max-width: 300px;
+    display:flex;
+    align-items:center;
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.accordeon-inline {
+    display: flex;
+    gap: 8px; 
+    align-items: center; 
+    justify-content:center;
+
+}
+.accordeon-item{
+    align-items: center;
+}
+
+

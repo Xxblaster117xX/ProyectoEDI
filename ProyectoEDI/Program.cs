@@ -5,6 +5,7 @@ using BusinessLogic.Definition;
 using ProyectoEDI.Components;
 using Microsoft.EntityFrameworkCore;
 using ProyectoEDI.Backend;
+using AppLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddDevExpressBlazor();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<MessageManager>();
+builder.Services.AddScoped<MessageAppService>();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddScoped<DataElementManager>();
 var app = builder.Build();

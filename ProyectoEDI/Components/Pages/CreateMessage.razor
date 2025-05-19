@@ -7,6 +7,8 @@
 @inject IJSRuntime JS
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
+@using AppLayer;
+@inject MessageAppService messageAppService;
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc
@@ -137,11 +139,11 @@
                 Name = messageNameValue,
                 DirectoryVersion = messageDirectoryVersionValue,
                 Release = messageReleaseValue,
-                Description = "Aquí iría la descripción del mensaje"
+                Description = "Descripción de mensaje genérico"
             };
 
             //Se añade el mensaje a la lista para luego mostrar la lista del mensajes con el mensaje
-        messageManager.AddMessage(message);
+        messageAppService.AddMessage(message);
         //Se añade el mensaje a la base de datos
         DbContext.Messages.Add(message);
         Console.WriteLine($"Mensaje creado: {message.Name}");// Mostrar que el mensaje se ha creado por consola
