@@ -1,6 +1,6 @@
 ﻿@page "/listarMensaje"
 @using BusinessLogic
-@inject MessageManager MessageManager
+@inject MessageAppService MessageAppService
 @inject NavigationManager Navigation
 <PageTitle>Listar Mensaje</PageTitle>
 <h3 class="text-center">Listado de Mensajes:</h3>
@@ -20,9 +20,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (MessageManager.GetAllMessages() != null && MessageManager.GetAllMessages().Count > 0)
+            @if (MessageAppService.GetAllMessages() != null && MessageAppService.GetAllMessages().Count > 0)
             {
-                @foreach (var message in MessageManager.GetAllMessages())
+                @foreach (var message in MessageAppService.GetAllMessages())
                 {
                     <tr>
                         <td class="text-center">@message.Id</td>
@@ -33,7 +33,7 @@
                         <td class="text-center">@message.Name</td>
                         <td class="text-center">@message.Description</td>
                         <td class="text-center">
-                            <button class="btn btn-success" @onclick="() => GoToMessageDetails(message.Id)" >Ver Mensaje</button>
+                            @* <button class="btn btn-success" @onclick="() => GoToMessageDetails(message.Id)" >Ver Mensaje</button> *@
                             <button class="btn btn-warning">Modificar</button>
                         </td>
                     </tr>

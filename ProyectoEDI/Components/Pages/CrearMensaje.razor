@@ -1,7 +1,7 @@
 ﻿@page "/crearMensaje"
 @using ProyectoEDI.Components.Services
 @using BusinessLogic
-@inject MessageManager MessageManager
+@inject MessageAppService MessageAppService
 <PageTitle>Crear Mensaje</PageTitle>
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -61,8 +61,8 @@
 
     public void CreateMessage()
     {
-        mensaje.Id = MessageManager.AutoIncrement();
-        MessageManager.AddMessage(mensaje);
+        mensaje.Id = MessageAppService.AutoIncrement();
+        MessageAppService.AddMessage(mensaje);
         mensaje = new Message(); // Reiniciar el formulario
          
     }

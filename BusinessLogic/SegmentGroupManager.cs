@@ -11,7 +11,7 @@ namespace BusinessLogic
     public class SegmentGroupManager:ISegmentGroupManager
     {
         /// <summary>
-        /// La clase se encarga de manejejar el segmento y su propiedades.
+        /// La clase se encarga de manejejar el grupo de segmento y su propiedades.
         /// </summary>
         /// <param name="position"></param>
         /// <param name="segment"></param>
@@ -34,7 +34,7 @@ namespace BusinessLogic
             
         }
         /// <summary>
-        /// Este método agrega un segmento a la lista de segmentos.
+        /// Este método agrega un grupo de segmento a la lista de segmentos.
         /// </summary>
         /// <param name="segment"></param>
         public void AddSegmentGroup(SegmentGroup SegmentGroup)
@@ -44,7 +44,7 @@ namespace BusinessLogic
         
         
         /// <summary>
-        /// Devulve la lista de segmentos
+        /// Devulve la lista de grupo de segmentos
         /// </summary>
         /// <returns></returns>
         public List<SegmentGroup> GetAllSegmentsGroup()

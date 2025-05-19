@@ -2,7 +2,7 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject SegmentGroupManager SegmentGroupManager
+@inject SegmentGroupAppService SegmentGroupAppService
 @inject NavigationManager Navigation
 
 <h3>Listar Grupo Segmentos</h3>
@@ -27,9 +27,9 @@
             solo mostramos la informacion comun a todos los tipos de segmentos
 
             -->
-            @if (SegmentGroupManager.GetAllSegmentsGroup() != null && SegmentGroupManager.GetAllSegmentsGroup().Count > 0)
+            @if (SegmentGroupAppService.GetAllSegmentsGroup() != null && SegmentGroupAppService.GetAllSegmentsGroup().Count > 0)
             {
-                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroup())
+                @foreach (var GrupoSegmento in SegmentGroupAppService.GetAllSegmentsGroup())
                 {
                     <tr>
                         <td class="text-center">@GrupoSegmento.Id</td>
@@ -130,7 +130,7 @@
     {
         if (SegmentGroupToDelete != null)
         {
-            SegmentGroupManager.GetAllSegmentsGroup().Remove(SegmentGroupToDelete);
+            SegmentGroupAppService.GetAllSegmentsGroup().Remove(SegmentGroupToDelete);
             SegmentGroupToDelete = null;
             showNotification = true;
             notificationSegment = "El grupo de segmento ha sido borrado con éxito";

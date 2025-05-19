@@ -3,8 +3,8 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject SegmentGroupManager SegmentGroupManager
-@inject SegmentManager SegmentManager
+@inject SegmentGroupAppService SegmentGroupManager
+@inject SegmentAppService SegmentAppService
 @inject NavigationManager Navigation
 
 <PageTitle>Modificar Grupo de Segmento</PageTitle>
@@ -31,7 +31,7 @@
             <label for="segmento" class="form-label">Segmento:</label>
             <select id="segmento" class="form-select" @onchange="OnSegmentSelected">
                 <option value="" disabled selected>Seleccione un Segmento...</option>
-                @foreach (var segmento in SegmentManager.GetAllSegments())
+                @foreach (var segmento in SegmentAppService.GetAllSegments())
                 {
                     <option value="@segmento.SegmentCode">@segmento.SegmentName</option>
                 }
@@ -111,11 +111,11 @@
         if (!string.IsNullOrEmpty(codigoSeleccionado))
         {
 
-            // Buscamos el DataElement seleccionado usando el código
-            var segment = SegmentManager.GetAllSegments().FirstOrDefault(s => s.SegmentCode == codigoSeleccionado);
+            // Buscamos el segmento seleccionado usando el código
+            var segment = SegmentAppService.GetAllSegments().FirstOrDefault(s => s.SegmentCode == codigoSeleccionado);
             if (segment != null)
             {
-                // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
+                // Creamos un nuevo objeto segmento basado en el que hemos seleccionado
                 var newSegment = new SegmentDefinition
                     {
                         SegmentCode = segment.SegmentCode,
@@ -139,11 +139,11 @@
         if (int.TryParse(e.Value.ToString(), out int IdSeleccionado))
         {
 
-            // Buscamos el DataElement seleccionado usando el código
+            // Buscamos el grupo de segmento seleccionado usando el código
             var GrupoSegmento = SegmentGroupManager.GetAllSegmentsGroup().FirstOrDefault(gs => gs.Id == IdSeleccionado);
             if (GrupoSegmento != null)
             {
-                // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
+                // Creamos un nuevo objeto segmentGroup basado en el que hemos seleccionado
                 var newGrupoSegmento = new SegmentGroup
                     {
                         Id = GrupoSegmento.Id,

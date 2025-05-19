@@ -1,3 +1,4 @@
+using AppLayer;
 using BusinessLogic;
 using ProyectoEDI.Components;
 
@@ -7,6 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+
+// App Service
+builder.Services.AddScoped<MessageAppService>();
+builder.Services.AddScoped<SegmentAppService>();
+builder.Services.AddScoped<CompositeAppService>();
+builder.Services.AddScoped<SegmentGroupAppService>();
+
+// Business Logic
 builder.Services.AddScoped<MessageManager>();
 builder.Services.AddScoped<SegmentManager>();
 builder.Services.AddScoped<CompositeManager>();

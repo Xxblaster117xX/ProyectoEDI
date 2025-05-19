@@ -16,7 +16,7 @@ namespace AppLayer
         /// <param name="position"></param>
         /// <param name="segment"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private readonly List<SegmentGroup> _segmentsGroups;
+        private readonly List<SegmentGroup> _segmentsGroups = new List<SegmentGroup>();
         /// <summary>
         /// Constructor de la clase SegmentManager.
         /// </summary>

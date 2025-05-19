@@ -2,7 +2,7 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject CompositeManager CompositeManager
+@inject CompositeAppService CompositeAppService
 @inject NavigationManager Navigation
 
 
@@ -158,12 +158,12 @@
     protected override void OnInitialized()
     {
         // Buscar el CompositeDataElement por su ID
-        compositeDataElement = CompositeManager.GetAll().FirstOrDefault(c => c.Id == Id);
+        compositeDataElement = CompositeAppService.GetAll().FirstOrDefault(c => c.Id == Id);
     }
     public void ModifyComposite()
     {
 
-        CompositeManager.UpdateComposite(compositeDataElement);
+        CompositeAppService.UpdateComposite(compositeDataElement);
         
         showPopUpMessage = true;
 

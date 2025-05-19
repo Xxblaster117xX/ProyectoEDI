@@ -13,6 +13,13 @@ namespace AppLayer
     public class MessageAppService : IMessageAppService
     {
         private readonly List<Message> _messages;
+
+        private int contador = 0;
+
+        public int AutoIncrement()
+        {
+            return ++contador;
+        }
         /// <summary>
         /// Constructor de la lista de mensajes
         /// </summary>

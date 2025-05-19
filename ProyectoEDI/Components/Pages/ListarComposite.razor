@@ -1,6 +1,6 @@
 ﻿@page "/listarComposite"
 @using BusinessLogic
-@inject CompositeManager CompositeManager
+@inject CompositeAppService CompositeAppService
 @inject NavigationManager Navigation
 <PageTitle>Listado de Segmentos</PageTitle>
 
@@ -24,9 +24,9 @@
 
 
             -->
-            @if (CompositeManager.GetAll() != null && CompositeManager.GetAll().Count > 0)
+            @if (CompositeAppService.GetAll() != null && CompositeAppService.GetAll().Count > 0)
             {
-                @foreach (var composite in CompositeManager.GetAll())
+                @foreach (var composite in CompositeAppService.GetAll())
                 {
                     <tr>
 
@@ -110,7 +110,7 @@
     {
         if (compositeToDelete != null)
         {
-            CompositeManager.GetAll().Remove(compositeToDelete);
+            CompositeAppService.GetAll().Remove(compositeToDelete);
             showPopUp = false;
             await Task.Delay(3000);
             

@@ -2,7 +2,8 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject SegmentManager SegmentManager
+
+@inject SegmentAppService SegmentAppService
 @inject NavigationManager Navigation
 
 <PageTitle>Crear Segmento</PageTitle>
@@ -76,9 +77,9 @@
     {
         if (segmento != null)
         {
-            segmento.SegmentId = SegmentManager.AutoIncrement(); // Asignamos un ID
+            segmento.SegmentId = SegmentAppService.AutoIncrement(); // Asignamos un ID
             // Añadimos el segmento en la lista 
-            SegmentManager.AddSegment(segmento);
+            SegmentAppService.AddSegment(segmento);
             showPopUpMessage = true;
             // Reiniciamos el formulario
             segmento = new SegmentDefinition();

@@ -1,6 +1,7 @@
 ﻿@page "/listarSegmentos"
 @using BusinessLogic
-@inject SegmentManager SegmentManager
+
+@inject SegmentAppService SegmentAppService
 <PageTitle>Listado de Segmentos</PageTitle>
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
@@ -25,9 +26,9 @@
             solo mostramos la informacion comun a todos los tipos de segmentos
 
             -->
-            @if (SegmentManager.GetAllSegments() != null && SegmentManager.GetAllSegments().Count > 0)
+            @if (SegmentAppService.GetAllSegments() != null && SegmentAppService.GetAllSegments().Count > 0)
             {
-                @foreach (var segmento in SegmentManager.GetAllSegments())
+                @foreach (var segmento in SegmentAppService.GetAllSegments())
                 {
                     <tr>
                         <td class="text-center">@segmento.SegmentId</td>
@@ -113,7 +114,7 @@
     {
         if (segmentToDelete!= null)
         {
-            SegmentManager.GetAllSegments().Remove(segmentToDelete);
+            SegmentAppService.GetAllSegments().Remove(segmentToDelete);
             segmentToDelete = null;
             showNotification = true;
             notificationSegment = "El segmento ha sido borrado con éxito";

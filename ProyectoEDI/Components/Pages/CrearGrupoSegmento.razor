@@ -2,8 +2,9 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject SegmentGroupManager SegmentGroupManager
-@inject SegmentManager SegmentManager
+
+@inject SegmentGroupAppService SegmentGroupAppService
+@inject SegmentAppService SegmentAppService
 @inject NavigationManager Navigation
 
 <PageTitle>Crear Grupo de Segmento</PageTitle>
@@ -30,7 +31,7 @@
             <label for="segmento" class="form-label">Segmento:</label>
             <select id="segmento" class="form-select" @onchange="OnSegmentSelected">
                 <option value="" disabled selected>Seleccione un Segmento...</option>
-                @foreach (var segmento in SegmentManager.GetAllSegments())
+                @foreach (var segmento in SegmentAppService.GetAllSegments())
                 {
                     <option value="@segmento.SegmentCode">@segmento.SegmentName</option>
                 }
@@ -38,7 +39,7 @@
             <label for="segmento" class="form-label">Grupo de Segmentos:</label>
             <select id="segmento" class="form-select" @onchange="OnGroupSegmentSelected">
                 <option value="" disabled selected>Seleccione un Grupo de Segmentos...</option>
-                @foreach (var GrupoSegmento in SegmentGroupManager.GetAllSegmentsGroup())
+                @foreach (var GrupoSegmento in SegmentGroupAppService.GetAllSegmentsGroup())
                 {
                     <option value="@GrupoSegmento.Id">GrupoSegmento @GrupoSegmento.Id</option>
                 }
@@ -106,7 +107,7 @@
         {
 
             // Buscamos el DataElement seleccionado usando el código
-            var segment = SegmentManager.GetAllSegments().FirstOrDefault(s => s.SegmentCode == codigoSeleccionado);
+            var segment = SegmentAppService.GetAllSegments().FirstOrDefault(s => s.SegmentCode == codigoSeleccionado);
             if (segment != null)
             {
                 // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
@@ -134,7 +135,7 @@
         {
 
             // Buscamos el DataElement seleccionado usando el código
-            var GrupoSegmento = SegmentGroupManager.GetAllSegmentsGroup().FirstOrDefault(gs => gs.Id== IdSeleccionado);
+            var GrupoSegmento = SegmentGroupAppService.GetAllSegmentsGroup().FirstOrDefault(gs => gs.Id== IdSeleccionado);
             if (GrupoSegmento != null)
             {
                 // Creamos un nuevo objeto DataElement basado en el que hemos seleccionado
@@ -156,9 +157,9 @@
     {
         if (SegmentGroup != null)
         {
-            SegmentGroup.Id = SegmentGroupManager.AutoIncrement(); // Asignamos un ID
+            SegmentGroup.Id = SegmentGroupAppService.AutoIncrement(); // Asignamos un ID
             // Añadimos el segmento en la lista
-            SegmentGroupManager.AddSegmentGroup(SegmentGroup);
+            SegmentGroupAppService.AddSegmentGroup(SegmentGroup);
             showPopUpMessage = true;
             // Reiniciamos el formulario
             SegmentGroup = new SegmentGroup();

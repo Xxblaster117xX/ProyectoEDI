@@ -2,7 +2,7 @@
 @using BusinessLogic
 @using Entities.Entidades_Definicion
 @using Entities.Enum
-@inject CompositeManager CompositeManager
+@inject CompositeAppService CompositeAppService
 @inject NavigationManager Navigation
 
 <PageTitle>Crear Elemento de Dato Compuesto</PageTitle>
@@ -149,8 +149,8 @@
 
     public void createComposite()
     {
-        compositeDataElement.Id = CompositeManager.AutoIncrementId();
-        CompositeManager.AddComposite(compositeDataElement);
+        compositeDataElement.Id = CompositeAppService.AutoIncrementId();
+        CompositeAppService.AddComposite(compositeDataElement);
         showPopUpMessage = true;
     }
 
