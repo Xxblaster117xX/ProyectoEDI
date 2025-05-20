@@ -17,6 +17,7 @@ namespace Entities.Entidades_Definicion
         public bool Obligatorio { get; set; }
         public RequirementIndicatorEnum RequirementIndicator { get; set; }
         public string Repetition { get; set; }
+        
 
     }
 }

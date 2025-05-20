@@ -3,97 +3,184 @@
 @rendermode InteractiveServer
 @using DevExpress.Blazor
 @using Entities.Entidades_Definicion
-@using Entities.Model.Enum
+@using Entities.Enum
 @using AppLayer;
 @inject MessageAppService messageAppService;
-@using BusinessLogic.Definition;
 
 
 <!-- Detalles de las especificaciones de un mensaje-->
 <h3>Detalles de un mensaje</h3>
 
 <div class="cw-480 demo-preventsel">
+
     <DxAccordion ExpandMode="@ExpandMode"
     ExpandCollapseAction="@ExpandCollapseAction"
     AnimationType="LayoutAnimationType.Slide"
     RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
-    
+
         <Items>
-            @if (messageAppService.GetAllMessages()!= null && messageAppService.GetAllMessages().Any())
+
+
+            <DxAccordionItem Text=@("Detalles")>
+                <ContentTemplate>
+                    <div class="accordeon-inline">
+                        <div class="py-3 px-3" tabindex="0">
+
+                            <strong>Tipo de mensaje: </strong>
+
+                            <DxComboBox @bind-Value="message.Type"
+                            Data="@messageTypes"
+                            LabelText="Tipo de mensaje"
+                            TextField="@((MessageTypeEnum t) => t.ToString())"
+                            ValueField="@((MessageTypeEnum t) => t)">
+                            </DxComboBox>
+                        </div>
+
+                        <strong>Nombre:</strong>
+
+                        <div class="py-3 px-3" tabindex="0">
+                            <DxTextBox @bind-Text="message.Name"
+                            LabelText="ID del mensaje"
+                            ShowClearButton="true" />
+                        </div>
+
+                        <strong>Descripción:</strong>
+
+                        <div class="py-3 px-3" tabindex="0">
+                            <DxTextBox @bind-Text="message.Description"
+                            LabelText="Descripción del mensaje"
+                            ShowClearButton="true" />
+                        </div>
+                    </div>
+                    <div class="accordeon-inline">
+                        <strong>Versión </strong>
+
+                        <div class="py-3 px-3" tabindex="0">
+                            <DxTextBox @bind-Text="message.Version"
+                            LabelText="Versión del mensaje"
+                            ShowClearButton="true" />
+                        </div>
+
+                        <strong>Directorio</strong>
+
+                        <div class="py-3 px-3" tabindex="0">
+                            <DxTextBox @bind-Text="message.DirectoryVersion"
+                            LabelText="Directorio del mensaje"
+                            ShowClearButton="true" />
+                        </div>
+                    </div>
+
+                    <!--TreeView para ver las partes del mensaje(encabezado, elementos de datos...)-->
+
+                </ContentTemplate>
+            </DxAccordionItem>
+
+
+
+
+        </Items>
+    </DxAccordion>
+
+    <DxTreeView AllowSelectNodes="true" CssClass="mt-4" style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
+        <Nodes>
+            @if (message.MessagePositions != null)
             {
-                @foreach (var message in messageAppService.GetAllMessages())
+                @foreach (var position in message.MessagePositions)
                 {
-                    <DxAccordionItem Text=@("Detalles")>
-                        <ContentTemplate>
-                            <div class="accordeon-inline">
-                                <div class="py-3 px-3" tabindex="0">
+                    Random rnd = new Random();
 
-                                    <strong>Tipo de mensaje: </strong>
+                    <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="@(string.Format("background-color: {0}; border-bottom:1px solid black" , position.SegmentGroup!=null ? "lightgreen" : "rgb(255, 128, 128)"))">
+                        <Template>
+                            @if (position.SegmentGroup != null)
+                            {
+                                <table class="table" style="margin:0px">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20" style="border-right: 1px solid black; border-left: 1px solid black">
+                                                @* <small class="@GetNodeExpandButtonCssClass(context.Name)"></small> *@
+                                            </td>
+                                            <td width="225" style="border-right: 1px solid black; border-left: 1px solid black">
+                                                <span><strong>Grupo segmento @position.SegmentGroup.NumeroGrupoSegmentos - @position.SegmentGroup.Segments.FirstOrDefault().SegmentCode</strong></span>
+                                            </td>
+                                            <td>@(position.SegmentGroup.Obligatorio)</td>
 
-                                    <DxComboBox @bind-Value="message.Type"
-                                    Data="@messageTypes"
-                                    LabelText="Tipo de mensaje"
-                                    TextField="@((MessageTypeEnum t) => t.ToString())"
-                                    ValueField="@((MessageTypeEnum t) => t)">
-                                    </DxComboBox>
-                                </div>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                                <strong>Nombre:</strong>
+                             
+                            }
+                            else
+                            {
 
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Name"
-                                    LabelText="ID del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
+                                <table class="table" style="margin:0px">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+                                                @* <small class="@GetNodeExpandButtonCssClass(context.Name)"></small> *@
+                                            </td>
+                                            <td width="400" style="border-right: 1px solid black;border-left: 1px solid black">
+                                                <span><strong>@position.Segment.SegmentCode - @position.Segment.SegmentName</strong></span>
+                                            </td>
+                                            <td width="600" style="border-right: 1px solid black;border-left: 1px solid black">@position.Segment.SegmentDescription</td>
+                                            <td>(@position.Segment.Obligatory)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                                <strong>Descripción:</strong>
+                            }
 
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Description"
-                                    LabelText="Descripción del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-                            </div>
-                            <div class="accordeon-inline">
-                                <strong>Versión </strong>
+                        </Template>
 
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Version"
-                                    LabelText="Versión del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
+                        <Nodes>
+                            <DxTreeViewNode Text="Segmento">
+                                @if (position.SegmentGroup.Segments != null)
+                                {
+                                    @foreach (var segmento in position.SegmentGroup.Segments)
+                                    {
+                                        <table class="table" style="margin:0px">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+                                                        <span><strong>@segmento.SegmentCode - @position.Segment.SegmentName</strong></span>
+                                                    </td>
+                                                    <td width="400" style="border-right: 1px solid black;border-left: 1px solid black">
+                                                        <span><strong>@segmento.SegmentDescription</strong></span>
+                                                    </td>
+                                                    <td width="600" style="border-right: 1px solid black;border-left: 1px solid black">@position.Segment.SegmentDescription</td>
+                                                    <td>(@position.Segment.Obligatory)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
 
-                                <strong>Directorio</strong>
+                                }
+                            </DxTreeViewNode>
 
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.DirectoryVersion"
-                                    LabelText="Directorio del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-                            </div>
-                            
-                        <!--TreeView para ver las partes del mensaje(encabezado, elementos de datos...)-->
-                                
+                        </Nodes> 
 
+                    </DxTreeViewNode>
 
-
-
-
-                        </ContentTemplate>
-                    </DxAccordionItem>
                 }
             }
             else
             {
-                <p>No hay mensajes disponibles</p>
+                <p>No hay posiciones de mensaje disponibles</p>
             }
-        </Items>
-    </DxAccordion>
+        </Nodes>
+    </DxTreeView>
+
+
 </div>
 
 
-
 @code {
+
+    DxTreeView treeView;
+    string GetNodeExpandButtonCssClass(string nodeName)
+    {
+        return String.Format("oi oi-chevron-{0}", treeView.GetNodeExpanded(n => n.Name == nodeName) ? "bottom" : "right");
+    }
 
     /// <summary>
     /// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
@@ -103,14 +190,106 @@
 
 
     /// <summary>
-    /// Instanciar un mensaje
+    /// Instanciar un mensaje de ejemplo
     /// </summary>
-    static Message message = new Message();
+
+    public Message message;
+
+    protected override void OnInitialized()
+    {
+        // Ejemplo de segmento
+        var segmento = new SegmentDefinition
+            {
+                SegmentId = 1,
+                SegmentCode = "UNH",
+                SegmentName = "Beginning of message",
+                SegmentDescription = "Indica el inicio del mensaje",
+                Obligatory = true,
+                SegmentPositions = new List<SegmentPosition>()
+            };
+
+        // Ejemplo de grupo de segmentos
+        var grupoSegmento = new SegmentGroup
+            {
+                NumeroGrupoSegmentos = 1,
+                Obligatorio = true,
+                Segments = new List<SegmentDefinition>
+            {
+                new SegmentDefinition
+                {
+                    SegmentId = 2,
+                    SegmentCode = "DTM",
+                    SegmentName = "Date/Time/Period",
+                    SegmentDescription = "Fecha y hora del mensaje",
+                    Obligatory = true,
+                    SegmentPositions = new List<SegmentPosition>()
+                },
+
+                new SegmentDefinition
+                {
+                    SegmentId = 3,
+                    SegmentCode = "RFF",
+                    SegmentName = "REFERENCE",
+                    SegmentDescription = "Para especificar una referencia.",
+                    Obligatory = true,
+                    SegmentPositions = new List<SegmentPosition>()
+                }
+            }
+            };
+
+        // Posiciones del mensaje
+        var posiciones = new List<MessagePosition>
+        {
+            new MessagePosition
+            {
+                Id = 1,
+                Position = 1,
+                Segment = segmento,
+                SegmentGroup = null,
+                Obligatorio = true,
+                RequirementIndicator = RequirementIndicatorEnum.M,
+                Repetition = "1"
+            },
+            new MessagePosition
+            {
+                Id = 2,
+                Position = 2,
+                Segment = null,
+                SegmentGroup = grupoSegmento,
+                Obligatorio = true,
+                RequirementIndicator = RequirementIndicatorEnum.C,
+                Repetition = "1"
+            }
+        };
+
+        // Mensaje de ejemplo
+        message = new Message
+            {
+                Id = 1,
+                Type = MessageTypeEnum.INVOIC,
+                Version = "1.0",
+                Release = "A",
+                Directory = "UN",
+                DirectoryVersion = "EAN005",
+                Name = "Factura Electrónica",
+                Description = "Mensaje de ejemplo para TreeView.",
+                MessagePositions = posiciones
+            };
+    }
+
+
+
+
+
+
+
+
     /// <summary>
     /// Para definir los tipos de mensajes en el DxComboBox
     /// </summary>
     MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
 
-    
- 
+
+
+
 }
