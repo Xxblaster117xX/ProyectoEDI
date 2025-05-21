@@ -2,7 +2,8 @@
 @inject NavigationManager Navigation
 @inject DataElementManager dataElementManager
 @rendermode InteractiveServer
-
+@using AppLayer;
+@inject DataElementAppService dataElementAppService;
 <h3>Crear Nuevo Elemento de dato</h3>
 
 <!--Formulario de creación del elemento de dato -->
@@ -51,19 +52,20 @@
     /// </summary>
     private bool showPopUpMessage = false;
     /// <summary>
-	/// Variable para comprobar si se ha enviado el formulario
-	/// </summary>
-	private bool isSubmitted = false;
+    /// Variable para comprobar si se ha enviado el formulario
+    /// </summary>
+    private bool isSubmitted = false;
 
     /// <summary>
-	/// Guardar el nuevo DataElement creado
-	/// </summary>
-	private void HandleSubmit()
+    /// Guardar el nuevo DataElement creado
+    /// </summary>
+    private void HandleSubmit()
     {
 
-        dataElementManager.AddDataElement(newDataElement);
+        dataElementAppService.AddDataElement(newDataElement);
         isSubmitted = true;
         showPopUpMessage = true;
+        Console.WriteLine("Usuario añadido con éxito");
     }
     /// <summary>
     ///  Al confirmar el botón de aceptar, se redirige a la lista de DataElements

@@ -4,7 +4,8 @@
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.WebUtilities
-
+@using AppLayer;
+@inject DataElementAppService dataElementAppService;
 <h3>Lista de DataElements</h3>
 
 <Toasts class="p-3" Messages="messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
@@ -103,7 +104,7 @@
     /// </summary>
     protected override void OnInitialized()
     {
-        dataElementList = dataElementManager.GetAllDataElements();
+        dataElementList = dataElementAppService.GetAllDataElements();
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("success", out var successValue))
         {
@@ -158,8 +159,8 @@
     /// <returns></returns>
     private async Task ConfirmDelete()
     {
-        dataElementManager.DeleteDataElement(elementIdToDelete);
-        dataElementList = dataElementManager.GetAllDataElements();
+        dataElementAppService.DeleteDataElement(elementIdToDelete);
+        dataElementList = dataElementAppService.GetAllDataElements();
 
         showPopUpDelete = false;
 
@@ -189,10 +190,10 @@
             original.ValueFormat = EditDataElement.ValueFormat;
 
             // Actualiza en la base de datos o backend
-            dataElementManager.UpdateDataElement(original);
+            dataElementAppService.UpdateDataElement(original);
 
             // Refresca la lista (opcional, si UpdateDataElement ya lo hace puedes omitir)
-            dataElementList = dataElementManager.GetAllDataElements();
+            dataElementList = dataElementAppService.GetAllDataElements();
 
             ShowModifyDataElement(ToastType.Success);
         }

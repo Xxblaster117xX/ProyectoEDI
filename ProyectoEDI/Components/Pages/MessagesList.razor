@@ -159,7 +159,7 @@
     {
         if (messageToDelete != null)
         {
-            messageManager.GetAllMessages().Remove(messageToDelete);
+			messageAppService.GetAllMessages().Remove(messageToDelete);
             messageToDelete = null;
 
             ShowDeleteMessage(ToastType.Danger);
@@ -224,7 +224,7 @@
     private void SaveEditMessage()
     {
         // Buscar el mensaje original y actualizar sus campos
-        var original = messageManager.GetAllMessages().FirstOrDefault(m => m.Id == editMessage.Id);
+        var original = messageAppService.GetAllMessages().FirstOrDefault(m => m.Id == editMessage.Id);
         if (original != null)
         {
             original.MessageType = editMessage.MessageType;
@@ -288,8 +288,6 @@
     /// </summary>
     /// <param name="toastType"></param>
     private void ShowDeleteMessage(ToastType toastType) => messages.Add(CreateDeleteToastMessage(toastType));
-
-
     /// <summary>
     /// Método para crear un toast de eliminación.
     /// </summary>

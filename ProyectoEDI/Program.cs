@@ -20,6 +20,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<MessageManager>();
 builder.Services.AddScoped<MessageAppService>();
+builder.Services.AddScoped<DataElementAppService>();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddScoped<DataElementManager>();
 var app = builder.Build();

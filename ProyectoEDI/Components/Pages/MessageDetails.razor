@@ -12,104 +12,145 @@
 <h1>Especificaciones de un mensaje</h1>
 
 <div class="cw-480 demo-preventsel">
-    <DxAccordion ExpandMode="@ExpandMode"
-    ExpandCollapseAction="@ExpandCollapseAction"
-    AnimationType="LayoutAnimationType.Slide"
-    RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
-    
-        <Items>
-            @if (messageAppService.GetAllMessages!= null && messageAppService.GetAllMessages().Any())
-            {
-                @foreach (var message in messageAppService.GetAllMessages())
-                {
-                    <DxAccordionItem Text=@("Detalles")>
-                        <ContentTemplate>
-                            <div class="accordeon-inline">
-                                <div class="py-3 px-3" tabindex="0">
-
-                                    <strong>Tipo de mensaje: </strong>
-
-                                    <DxComboBox @bind-Value="message.MessageType"
-                                    Data="@messageTypes"
-                                    LabelText="Tipo de mensaje"
-                                    TextField="@((MessageTypeEnum t) => t.ToString())"
-                                    ValueField="@((MessageTypeEnum t) => t)">
-                                    </DxComboBox>
-                                </div>
-
-                                <strong>Nombre:</strong>
-
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Name"
-                                    LabelText="ID del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-
-                                <strong>Descripción:</strong>
-
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Description"
-                                    LabelText="Descripción del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-                            </div>
-                            <div class="accordeon-inline">
-                                <strong>Versión </strong>
-
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Version"
-                                    LabelText="Versión del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-
-                                <strong>Directorio</strong>
-
-                                <div class="py-3 px-3" tabindex="0">
-                                    <DxTextBox @bind-Text="message.Directory"
-                                    LabelText="Directorio del mensaje"
-                                    ShowClearButton="true" />
-                                </div>
-                            </div>
-                            
-                        <!--TreeView para ver las partes del mensaje(encabezado, elementos de datos...)-->
-                                
+	<DxAccordion ExpandMode="@ExpandMode"
+				 ExpandCollapseAction="@ExpandCollapseAction"
+				 AnimationType="LayoutAnimationType.Slide"
+				 RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
 
 
 
+		<Items>
+			@if (messageAppService.GetAllMessages != null && messageAppService.GetAllMessages().Any())
+			{
+				@foreach (var message in messageAppService.GetAllMessages())
+				{
+					<!--Acordeon inicial de detales de un mensaje-->
+					<DxAccordionItem Text=@message.Name>
+						<ContentTemplate>
+							<div class="accordeon-inline">
+								<div class="py-3 px-3" tabindex="0">
+									<strong>Tipo de mensaje: </strong>
+									<DxComboBox @bind-Value="message.MessageType"
+												Data="@messageTypes"
+												LabelText="Tipo de mensaje"
+												TextField="@((MessageTypeEnum t) => t.ToString())"
+												ValueField="@((MessageTypeEnum t) => t)">
+									</DxComboBox>
+								</div>
 
+								<strong>Nombre:</strong>
+								<div class="py-3 px-3" tabindex="0">
+									<DxTextBox @bind-Text="message.Name"
+											   LabelText="ID del mensaje"
+											   ShowClearButton="true" />
+								</div>
 
-                        </ContentTemplate>
-                    </DxAccordionItem>
-                }
-            }
-            else
-            {
-                <p>No hay mensajes disponibles</p>
-            }
-        </Items>
-    </DxAccordion>
+								<strong>Descripción:</strong>
+								<div class="py-3 px-3" tabindex="0">
+									<DxTextBox @bind-Text="message.Description"
+											   LabelText="Descripción del mensaje"
+											   ShowClearButton="true" />
+								</div>
+							</div>
+
+							<div class="accordeon-inline">
+								<strong>Versión</strong>
+								<div class="py-3 px-3" tabindex="0">
+									<DxTextBox @bind-Text="message.Version"
+											   LabelText="Versión del mensaje"
+											   ShowClearButton="true" />
+								</div>
+
+								<strong>Directorio</strong>
+								<div class="py-3 px-3" tabindex="0">
+									<DxTextBox @bind-Text="message.Directory"
+											   LabelText="Directorio del mensaje"
+											   ShowClearButton="true" />
+								</div>
+							</div>
+
+							<!-- Acordeón interno -->
+							<DxAccordion ExpandMode="@ExpandMode"
+										 ExpandCollapseAction="@ExpandCollapseAction"
+										 AnimationType="LayoutAnimationType.Slide"
+										 CssClass="inner-accordion mt-3">
+								<Items>
+									<DxAccordionItem>
+										<HeaderTextTemplate Context="sd">
+
+											<div class="d-flex">
+											<tr>
+												<td>@message.Name</td>
+												<td>@message.Version</td>
+												<td>@message.Description</td>
+											</tr>
+		</div>
+												</HeaderTextTemplate>
+
+		<!-- Contenido: TreeView -->
+		<ContentTemplate Context="trewview">
+			<DxTreeView>
+				<Nodes>
+					<DxTreeViewNode Text="campo1" Style="background-color:red" />
+					<DxTreeViewNode Text="campo2" Style="background-color:red" />
+				</Nodes>
+			</DxTreeView>
+
+			<!-- Segundo acordeón indentado como hijo del TreeView -->
+			<div class="ms-4 mt-3">
+				<DxAccordion ExpandMode="@ExpandMode"
+							 ExpandCollapseAction="@ExpandCollapseAction"
+							 AnimationType="LayoutAnimationType.Slide"
+							 CssClass="nested-accordion">
+					<Items>
+						<DxAccordionItem Text="Detalles adicionales">
+							<ContentTemplate Context="contenido2">
+								<p><strong>Propiedad A:</strong> Valor A</p>
+								<p><strong>Propiedad B:</strong> Valor B</p>
+							</ContentTemplate>
+						</DxAccordionItem>
+					</Items>
+				</DxAccordion>
+			</div>
+
+		</ContentTemplate>
+													</DxAccordionItem>
+												</Items>
+											</DxAccordion>
+										</ContentTemplate>
+									</DxAccordionItem>
+				}
+			}
+			else
+			{
+	<p>No hay mensajes disponibles</p>
+			}
+		</Items>
+	</DxAccordion>
 </div>
+
+
 
 
 
 @code {
 
-    /// <summary>
-    /// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
-    /// </summary>
-    AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
-    AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
+	/// <summary>
+	/// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
+	/// </summary>
+	AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
+	AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
 
 
-    /// <summary>
-    /// Instanciar un mensaje
-    /// </summary>
-    static Message message = new Message();
-    /// <summary>
-    /// Para definir los tipos de mensajes en el DxComboBox
-    /// </summary>
-    MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
+	/// <summary>
+	/// Instanciar un mensaje
+	/// </summary>
+	static Message message = new Message();
+	/// <summary>
+	/// Para definir los tipos de mensajes en el DxComboBox
+	/// </summary>
+	MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
 
-    
- 
+
+
 }

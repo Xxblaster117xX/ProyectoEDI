@@ -5,7 +5,8 @@
 @using Entities.Model.Enum
 @using BusinessLogic.Definition
 @inject MessageManager messageManager
-
+@using AppLayer
+@inject MessageAppService messageAppService
 <h3>Modificar Mensaje</h3>
 
 <!-- Si no almacena ningún mensaje aparece que los está cargando-->
@@ -89,7 +90,7 @@ else
     protected override void OnInitialized()
     {
         Console.WriteLine($"Cargando mensaje con ID {MessageId}");
-        message = messageManager.GetMessageById(MessageId);
+        message = messageAppService.GetMessageById(MessageId);
         if (message == null)
         {
             Console.WriteLine($"No se encontró el mensaje con ID {MessageId}");
@@ -105,7 +106,7 @@ else
     /// </summary>
     private void HandleValidSubmit()
     {
-        messageManager.UpdateMessage(message);
+		messageAppService.UpdateMessage(message);
         showSuccessPopup = true;
     }
 

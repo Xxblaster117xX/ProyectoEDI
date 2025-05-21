@@ -3,7 +3,8 @@
 @inject NavigationManager Navigation
 @inject DataElementManager dataElementManager
 @rendermode InteractiveServer
-
+@using AppLayer;
+@inject DataElementAppService dataElementAppService;
 <h3>Modificar Elemento de Dato</h3>
 
 <!--Aparece si en la lista no han mensajes-->
@@ -70,7 +71,7 @@ else
     protected override void OnInitialized()
     {
         Console.WriteLine($"Cargando elemento de dato con ID {DataElementId}");
-        dataElement = dataElementManager.GetDataElementByCode(DataElementId);
+        dataElement = dataElementAppService.GetDataElementByCode(DataElementId);
         if (dataElement == null)
         {
             Console.WriteLine($"No se encontró el elemento de dato con ID {DataElementId}");
@@ -86,7 +87,7 @@ else
     /// </summary>
     private void HandleValidSubmit()
     {
-        dataElementManager.UpdateDataElement(dataElement);
+        dataElementAppService.UpdateDataElement(dataElement);
         showSuccessPopup = true;
     }
 
