@@ -14,9 +14,9 @@
 <div class="cw-480 demo-preventsel">
 
     <DxAccordion ExpandMode="@ExpandMode"
-                 ExpandCollapseAction="@ExpandCollapseAction"
-                 AnimationType="LayoutAnimationType.Slide"
-                 RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
+    ExpandCollapseAction="@ExpandCollapseAction"
+    AnimationType="LayoutAnimationType.Slide"
+    RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End">
 
         <Items>
             <DxAccordionItem Text=@("Detalles")>
@@ -28,46 +28,46 @@
                             <strong>Tipo de mensaje: </strong>
 
                             <DxComboBox @bind-Value="message.Type"
-                                        Data="@messageTypes"
-                                        LabelText="Tipo de mensaje"
-                                        TextField="@((MessageTypeEnum t) => t.ToString())"
-                                        ValueField="@((MessageTypeEnum t) => t)">
+                            Data="@messageTypes"
+                            LabelText="Tipo de mensaje"
+                            TextField="@((MessageTypeEnum t) => t.ToString())"
+                            ValueField="@((MessageTypeEnum t) => t)">
                             </DxComboBox>
                         </div>
 
-                         <div class=" d-flex gap-3" tabindex="0">
+                        <div class=" d-flex gap-3" tabindex="0">
                             <strong>Nombre:</strong>
 
                             <div class="" tabindex="0">
                                 <DxTextBox @bind-Text="message.Name"
-                                           LabelText="ID del mensaje"
-                                           ShowClearButton="true" />
+                                LabelText="ID del mensaje"
+                                ShowClearButton="true" />
                             </div>
-                         
-                         
-                         </div>
-                        
+
+
+                        </div>
+
                         <div class="d-flex gap-3" tabindex="0">
                             <strong>Descripción:</strong>
 
                             <div class="" tabindex="0">
                                 <DxTextBox @bind-Text="message.Description"
-                                           LabelText="Descripción del mensaje"
-                                           ShowClearButton="true" />
+                                LabelText="Descripción del mensaje"
+                                ShowClearButton="true" />
                             </div>
 
                         </div>
-                        
+
                     </div>
                     <div class="accordeon-inline d-flex justify-content-around">
                         <div class="d-flex">
-                       
+
                             <strong>Versión </strong>
 
                             <div class="" tabindex="0">
                                 <DxTextBox @bind-Text="message.Version"
-                                           LabelText="Versión del mensaje"
-                                           ShowClearButton="true" />
+                                LabelText="Versión del mensaje"
+                                ShowClearButton="true" />
                             </div>
 
                         </div>
@@ -77,8 +77,8 @@
 
                             <div class="" tabindex="0">
                                 <DxTextBox @bind-Text="message.DirectoryVersion"
-                                           LabelText="Directorio del mensaje"
-                                           ShowClearButton="true" />
+                                LabelText="Directorio del mensaje"
+                                ShowClearButton="true" />
                             </div>
 
                         </div>
@@ -95,7 +95,7 @@
         </Items>
     </DxAccordion>
 
-    <DxTreeView @ref="treeView" AllowSelectNodes="true" CssClass="mt-4" style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
+    <DxTreeView @ref="treeView" AllowSelectNodes="true" CssClass="mt-4 " style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
         <Nodes>
             @if (message.MessagePositions != null)
             {
@@ -103,7 +103,7 @@
                 {
                     Random rnd = new Random();
 
-                    <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="@(string.Format("background-color: {0}; border-bottom:1px solid black" , position.SegmentGroup!=null ? "lightgreen" : "rgb(255, 128, 128)"))">
+                    <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" CssClass=" estilo_tree">
                         <Template>
                             @if (position.SegmentGroup != null)
                             {
@@ -127,7 +127,7 @@
                             else
                             {
 
-                                <table class="table" style="margin:0px">
+                                <table class="table estilo_segment" style="margin:0px">
                                     <tbody>
                                         <tr>
                                             <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
@@ -209,6 +209,37 @@
             {
                 NumeroGrupoSegmentos = 1,
                 Obligatorio = true,
+                SegmentsGroups = new List<SegmentGroup>()
+                {
+                    new SegmentGroup{
+                        NumeroGrupoSegmentos = 1,
+                        Obligatorio = true,
+                        SegmentsGroups = null,
+                        Segments = new List<SegmentDefinition>()
+                        {
+                            new SegmentDefinition
+                            {
+                                SegmentId = 1,
+                                SegmentCode = "BGM",
+                                SegmentName = "Beginning of message",
+                                SegmentDescription = "Indica el inicio del mensaje",
+                                Obligatory = true,
+                                SegmentPositions = new List<SegmentPosition>()
+                            },
+
+                             new SegmentDefinition
+                            {
+                                SegmentId = 1,
+                                SegmentCode = "DTM",
+                                SegmentName = "Date/Time/Period",
+                                SegmentDescription = "Fecha y hora mensaje",
+                                Obligatory = true,
+                                SegmentPositions = new List<SegmentPosition>()
+                            }
+                        }
+                    }
+                },
+
                 Segments = new List<SegmentDefinition>
             {
                 new SegmentDefinition
@@ -231,6 +262,7 @@
                     SegmentPositions = new List<SegmentPosition>()
                 }
             }
+                
             };
 
         // Posiciones del mensaje

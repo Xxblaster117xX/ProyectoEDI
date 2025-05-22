@@ -1,0 +1,12 @@
+﻿/* Estilo para nodos de tipo Segment */
+.estilo_segment {
+    background-color: #f8d7da; /* Rojo claro */
+}
+
+/* Estilo para nodos de tipo SegmentGroup */
+.estilo_segmentgroup{
+    background-color: #d4edda; /* Verde claro */
+}
+.estilo_tree table {
+    background-color:red;
+}
