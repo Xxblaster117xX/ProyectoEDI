@@ -1,0 +1,16 @@
+GENRAL_D_96A_UN_EAN003
+BGM|GNR201722822
+DTM|20250514
+NADMS|8413080000006
+NADMR|8412207000011
+FTX|AAI|El siguiente mensaje no ha podido ser procesado correctamente debido a los siguientes errores.
+FTX|AAI
+FTX|AAI|Mensaje: Factura
+FTX|AAI|Referencia: 02S2501506
+FTX|AAI|Emisor: TRANSGOURMET IBERICA S.A.U.
+FTX|AAI|Receptor: INQUIBA, S.A.
+FTX|AAI
+FTX|AAI|Errores:
+FTX|AAI|[E0000241] No se ha podido encontrar el cÃ³digo de proveedor del ERP del cliente
+FTX|AAI
+FTX|AAI|Por favor, realice las correcciones necesarias y reenvÃ­e el mensaje.

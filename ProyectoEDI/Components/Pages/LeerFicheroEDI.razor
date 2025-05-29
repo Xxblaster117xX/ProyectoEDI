@@ -1,0 +1,51 @@
+﻿<h3>LeerFicheroEDI</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+
+
+
+	public void LeerFicherEdi( )
+	{
+		using (StreamReader leer = new StreamReader("C:\\Users\\acarretero\\source\\repos\\ProyectoEDIBueno\\ProyectoEDI\\EJEMPLO_GENRAL_01 (1).PLA"))
+		{
+			string linea;
+			while ((linea=leer.ReadLine()) != null)
+			{
+				switch (linea)
+				{
+					case "UNH":
+						Console.WriteLine("UNH: Inicio de mensaje");
+						break;
+					case "BGM":
+						Console.WriteLine("BGM: Inicio de grupo de mensaje");
+						break; 
+					case "DTM":
+						Console.WriteLine("DTM: Fecha y hora del mensaje");
+						break;
+
+
+				}	
+
+
+			}
+		}
+	}
+
+
+
+
+}

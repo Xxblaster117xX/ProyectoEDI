@@ -1,0 +1,89 @@
+﻿.treeview-small {
+    font-size: 0.8rem; /* Un poco más grande */
+    line-height: 1.3;
+}
+
+    .treeview-small .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border: 1.5px solid #999; /* Borde un poco más grueso */
+        background-color: #fff;
+        margin: 4px 0; /* Más espacio arriba y abajo */
+    }
+
+        .treeview-small .custom-table td {
+            border: 1.5px solid #999;
+            padding: 8px 10px; /* Padding más generoso */
+            vertical-align: middle;
+            font-size: 0.78rem; /* Texto un poco más grande */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    .treeview-small .icon-cell {
+        width: 28px;
+        text-align: center;
+        padding: 4px;
+    }
+
+    .treeview-small .wide-cell {
+        width: 45%;
+        font-weight: 700;
+    }
+
+    .treeview-small .desc-cell {
+        width: 35%;
+        color: #444;
+    }
+
+    .treeview-small .tag-cell {
+        width: 20%;
+        font-size: 0.7rem;
+        text-align: center;
+        background-color: #ddd; /* Más sólido */
+        color: #222;
+        font-weight: 600;
+    }
+
+    /* Colores más firmes */
+    .treeview-small .nodo-rojo .custom-table {
+        background-color: #ff4c4c; /* rojo vivo */
+        color: white;
+    }
+
+    .treeview-small .nodo-azul .custom-table {
+        background-color: #337ab7; /* azul fuerte */
+        color: white;
+    }
+
+    .treeview-small .nodo-verde .custom-table {
+        background-color: #4caf50; /* verde fuerte */
+        color: white;
+    }
+
+    .treeview-small .nodo-rosa .custom-table {
+        background-color: #e91e63; /* rosa vibrante */
+        color: white;
+    }
+
+    /* Hover */
+    .treeview-small .custom-table tr:hover {
+        background-color: #eaeaea;
+    }
+
+    /* Flechas */
+    .treeview-small .flecha::before {
+        content: "▶";
+        font-size: 0.7rem;
+        display: inline-block;
+        transform: rotate(0deg);
+        transition: transform 0.2s;
+        cursor: pointer;
+        color: #666;
+    }
+
+    .treeview-small .flecha.open::before {
+        transform: rotate(90deg);
+    }
