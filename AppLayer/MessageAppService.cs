@@ -146,9 +146,54 @@ namespace AppLayer
 
             return true;
         }
+    
+
+    public void TransformEDItoDefinitionDto(Message mensaje)
+        {
+            try
+            {
+                string rutaArchivo = "C:\\Users\\acarretero\\source\\repos\\ProyectoEDIBueno\\ProyectoEDI\\EJEMPLO_GENRAL_01 (1).PLA";
+
+                List<string> segmentosInteresSimple = new List<string> { "UNB", "UNH", "BGM", "DTM", "UNT", "UNZ" };
+                List<string> segmentoInteresCompuesto = new List<string> { "RFF", "NAD", "LOC", "DOC", "DLM", "CUX", "MEA", "FTX", "LIN", "PIA", "IMD", "RFF" };
+                // Leer las líneas del archivo
+                string[] lineas = File.ReadAllLines(rutaArchivo);
+
+                List<string> dataElement = new List<string>();
+                List<string> compositeDataElement = new List<string>();
+                foreach (string linea in lineas)
+                {
+                    if (string.IsNullOrEmpty(linea))
+                    {
+                        continue;
+                    }
+                    string[] partes = linea.Split("+");
+                    string segmento = partes[0];
+                    if (segmentosInteresSimple.Contains(segmento))
+                    {
+                        dataElement.Add(segmento);
+                    }
+                    else if (segmentoInteresCompuesto.Contains(segmento))
+                    {
+                        compositeDataElement.Add(segmento);
+                    }
+                    Console.WriteLine( compositeDataElement);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al transformar EDI a DTO: {ex.Message}");
+            }
+
+
+
+
+
+        }
+
     }
-
-
-
 }
+
+
 

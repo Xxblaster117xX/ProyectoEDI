@@ -1,0 +1,87 @@
+﻿
+@using Entities.Entidades_Representacion.Abstract
+
+<h3>PosiconGrupoSegmento</h3>
+
+
+
+
+@if (SegmentGroup.SegmentList != null)
+{
+    @foreach (var segment in SegmentGroup.SegmentList)
+    {
+        Random rnd = new Random();
+        <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="background-color: rgb(255, 128, 128);border-bottom:1px solid black">
+
+            <Template>
+                <table class="table" style="margin:0px">
+                    <tbody>
+                        <tr>
+                            <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+                                <small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
+                            </td>
+                            <td width="400" style="border-right: 1px solid black;border-left: 1px solid black">
+                                <span><strong>@segment.Code - @segment.Name</strong></span>
+                            </td>
+                            <td width="600" style="border-right: 1px solid black;border-left: 1px solid black">@segment.Description</td>
+                            @*<td>@Global.EsObligatorio(segment.Obligatory)</td>*@
+                        </tr>
+                    </tbody>
+                </table>
+            </Template>
+            <Nodes>
+                <MensajeDetailsSegmentPosition PosicionesSegmento="@segment.Positions" TreeView="TreeView" />
+            </Nodes>
+        </DxTreeViewNode>
+    }
+}
+@if (SegmentGroup.SegmentGroupList != null)
+{
+    @foreach (var segmentGroup in SegmentGroup.SegmentGroupList)
+    {
+        Random rnd = new Random();
+        <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="background-color: lightgreen;border-bottom:1px solid black">
+            <Template>
+                <table class="table" style="margin:0px">
+                    <tbody>
+                        <tr>
+                            <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+                                <small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
+                            </td>
+                            <td width="225" style="border-right: 1px solid black;border-left: 1px solid black">
+                                <span><strong>Grupo segmento @segmentGroup.SegmentGroupNumber - @segmentGroup.SegmentList.FirstOrDefault().Code</strong></span>
+                            </td>
+                            @* <td>@Global.EsObligatorio(segmentGroup.obligatory)</td>*@
+                        </tr>
+                    </tbody>
+                </table>
+            </Template>
+            <Nodes>
+                <PosicionGrupoSegmento SegmentGroup="@segmentGroup" TreeView="TreeView" />
+            </Nodes>
+        </DxTreeViewNode>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public SegmentGroup SegmentGroup { get; set; } = new SegmentGroup();
+
+    [Parameter]
+    public required DxTreeView TreeView { get; set; }
+    string GetNodeExpandButtonCssClass(string nodeName)
+    {
+        return String.Format("oi oi-chevron-{0}", TreeView.GetNodeExpanded(n => n.Name == nodeName) ? "bottom" : "right");
+    }
+}
+
+
+  
+
+
+
+
+
+
+

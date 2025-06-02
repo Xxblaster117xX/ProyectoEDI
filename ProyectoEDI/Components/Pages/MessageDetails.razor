@@ -8,226 +8,397 @@
 @using BusinessLogic.Definition;
 @inject MessageManager messageManager;
 
+
 <!-- Detalles de las especificaciones de un mensaje en el acordeon inicial-->
 
 <h1>Especificaciones de un mensaje</h1>
 @if (message != null)
 {
-    @foreach (var mensaje in messageAppService.GetAllMessages())
-    {
-        <div class="mb-3">
-            <DxToolbar>
-                <Items>
-                    @*<DxToolbarItem Text="Modificar" BeginGroup="true" Click= />*@
-                    @* <DxToolbarItem Text="Volver" BeginGroup="true" Click="@Volver" /> *@
-                </Items>
-            </DxToolbar>
-        </div>    <DxAccordion ExpandMode="ExpandMode"
-        ExpandCollapseAction="ExpandCollapseAction"
-        RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End"
-        AnimationType="LayoutAnimationType.Slide">
-            <Items>
-                <DxAccordionItem Text="Detalles" Expanded="true">
-                    <ContentTemplate>
-                        <DxFormLayout Data="@message" ReadOnly="true" CssClass="p-3">
+	@foreach (var mensaje in messageAppService.GetAllMessages())
+	{
+		   <DxAccordion ExpandMode="ExpandMode"
+		ExpandCollapseAction="ExpandCollapseAction"
+		RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End"
+		AnimationType="LayoutAnimationType.Slide">
+			<Items>
+				<DxAccordionItem Text="Detalles" Expanded="true">
+					<ContentTemplate>
+						<DxFormLayout Data="@message" ReadOnly="true" CssClass="p-3">
 
-                            <DxFormLayoutItem Caption="Tipo mensaje:" ColSpanMd="4">
-                                <Template Context="contexto">
-                                    <DxTextBox Text="@message.MessageType.ToString()" ReadOnly="true" />
-                                </Template>
-                            </DxFormLayoutItem>
+							<DxFormLayoutItem Caption="Tipo mensaje:" ColSpanMd="4">
+								<Template Context="contexto">
+									<DxTextBox Text="@message.MessageType.ToString()" ReadOnly="true" />
+								</Template>
+							</DxFormLayoutItem>
 
-                            <DxFormLayoutItem Caption="Nombre:" ColSpanMd="4">
-                                <Template Context="contexto">
-                                    <DxTextBox Text="@message.Name" ReadOnly="true" />
-                                </Template>
-                            </DxFormLayoutItem>.
+							<DxFormLayoutItem Caption="Nombre:" ColSpanMd="4">
+								<Template Context="contexto">
+									<DxTextBox Text="@message.Name" ReadOnly="true" />
+								</Template>
+							</DxFormLayoutItem>.
 
 
-                            <DxFormLayoutItem Caption="Descripción:" ColSpanMd="4">
-                                <Template Context="contexto">
-                                    <DxTextBox Text="@message.Description" ReadOnly="true" />
-                                </Template>
-                            </DxFormLayoutItem>
+							<DxFormLayoutItem Caption="Descripción:" ColSpanMd="4">
+								<Template Context="contexto">
+									<DxTextBox Text="@message.Description" ReadOnly="true" />
+								</Template>
+							</DxFormLayoutItem>
 
-                            <DxFormLayoutItem Caption="Versión:" CaptionCssClass="negrita" ColSpanMd="4">
-                                <Template Context="contexto">
-                                    <DxTextBox Text="@($"{message.Version}{message.Release}")" ReadOnly="true" />
-                                </Template>
-                            </DxFormLayoutItem>
+							<DxFormLayoutItem Caption="Versión:" CaptionCssClass="negrita" ColSpanMd="4">
+								<Template Context="contexto">
+									<DxTextBox Text="@($"{message.Version}{message.Release}")" ReadOnly="true" />
+								</Template>
+							</DxFormLayoutItem>
 
-                            <DxFormLayoutItem Caption="Directorio:" CaptionCssClass="negrita" ColSpanMd="4">
-                                <Template Context="contexto">
-                                    <DxTextBox Text="@($"{message.Directory} {message.DirectoryVersion}")" ReadOnly="true" />
-                                </Template>
-                            </DxFormLayoutItem>
+							<DxFormLayoutItem Caption="Directorio:" CaptionCssClass="negrita" ColSpanMd="4">
+								<Template Context="contexto">
+									<DxTextBox Text="@($"{message.Directory} {message.DirectoryVersion}")" ReadOnly="true" />
+								</Template>
+							</DxFormLayoutItem>
 
-                        </DxFormLayout>
-                    </ContentTemplate>
-                </DxAccordionItem>
-            </Items>
-        </DxAccordion>
-    }
+						</DxFormLayout>
+					</ContentTemplate>
+				</DxAccordionItem>
+			</Items>
+		</DxAccordion>
+	}
+
+
+	@*
+	<!--Treeview de un mensaje-->
+	<DxTreeView CssClass="treeview-small">
+		<Nodes>
+			@foreach (var message in message.MessagePositions)
+			{
+				<DxTreeViewNode CssClass="nodo-rojo">
+					<Template>
+						<table class="custom-table">
+							<tbody>
+								<tr>
+									<td class="icon-cell">
+										<small class="flecha" onclick="toggleNodeIcon(this)"></small>
+									</td>
+									<td class="wide-cell"><strong>UNH - Message header</strong></td>
+									<td class="desc-cell">To head, identify and specify a message</td>
+									<td class="tag-cell">Requerido</td>
+								</tr>
+							</tbody>
+						</table>
+					</Template>
+					<Nodes>
+						<!-- Nodo hijo azul -->
+						<DxTreeViewNode CssClass="nodo-azul">
+							<Template>
+								<table class="custom-table">
+									<tbody>
+										<tr>
+											<td class="icon-cell"><small class="flecha"></small></td>
+											<td class="wide-cell"><strong>Composición S009 - MESSAGE IDENTIFIER</strong></td>
+											<td class="desc-cell">Requerido</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</Template>
+						</DxTreeViewNode>
+						<!-- Nodo hijo verde -->
+						<DxTreeViewNode CssClass="nodo-verde">
+							<Template>
+								<table class="custom-table">
+									<tbody>
+										<tr>
+											<td class="icon-cell"><small class="flecha"></small></td>
+											<td class="wide-cell"><strong>Grupo segmento 1 - RFF</strong></td>
+											<td class="desc-cell">Requerido</td>
+										</tr>
+									</tbody>
+								</table>
+							</Template>
+							<Nodes>
+								<!-- Nieto rosa -->
+								<DxTreeViewNode CssClass="nodo-rosa">
+									<Template>
+										<table class="custom-table">
+											<tbody>
+												<tr>
+													<td class="icon-cell"><small class="flecha"></small></td>
+													<td class="wide-cell"><strong>RFF - REFERENCE</strong></td>
+													<td class="desc-cell">To specify a reference.</td>
+													<td class="tag-cell">Requerido</td>
+												</tr>
+											</tbody>
+										</table>
+									</Template>
+								</DxTreeViewNode>
+							</Nodes>
+						</DxTreeViewNode>
+					</Nodes>
+				</DxTreeViewNode>
+			}
+		</Nodes>
+	</DxTreeView>
+	*@
+
+	<!--Agregar nodo de ejemplo-->
+	<DxTreeView @ref="treeView" AllowSelectNodes="true" CssClass="mt-4" style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
+		<Nodes>
+			@foreach (var position in message.MessagePositions)
+			{
+				Random rnd = new Random();
+				<DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="@(string.Format("background-color: {0}; border-bottom:1px solid black" , position.SegmentGroup!=null ? "lightgreen" : "rgb(255, 128, 128)"))">
+					<Template>
+						@if (position.SegmentGroup != null)
+						{
+							<table class="table" style="margin:0px">
+								<tbody>
+									<tr>
+										<td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+											<small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
+										</td>
+										<td width="225" style="border-right: 1px solid black;border-left: 1px solid black">
+											<span><strong>Grupo segmento @position.SegmentGroup.SegmentGroupList - @position.SegmentGroup.SegmentList.FirstOrDefault().Code</strong></span>
+										</td>
+										<td>@position.SegmentGroup.SegmentList</td>
+									</tr>
+								</tbody>
+							</table>
+						}
+						else
+						{
+							<table class="table" style="margin:0px">
+								<tbody>
+									<tr>
+										<td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
+											<small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
+										</td>
+										<td width="400" style="border-right: 1px solid black;border-left: 1px solid black">
+											<span><strong>@position.Segment.SegmentCode - @position.Segment.Name</strong></span>
+										</td>
+										<td width="600" style="border-right: 1px solid black;border-left: 1px solid black">@position.Segment.Description</td>
+										<td>position.Segment.Description</td>
+									</tr>
+								</tbody>
+							</table>
+						}
+					</Template>
+					<Nodes>
+						@if (position.SegmentGroup != null)
+						{
+							@<PosicionGrupoSegmento SegmentGroup="@position.SegmentGroup" TreeView="treeView"/>*@
+							Console.WriteLine("SegmentGroup encontrado: " + position.SegmentGroup.SegmentGroupList.Count + " segmentos encontrados en el grupo de segmentos.");
+						}
+						else
+						{
+							@*<PosicionSegmento PosicionesSegmento="@position.Segment.Positions" TreeView="treeView" />*@
+						}
+					</Nodes>
+				</DxTreeViewNode>
+			}
+		</Nodes>
+	</DxTreeView>
 }
 else
 {
-    <p>No hay mensajes disponibles</p>
+	<p>No hay mensajes disponibles</p>
 }
 <br />
 <br />
-<!--Treeview de un mensaje-->
-<DxTreeView CssClass="treeview-small">
-    <Nodes>
-        <!-- Nodo rojo principal -->
-        <DxTreeViewNode CssClass="nodo-rojo">
-            <Template>
-                <table class="custom-table">
-                    <tbody>
-                        <tr>
-                            <td class="icon-cell">
-                                <small class="flecha" onclick="toggleNodeIcon(this)"></small>
-                            </td>
-                            <td class="wide-cell"><strong>UNH - Message header</strong></td>
-                            <td class="desc-cell">To head, identify and specify a message</td>
-                            <td class="tag-cell">Requerido</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </Template>
-            <Nodes>
-                <!-- Nodo hijo azul -->
-                <DxTreeViewNode CssClass="nodo-azul">
-                    <Template>
-                        <table class="custom-table">
-                            <tbody>
-                                <tr>
-                                    <td class="icon-cell"><small class="flecha"></small></td>
-                                    <td class="wide-cell"><strong>Composición S009 - MESSAGE IDENTIFIER</strong></td>
-                                    <td class="desc-cell">Requerido</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </Template>
-                </DxTreeViewNode>
-                <!-- Nodo hijo verde -->
-                <DxTreeViewNode CssClass="nodo-verde">
-                    <Template>
-                        <table class="custom-table">
-                            <tbody>
-                                <tr>
-                                    <td class="icon-cell"><small class="flecha"></small></td>
-                                    <td class="wide-cell"><strong>Grupo segmento 1 - RFF</strong></td>
-                                    <td class="desc-cell">Requerido</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </Template>
-                    <Nodes>
-                        <!-- Nieto rosa -->
-                        <DxTreeViewNode CssClass="nodo-rosa">
-                            <Template>
-                                <table class="custom-table">
-                                    <tbody>
-                                        <tr>
-                                            <td class="icon-cell"><small class="flecha"></small></td>
-                                            <td class="wide-cell"><strong>RFF - REFERENCE</strong></td>
-                                            <td class="desc-cell">To specify a reference.</td>
-                                            <td class="tag-cell">Requerido</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Template>
-                        </DxTreeViewNode>
-                    </Nodes>
-                </DxTreeViewNode>
-            </Nodes>
-        </DxTreeViewNode>
-    </Nodes>
-</DxTreeView>
-@*
-<!--Agregar nodo de ejemplo-->
- <DxTreeView @ref="treeView" AllowSelectNodes="true" CssClass="mt-4" style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
-                <Nodes>
-                    @foreach (var position in message.MessagePositions)
-                    {
-                        Random rnd = new Random();
-                        <DxTreeViewNode Name="@(string.Format("{0}", rnd.Next(0, 100000).ToString()))" style="@(string.Format("background-color: {0}; border-bottom:1px solid black" , position.SegmentGroup!=null ? "lightgreen" : "rgb(255, 128, 128)"))">
-                            <Template>
-                                @if (position.SegmentGroup != null)
-                                {
-                                    <table class="table" style="margin:0px">
-                                        <tbody>
-                                            <tr>
-                                                <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
-                                                    <small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
-                                                </td>
-                                                <td width="225" style="border-right: 1px solid black;border-left: 1px solid black">
-                                                    <span><strong>Grupo segmento @position.SegmentGroup.SegmentList - @position.SegmentGroup.SegmentList.FirstOrDefault().Code</strong></span>
-                                                </td>
-                                                <td>position.SegmentGroup.obligatory</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                }
-                                else
-                                {
-                                    <table class="table" style="margin:0px">
-                                        <tbody>
-                                            <tr>
-                                                <td width="20" style="border-right: 1px solid black;border-left: 1px solid black">
-                                                    <small class="@GetNodeExpandButtonCssClass(context.Name)"></small>
-                                                </td>
-                                                <td width="400" style="border-right: 1px solid black;border-left: 1px solid black">
-                                                    <span><strong>@position.Segment.SegmentCode - @position.Segment.Name</strong></span>
-                                                </td>
-                                                <td width="600" style="border-right: 1px solid black;border-left: 1px solid black">@position.Segment.Description</td>
-                                                <td>position.Segment.Description</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                }
-                            </Template>
-                            <Nodes>
-                                @if (position.SegmentGroup != null)
-                                {
-                                    <MensajeDetailsSegmentGroup SegmentGroup="@position.SegmentGroup" TreeView="treeView"/>
-                                }
-                                else
-                                {
-                                    <MensajeDetailsSegmentPosition PosicionesSegmento="@position.Segment.Positions" TreeView="treeView" />
-                                }
-                            </Nodes>
-                        </DxTreeViewNode>
-                    }
-                </Nodes>
-            </DxTreeView>
-            *@
 @code {
 
-    /// <summary>
-    /// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
-    /// </summary>
-    AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
-    AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
-   
-    DxTreeView treeView;
-    string GetNodeExpandButtonCssClass(string nodeName)
-    {
-        return String.Format("oi oi-chevron-{0}", treeView.GetNodeExpanded(n => n.Name == nodeName) ? "bottom" : "right");
-    }
-    /// <summary>
-    /// Instanciar un mensaje
-    /// </summary>
-     Message message = new Message();
-    /// <summary>
-    /// Para definir los tipos de mensajes en el DxComboBox
-    /// </summary>
-    MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
+	/// <summary>
+	/// Componentes para que funcione el acordeón definiendo en este caso el modo de expansión y de colpaso
+	/// </summary>
+	AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
+	AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
+
+	DxTreeView treeView;
+	string GetNodeExpandButtonCssClass(string nodeName)
+	{
+		return String.Format("oi oi-chevron-{0}", treeView.GetNodeExpanded(n => n.Name == nodeName) ? "bottom" : "right");
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			try
+			{
+				leerFichero();
+				StateHasChanged();
+				Console.WriteLine("Fichero cargado");
+			} catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+
+		}	
+	}
+	
+	//Instancia de messagePosition
+	MessagePosition messagePosition = new MessagePosition();
+
+
+	/// <summary>
+	/// Instanciar un mensaje
+	/// </summary>
+	Message message;
+	/// <summary>
+	/// Para definir los tipos de mensajes en el DxComboBox
+	/// </summary>
+	MessageTypeEnum[] messageTypes = Enum.GetValues<MessageTypeEnum>();
 	Position position = new Position();
-    public void GetNodeExpandButtonCssClass(Message context)
-    {
-        
-    }
+	public void GetNodeExpandButtonCssClass(Message context)
+	{
+
+	}
+
+
+	//Instanciar la lista de los data elements simples
+	private static readonly HashSet<string> SimpleSegments = new() { "UNB", "UNH", "BGM", "DTM", "UNT", "UNZ" };
+
+
+	/// <summary>
+	/// Método para transformar un fichero para traducir edi
+	/// </summary>
+	/// <param name="lines"></param>
+	/// <returns></returns>
+	public static Message ParsearMensaje(string[] lines)
+	{
+		//Elementos de mensaje donde se asigna la posición del mensaje
+		var message = new Message
+			{
+
+				MessagePositions = new List<MessagePosition>()
+			};
+
+		int messagePositionIndex = 10;
+
+		foreach (var line in lines)
+		{
+			if (string.IsNullOrWhiteSpace(line)) continue;
+
+			var cleanLine = line.Trim().Trim('\'');
+			var parts = cleanLine.Split('+');
+			var segmentType = parts[0];
+
+			var segment = new Segment
+				{
+					Name = segmentType,
+					Description = "",
+					SegmentCode = messagePositionIndex,
+					Positions = new List<SegmentPosition>()
+				};
+
+			var messagePosition = new MessagePosition
+				{
+					Position = messagePositionIndex,
+					Segment = segment,
+					obligatory = false,
+					Repetition = "1"
+				};
+
+			// Elementos simples
+			if (SimpleSegments.Contains(segmentType))
+			{
+				for (int i = 1; i < parts.Length; i++)
+				{
+					var dataElement = new DataElement
+						{
+							Code = 0,
+							Name = $"DataElement_{segmentType}_{i}",
+							Description = parts[i],
+							ValueFormat = "AN..35",
+							obligatory = false,
+							repetition = 1
+						};
+
+					var segmentPosition = new SegmentPosition
+						{
+							Position = i,
+							DataElement = dataElement
+						};
+
+					segment.Positions.Add(segmentPosition);
+				}
+			}
+			// Elementos compuestos
+			else
+			{
+				for (int i = 1; i < parts.Length; i++)
+				{
+					var subParts = parts[i].Split(':');
+
+					var composite = new CompositeDataElement
+						{
+							Code = i,
+							Name = $"Composite_{segmentType}_{i}",
+							Description = "",
+							obligatory = false,
+							repetition = 1,
+							DataElements = new List<DataElement>()
+						};
+
+					for (int j = 0; j < subParts.Length; j++)
+					{
+						var dataElement = new DataElement
+							{
+								Code = j,
+								Name = $"Data_{segmentType}_{i}_{j}",
+								Description = subParts[j],
+								ValueFormat = "AN..35",
+								obligatory = false,
+								repetition = 1
+							};
+
+						composite.DataElements.Add(dataElement);
+					}
+
+					var segmentPosition = new SegmentPosition
+						{
+							Position = i,
+							CompositeDataElement = composite
+						};
+
+					segment.Positions.Add(segmentPosition);
+				}
+			}
+
+			message.MessagePositions.Add(messagePosition);
+			messagePositionIndex += 10;
+		}
+
+		return message;
+	}
+
+	/// <summary>
+	/// Método para poder leer  un fichero
+	/// </summary>
+	
+	public void leerFichero()
+	{
+		try
+		{
+			string rutaArchivo = "C:\\Users\\acarretero\\Downloads\\EJEMPLO_GENRAL_01.EDI";
+
+			if (!File.Exists(rutaArchivo))
+			{
+				Console.WriteLine($"El archivo {rutaArchivo} no existe.");
+			}
+			else
+			{
+
+				string[] lineas = File.ReadAllLines(rutaArchivo);
+				message = ParsearMensaje(lineas); 
+				StateHasChanged(); 
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"No se ha podido leer el archivo: {ex}");
+		}
+	}
+
+
+
 
 }
