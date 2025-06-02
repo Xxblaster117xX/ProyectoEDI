@@ -16,7 +16,7 @@
 {
 	@foreach (var mensaje in messageAppService.GetAllMessages())
 	{
-		   <DxAccordion ExpandMode="ExpandMode"
+		<DxAccordion ExpandMode="ExpandMode"
 		ExpandCollapseAction="ExpandCollapseAction"
 		RootItemExpandButtonDisplayMode="AccordionExpandButtonDisplayMode.End"
 		AnimationType="LayoutAnimationType.Slide">
@@ -64,80 +64,6 @@
 	}
 
 
-	@*
-	<!--Treeview de un mensaje-->
-	<DxTreeView CssClass="treeview-small">
-		<Nodes>
-			@foreach (var message in message.MessagePositions)
-			{
-				<DxTreeViewNode CssClass="nodo-rojo">
-					<Template>
-						<table class="custom-table">
-							<tbody>
-								<tr>
-									<td class="icon-cell">
-										<small class="flecha" onclick="toggleNodeIcon(this)"></small>
-									</td>
-									<td class="wide-cell"><strong>UNH - Message header</strong></td>
-									<td class="desc-cell">To head, identify and specify a message</td>
-									<td class="tag-cell">Requerido</td>
-								</tr>
-							</tbody>
-						</table>
-					</Template>
-					<Nodes>
-						<!-- Nodo hijo azul -->
-						<DxTreeViewNode CssClass="nodo-azul">
-							<Template>
-								<table class="custom-table">
-									<tbody>
-										<tr>
-											<td class="icon-cell"><small class="flecha"></small></td>
-											<td class="wide-cell"><strong>Composición S009 - MESSAGE IDENTIFIER</strong></td>
-											<td class="desc-cell">Requerido</td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
-							</Template>
-						</DxTreeViewNode>
-						<!-- Nodo hijo verde -->
-						<DxTreeViewNode CssClass="nodo-verde">
-							<Template>
-								<table class="custom-table">
-									<tbody>
-										<tr>
-											<td class="icon-cell"><small class="flecha"></small></td>
-											<td class="wide-cell"><strong>Grupo segmento 1 - RFF</strong></td>
-											<td class="desc-cell">Requerido</td>
-										</tr>
-									</tbody>
-								</table>
-							</Template>
-							<Nodes>
-								<!-- Nieto rosa -->
-								<DxTreeViewNode CssClass="nodo-rosa">
-									<Template>
-										<table class="custom-table">
-											<tbody>
-												<tr>
-													<td class="icon-cell"><small class="flecha"></small></td>
-													<td class="wide-cell"><strong>RFF - REFERENCE</strong></td>
-													<td class="desc-cell">To specify a reference.</td>
-													<td class="tag-cell">Requerido</td>
-												</tr>
-											</tbody>
-										</table>
-									</Template>
-								</DxTreeViewNode>
-							</Nodes>
-						</DxTreeViewNode>
-					</Nodes>
-				</DxTreeViewNode>
-			}
-		</Nodes>
-	</DxTreeView>
-	*@
 
 	<!--Agregar nodo de ejemplo-->
 	<DxTreeView @ref="treeView" AllowSelectNodes="true" CssClass="mt-4" style="--dxbl-treeview-item-indent: 0 !important;" NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick">
@@ -184,7 +110,7 @@
 					<Nodes>
 						@if (position.SegmentGroup != null)
 						{
-							@<PosicionGrupoSegmento SegmentGroup="@position.SegmentGroup" TreeView="treeView"/>*@
+							@*<PosicionGrupoSegmento SegmentGroup="@position.SegmentGroup" TreeView="treeView"/>*@
 							Console.WriteLine("SegmentGroup encontrado: " + position.SegmentGroup.SegmentGroupList.Count + " segmentos encontrados en el grupo de segmentos.");
 						}
 						else
@@ -217,6 +143,11 @@ else
 		return String.Format("oi oi-chevron-{0}", treeView.GetNodeExpanded(n => n.Name == nodeName) ? "bottom" : "right");
 	}
 
+	/// <summary>
+	/// Método que se ejecuta después de que el componente se haya renderizado por primera vez.
+	/// </summary>
+	/// <param name="firstRender"></param>
+	/// <returns></returns>
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
